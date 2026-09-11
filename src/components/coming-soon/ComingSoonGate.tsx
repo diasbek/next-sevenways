@@ -2,12 +2,21 @@
 
 import { FormEvent, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/cn";
 
 type Props = {
   nextPath: string;
+  enterLabel: string;
+  errorLabel: string;
+  placeholder?: string;
 };
 
-export function ComingSoonGate({ nextPath }: Props) {
+export function ComingSoonGate({
+  nextPath,
+  enterLabel,
+  errorLabel,
+  placeholder = "····",
+}: Props) {
   const router = useRouter();
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -24,13 +33,13 @@ export function ComingSoonGate({ nextPath }: Props) {
           body: JSON.stringify({ code: code.trim() }),
         });
         if (!res.ok) {
-          setError("Notoʻgʻri kod. Wrong code.");
+          setError(errorLabel);
           return;
         }
         router.replace(nextPath || "/");
         router.refresh();
       } catch {
-        setError("Xatolik. Try again.");
+        setError(errorLabel);
       }
     });
   }
@@ -38,7 +47,7 @@ export function ComingSoonGate({ nextPath }: Props) {
   return (
     <form
       onSubmit={onSubmit}
-      className="mx-auto mt-10 flex w-full max-w-xs flex-col gap-3"
+      className="mt-8 flex w-full max-w-sm flex-col gap-3"
     >
       <label htmlFor="gate-code" className="sr-only">
         Access code
@@ -50,20 +59,35 @@ export function ComingSoonGate({ nextPath }: Props) {
         inputMode="numeric"
         autoComplete="one-time-code"
         maxLength={8}
-        placeholder="····"
+        placeholder={placeholder}
         value={code}
         onChange={(e) => setCode(e.target.value)}
-        className="h-12 rounded-xl border border-white/25 bg-white/10 px-4 text-center text-lg tracking-[0.35em] text-white placeholder:text-white/35 outline-none backdrop-blur-sm focus:border-white/50"
+        className={cn(
+          "h-12 w-full rounded-2xl border border-white/25 bg-white/10 px-4 text-center text-lg tracking-[0.35em] text-white",
+          "placeholder:tracking-[0.35em] placeholder:text-white/40 outline-none backdrop-blur-sm",
+          "focus:border-sky focus:bg-white/15",
+        )}
       />
       <button
         type="submit"
         disabled={pending || code.trim().length < 4}
-        className="h-12 rounded-xl bg-white font-semibold text-royal transition enabled:hover:bg-white/90 disabled:opacity-50"
+        className={cn(
+          "inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-sky px-5 text-sm font-semibold text-white transition",
+          "enabled:hover:bg-royal disabled:cursor-not-allowed disabled:opacity-50",
+        )}
       >
-        {pending ? "…" : "Kirish · Enter"}
+        {pending ? "…" : enterLabel}
+        {!pending ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src="/images/coming-soon/arrow-right.svg"
+            alt=""
+            className="size-4 brightness-0 invert"
+          />
+        ) : null}
       </button>
       {error ? (
-        <p className="text-center text-sm text-red-200" role="alert">
+        <p className="text-sm text-red-200" role="alert">
           {error}
         </p>
       ) : null}
