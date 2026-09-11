@@ -1,13 +1,17 @@
 import type { Locale } from "@/i18n/config";
-import { getContent } from "@/i18n/get-content";
+import { getContentAsync } from "@/i18n/get-content";
 import { localePath } from "@/i18n/paths";
-import { DESTINATIONS, destinationPath } from "@/data/tours/catalog";
+import { destinationPath } from "@/data/tours/catalog";
+import { listDestinations } from "@/lib/tours/repository";
 import Link from "next/link";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import { section, pageIntroTitle, pageIntroLead } from "@/styles/ui";
 
-export function CalendarPageView({ locale }: { locale: Locale }) {
-  const content = getContent(locale);
+export async function CalendarPageView({ locale }: { locale: Locale }) {
+  const [content, destinations] = await Promise.all([
+    getContentAsync(locale),
+    listDestinations(),
+  ]);
   const months = ["Sep", "Oct", "Nov", "Dec", "Jan", "Feb"];
 
   return (
@@ -16,9 +20,8 @@ export function CalendarPageView({ locale }: { locale: Locale }) {
         <h1 className={pageIntroTitle}>{content.calendar.title}</h1>
         <p className={`mt-2 ${pageIntroLead}`}>{content.calendar.lead}</p>
 
-        {/* SE / narrow: stacked cards */}
         <ul className="mt-8 space-y-3 md:hidden">
-          {DESTINATIONS.map((d) => (
+          {destinations.map((d) => (
             <li
               key={d.slug}
               className="rounded-2xl border border-black/8 bg-white p-4"
@@ -46,7 +49,6 @@ export function CalendarPageView({ locale }: { locale: Locale }) {
           ))}
         </ul>
 
-        {/* md+: table with sticky first column */}
         <div className="mt-8 hidden overflow-x-auto rounded-2xl border border-black/8 bg-white md:block">
           <p className="border-b border-black/5 px-4 py-2 text-xs text-ink-muted lg:hidden">
             ← →
@@ -65,7 +67,7 @@ export function CalendarPageView({ locale }: { locale: Locale }) {
               </tr>
             </thead>
             <tbody>
-              {DESTINATIONS.map((d) => (
+              {destinations.map((d) => (
                 <tr
                   key={d.slug}
                   className="border-b border-black/5 last:border-0"

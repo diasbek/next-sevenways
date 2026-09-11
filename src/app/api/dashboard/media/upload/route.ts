@@ -22,8 +22,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "file_required" }, { status: 400 });
     }
 
+    const folderRaw = String(form.get("folder") ?? "uploads").trim();
+    const folder = folderRaw
+      .replace(/^\/+|\/+$/g, "")
+      .replace(/[^a-zA-Z0-9/_-]/g, "")
+      .slice(0, 80) || "uploads";
+
     const admin = createSupabaseAdminClient();
-    const path = `uploads/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const path = `${folder}/${Date.now()}-${safeName}`;
     const buffer = Buffer.from(await file.arrayBuffer());
     const { error: uploadError } = await admin.storage
       .from("sevenways-media")

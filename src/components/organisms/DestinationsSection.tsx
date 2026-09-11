@@ -7,8 +7,10 @@ import { getContent } from "@/i18n/get-content";
 import { localePath } from "@/i18n/paths";
 import {
   DESTINATIONS,
+  type Destination,
   type DestinationCategory,
 } from "@/data/tours/catalog";
+import type { SiteCopy } from "@/data/types";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import { DestinationCard } from "@/components/molecules/DestinationCard";
 import { cn } from "@/lib/cn";
@@ -18,12 +20,16 @@ type FilterId = "all" | DestinationCategory;
 export function DestinationsSection({
   locale,
   variant = "home",
+  destinations = DESTINATIONS,
+  content: contentProp,
 }: {
   locale: Locale;
   /** home = cloud band + filters; page = listing chrome */
   variant?: "home" | "page";
+  destinations?: Destination[];
+  content?: SiteCopy;
 }) {
-  const content = getContent(locale);
+  const content = contentProp ?? getContent(locale);
   const [filter, setFilter] = useState<FilterId>("all");
 
   const filters: Array<{ id: FilterId; label: string }> = [
@@ -33,9 +39,9 @@ export function DestinationsSection({
   ];
 
   const list = useMemo(() => {
-    if (filter === "all") return DESTINATIONS;
-    return DESTINATIONS.filter((d) => d.categories.includes(filter));
-  }, [filter]);
+    if (filter === "all") return destinations;
+    return destinations.filter((d) => d.categories.includes(filter));
+  }, [filter, destinations]);
 
   const TitleTag = variant === "page" ? "h1" : "h2";
 

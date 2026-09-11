@@ -1,13 +1,10 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { requireMutation } from "@/lib/cms/auth";
+import { CMS_TAGS } from "@/lib/cms/overlay";
+import { revalidateCms, writeAuditLog } from "@/lib/cms/revalidate";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { hasSupabaseAdminConfig } from "@/lib/supabase/env";
-
-function revalidateOffices() {
-  revalidatePath("/dashboard/offices/");
-}
 
 function parsePhones(raw: string) {
   return raw
@@ -17,7 +14,7 @@ function parsePhones(raw: string) {
 }
 
 export async function saveOfficeAction(formData: FormData) {
-  await requireMutation("offices");
+  const actor = await requireMutation("offices");
   if (!hasSupabaseAdminConfig()) throw new Error("Supabase not configured");
 
   const id = String(formData.get("id") ?? "").trim();
@@ -27,6 +24,11 @@ export async function saveOfficeAction(formData: FormData) {
   const lngRaw = String(formData.get("lng") ?? "").trim();
   const lat = latRaw ? Number(latRaw) : null;
   const lng = lngRaw ? Number(lngRaw) : null;
+  const cityKeyRaw = String(formData.get("city_key") ?? "").trim();
+  const city_key =
+    cityKeyRaw === "samarkand" || cityKeyRaw === "tashkent"
+      ? cityKeyRaw
+      : null;
 
   const row = {
     id,
@@ -42,6 +44,8 @@ export async function saveOfficeAction(formData: FormData) {
     phones: parsePhones(String(formData.get("phones") ?? "")),
     lat: lat != null && Number.isFinite(lat) ? lat : null,
     lng: lng != null && Number.isFinite(lng) ? lng : null,
+    image_url: String(formData.get("image_url") ?? "").trim() || null,
+    city_key,
     is_published: formData.get("is_published") === "1",
   };
 
@@ -52,16 +56,30 @@ export async function saveOfficeAction(formData: FormData) {
   const admin = createSupabaseAdminClient();
   const { error } = await admin.from("sw_offices").upsert(row);
   if (error) throw new Error(error.message);
-  revalidateOffices();
+  revalidateCms(CMS_TAGS.offices);
+  await writeAuditLog({
+    actorId: actor.id,
+    actorEmail: actor.email,
+    action: "office.save",
+    entityType: "office",
+    entityId: id,
+  });
 }
 
 export async function deleteOfficeAction(formData: FormData) {
-  await requireMutation("offices");
+  const actor = await requireMutation("offices");
   if (!hasSupabaseAdminConfig()) return;
   const id = String(formData.get("id") ?? "").trim();
   if (!id) throw new Error("id_required");
   const admin = createSupabaseAdminClient();
   const { error } = await admin.from("sw_offices").delete().eq("id", id);
   if (error) throw new Error(error.message);
-  revalidateOffices();
+  revalidateCms(CMS_TAGS.offices);
+  await writeAuditLog({
+    actorId: actor.id,
+    actorEmail: actor.email,
+    action: "office.delete",
+    entityType: "office",
+    entityId: id,
+  });
 }

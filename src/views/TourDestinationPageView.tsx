@@ -1,11 +1,5 @@
 import type { Locale } from "@/i18n/config";
-import { getContent } from "@/i18n/get-content";
-import {
-  getDestination,
-  offersForDestination,
-  RESORTS,
-  resortPath,
-} from "@/data/tours/catalog";
+import { getContentAsync } from "@/i18n/get-content";
 import { localePath } from "@/i18n/paths";
 import Link from "next/link";
 import { PageContainer } from "@/components/atoms/PageContainer";
@@ -13,21 +7,33 @@ import { TourCard } from "@/components/molecules/TourCard";
 import { Button } from "@/components/atoms/Button";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getTouristTripSchema } from "@/utils/seo/json-ld";
-import { destinationPath } from "@/data/tours/catalog";
+import { destinationPath, resortPath } from "@/data/tours/catalog";
 import { section, pageIntroTitle, pageIntroLead } from "@/styles/ui";
 import { formatMoney } from "@/lib/payments/amount";
+import {
+  getDestinationBySlug,
+  listDestinations,
+  listResorts,
+  offersForDestinationSlug,
+} from "@/lib/tours/repository";
+import { notFound } from "next/navigation";
 
-export function TourDestinationPageView({
+export async function TourDestinationPageView({
   locale,
   slug,
 }: {
   locale: Locale;
   slug: string;
 }) {
-  const content = getContent(locale);
-  const dest = getDestination(slug)!;
-  const offers = offersForDestination(slug);
-  const resorts = RESORTS.filter((r) => r.destinationSlug === slug);
+  const [content, dest, offers, destinations, resortsAll] = await Promise.all([
+    getContentAsync(locale),
+    getDestinationBySlug(slug),
+    offersForDestinationSlug(slug),
+    listDestinations(),
+    listResorts(),
+  ]);
+  if (!dest) notFound();
+  const resorts = resortsAll.filter((r) => r.destinationSlug === slug);
 
   return (
     <>
@@ -79,7 +85,13 @@ export function TourDestinationPageView({
           ) : null}
           <div className="mt-10 grid gap-4 md:grid-cols-2">
             {offers.map((offer) => (
-              <TourCard key={offer.id} locale={locale} offer={offer} />
+              <TourCard
+                key={offer.id}
+                locale={locale}
+                offer={offer}
+                destinations={destinations}
+                resorts={resortsAll}
+              />
             ))}
           </div>
           {!offers.length ? (

@@ -6,7 +6,8 @@ import { useState } from "react";
 import type { Locale } from "@/i18n/config";
 import { getContent } from "@/i18n/get-content";
 import { localePath } from "@/i18n/paths";
-import { DESTINATIONS } from "@/data/tours/catalog";
+import { DESTINATIONS, type Destination } from "@/data/tours/catalog";
+import type { SiteCopy } from "@/data/types";
 import { Button } from "@/components/atoms/Button";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import { cn } from "@/lib/cn";
@@ -29,11 +30,14 @@ function HeroIcon({
 function HeroSearchForm({
   locale,
   className,
+  destinations,
+  content,
 }: {
   locale: Locale;
   className?: string;
+  destinations: Destination[];
+  content: SiteCopy;
 }) {
-  const content = getContent(locale);
   const router = useRouter();
   const [tab, setTab] = useState<SearchTab>("tours");
   const [destination, setDestination] = useState("");
@@ -132,7 +136,7 @@ function HeroSearchForm({
             aria-label={content.home.heroWhere}
           >
             <option value="">{content.home.heroWhere}</option>
-            {DESTINATIONS.map((d) => (
+            {destinations.map((d) => (
               <option key={d.slug} value={d.slug}>
                 {d.name[locale]}
               </option>
@@ -188,8 +192,16 @@ function HeroSearchForm({
   );
 }
 
-export function HomeHero({ locale }: { locale: Locale }) {
-  const content = getContent(locale);
+export function HomeHero({
+  locale,
+  destinations = DESTINATIONS,
+  content: contentProp,
+}: {
+  locale: Locale;
+  destinations?: Destination[];
+  content?: SiteCopy;
+}) {
+  const content = contentProp ?? getContent(locale);
 
   return (
     <section className="relative overflow-hidden bg-[linear-gradient(160deg,#f5fbff_0%,#ffffff_52%,#e4f3fc_100%)]">
@@ -330,12 +342,16 @@ export function HomeHero({ locale }: { locale: Locale }) {
 
                 <HeroSearchForm
                   locale={locale}
+                  destinations={destinations}
+                  content={content}
                   className="absolute left-1/2 top-[38%] z-[3] hidden w-[min(100%,24rem)] -translate-x-1/2 -translate-y-1/2 lg:left-[42%] lg:top-[42%] lg:block"
                 />
               </div>
 
               <HeroSearchForm
                 locale={locale}
+                destinations={destinations}
+                content={content}
                 className="relative z-[3] mt-4 w-full lg:hidden"
               />
             </div>

@@ -6,6 +6,8 @@ import { getContent } from "@/i18n/get-content";
 import {
   DESTINATIONS,
   RESORTS,
+  type Destination,
+  type Resort,
   type TourOffer,
   destinationPath,
 } from "@/data/tours/catalog";
@@ -77,14 +79,18 @@ function IconCalendar({ className }: { className?: string }) {
 export function TourCard({
   locale,
   offer,
+  destinations = DESTINATIONS,
+  resorts = RESORTS,
 }: {
   locale: Locale;
   offer: TourOffer;
+  destinations?: Destination[];
+  resorts?: Resort[];
 }) {
   const content = getContent(locale);
-  const dest = DESTINATIONS.find((d) => d.slug === offer.destinationSlug);
+  const dest = destinations.find((d) => d.slug === offer.destinationSlug);
   const resort = offer.resortSlug
-    ? RESORTS.find((r) => r.slug === offer.resortSlug)
+    ? resorts.find((r) => r.slug === offer.resortSlug)
     : undefined;
   const currency = offer.currency ?? "USD";
   const image = dest?.image ?? "/images/hot/sky-banner.jpg";

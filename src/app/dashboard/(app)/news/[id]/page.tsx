@@ -41,6 +41,7 @@ export default async function EditNewsPage({
           slug: (data.slug as string) ?? "",
           status: (data.status as string) ?? "draft",
           cover_url: (data.cover_url as string) ?? "",
+          published_at: (data.published_at as string) ?? null,
           title_uz: (data.title_uz as string) ?? "",
           title_ru: (data.title_ru as string) ?? "",
           title_en: (data.title_en as string) ?? "",

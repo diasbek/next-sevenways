@@ -1,7 +1,15 @@
 import Image from "next/image";
 import type { Locale } from "@/i18n/config";
 import { getContent } from "@/i18n/get-content";
-import { featuredOffers } from "@/data/tours/catalog";
+import type { SiteCopy } from "@/data/types";
+import {
+  DESTINATIONS,
+  RESORTS,
+  featuredOffers,
+  type Destination,
+  type Resort,
+  type TourOffer,
+} from "@/data/tours/catalog";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import { TourCard } from "@/components/molecules/TourCard";
 
@@ -59,9 +67,21 @@ function BenefitIcon({
   );
 }
 
-export function HotOffersSection({ locale }: { locale: Locale }) {
-  const content = getContent(locale);
-  const offers = featuredOffers();
+export function HotOffersSection({
+  locale,
+  offers: offersProp,
+  destinations = DESTINATIONS,
+  resorts = RESORTS,
+  content: contentProp,
+}: {
+  locale: Locale;
+  offers?: TourOffer[];
+  destinations?: Destination[];
+  resorts?: Resort[];
+  content?: SiteCopy;
+}) {
+  const content = contentProp ?? getContent(locale);
+  const offers = offersProp ?? featuredOffers();
   const benefits = [
     { kind: "price" as const, label: content.home.hotBenefitPrice },
     { kind: "hotels" as const, label: content.home.hotBenefitHotels },
@@ -128,7 +148,13 @@ export function HotOffersSection({ locale }: { locale: Locale }) {
       <PageContainer className="py-10 sm:py-12">
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {offers.map((offer) => (
-            <TourCard key={offer.id} locale={locale} offer={offer} />
+            <TourCard
+              key={offer.id}
+              locale={locale}
+              offer={offer}
+              destinations={destinations}
+              resorts={resorts}
+            />
           ))}
         </div>
         <p className="mt-8 text-center text-xs text-ink-muted sm:text-sm">

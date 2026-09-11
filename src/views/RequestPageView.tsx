@@ -3,6 +3,8 @@
 import { useSearchParams } from "next/navigation";
 import type { Locale } from "@/i18n/config";
 import { getContent } from "@/i18n/get-content";
+import type { SiteCopy } from "@/data/types";
+import { DESTINATIONS, type Destination } from "@/data/tours/catalog";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import {
   RequestTourForm,
@@ -16,13 +18,17 @@ export function RequestPageView({
   bookingMode = "lead_only",
   paymentsEnabled = false,
   providerOptions = [],
+  destinations = DESTINATIONS,
+  content: contentProp,
 }: {
   locale: Locale;
   bookingMode?: BookingMode;
   paymentsEnabled?: boolean;
   providerOptions?: CheckoutProviderOption[];
+  destinations?: Destination[];
+  content?: SiteCopy;
 }) {
-  const content = getContent(locale);
+  const content = contentProp ?? getContent(locale);
   const params = useSearchParams();
   const destination = params.get("destination") ?? "";
   const hotel = params.get("hotel") ?? "";
@@ -52,6 +58,8 @@ export function RequestPageView({
             bookingMode={bookingMode}
             paymentsEnabled={paymentsEnabled}
             providerOptions={providerOptions}
+            destinations={destinations}
+            content={content}
           />
         </div>
       </PageContainer>

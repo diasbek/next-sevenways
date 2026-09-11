@@ -20,21 +20,17 @@ import { RequestPageView } from "@/views/RequestPageView";
 import { NewsListPageView } from "@/views/NewsListPageView";
 import { NewsArticlePageView } from "@/views/NewsArticlePageView";
 import { PrivacyPageView, TermsPageView } from "@/views/LegalPageViews";
-import {
-  DESTINATIONS,
-  RESORTS,
-  destinationPath,
-  getDestination,
-  getResort,
-  resortPath,
-} from "@/data/tours/catalog";
-import { getContent } from "@/i18n/get-content";
+import { destinationPath, resortPath } from "@/data/tours/catalog";
+import { getContentAsync } from "@/i18n/get-content";
 import { notFound } from "next/navigation";
+import { getNewsBySlug, listNews, listPublishedSlugs } from "@/lib/news/repository";
 import {
-  SEED_NEWS,
-  getNewsBySlug,
-  listPublishedSlugs,
-} from "@/lib/news/repository";
+  getDestinationBySlug,
+  getResortBySlug,
+  listDestinations,
+  listOffers,
+  listResorts,
+} from "@/lib/tours/repository";
 
 export function createHomePage(locale: Locale) {
   return {
@@ -65,16 +61,16 @@ export function createToursPage(locale: Locale) {
 export function createTourDestinationPage(locale: Locale) {
   return {
     generateStaticParams: async () =>
-      DESTINATIONS.map((d) => ({ slug: d.slug })),
+      (await listDestinations()).map((d) => ({ slug: d.slug })),
     generateMetadata: async ({
       params,
     }: {
       params: Promise<{ slug: string }>;
     }) => {
       const { slug } = await params;
-      const dest = getDestination(slug);
+      const dest = await getDestinationBySlug(slug);
       if (!dest) return {};
-      const content = getContent(locale);
+      const content = await getContentAsync(locale);
       const name = dest.name[locale];
       const path = localePath(locale, destinationPath(slug));
       return createPageMetadata(
@@ -93,7 +89,7 @@ export function createTourDestinationPage(locale: Locale) {
       params: Promise<{ slug: string }>;
     }) {
       const { slug } = await params;
-      if (!getDestination(slug)) notFound();
+      if (!(await getDestinationBySlug(slug))) notFound();
       return (
         <SiteLayout locale={locale}>
           <TourDestinationPageView locale={locale} slug={slug} />
@@ -105,14 +101,15 @@ export function createTourDestinationPage(locale: Locale) {
 
 export function createResortPage(locale: Locale) {
   return {
-    generateStaticParams: async () => RESORTS.map((r) => ({ slug: r.slug })),
+    generateStaticParams: async () =>
+      (await listResorts()).map((r) => ({ slug: r.slug })),
     generateMetadata: async ({
       params,
     }: {
       params: Promise<{ slug: string }>;
     }) => {
       const { slug } = await params;
-      const resort = getResort(slug);
+      const resort = await getResortBySlug(slug);
       if (!resort) return {};
       const path = localePath(locale, resortPath(slug));
       return createPageMetadata(
@@ -131,7 +128,7 @@ export function createResortPage(locale: Locale) {
       params: Promise<{ slug: string }>;
     }) {
       const { slug } = await params;
-      if (!getResort(slug)) notFound();
+      if (!(await getResortBySlug(slug))) notFound();
       return (
         <SiteLayout locale={locale}>
           <ResortPageView locale={locale} slug={slug} />
@@ -145,12 +142,24 @@ export function createSearchPage(locale: Locale) {
   return {
     generateMetadata: () => getLocalizedPageMetadata(locale, "search"),
     Page: async function SearchPage() {
+      const [content, destinations, offers, resorts] = await Promise.all([
+        getContentAsync(locale),
+        listDestinations(),
+        listOffers(),
+        listResorts(),
+      ]);
       return (
         <SiteLayout locale={locale}>
           <Suspense
             fallback={<div className="p-8 text-sm text-ink-muted">…</div>}
           >
-            <SearchPageView locale={locale} />
+            <SearchPageView
+              locale={locale}
+              destinations={destinations}
+              offers={offers}
+              resorts={resorts}
+              content={content}
+            />
           </Suspense>
         </SiteLayout>
       );
@@ -245,7 +254,11 @@ export function createRequestPage(locale: Locale) {
         isPaymentsEnvEnabled,
         listPaymentProviders,
       } = await import("@/lib/payments");
-      const settings = await getSitePaymentSettings();
+      const [settings, content, destinations] = await Promise.all([
+        getSitePaymentSettings(),
+        getContentAsync(locale),
+        listDestinations(),
+      ]);
       const envOn = isPaymentsEnvEnabled();
       const all = listPaymentProviders();
       const providerOptions: Array<{
@@ -276,6 +289,8 @@ export function createRequestPage(locale: Locale) {
               bookingMode={settings.bookingMode}
               paymentsEnabled={settings.paymentsEnabled && envOn}
               providerOptions={providerOptions}
+              destinations={destinations}
+              content={content}
             />
           </Suspense>
         </SiteLayout>
@@ -288,9 +303,10 @@ export function createNewsListPage(locale: Locale) {
   return {
     generateMetadata: () => getLocalizedPageMetadata(locale, "news"),
     Page: async function NewsListPage() {
+      const articles = await listNews(locale);
       return (
         <SiteLayout locale={locale}>
-          <NewsListPageView locale={locale} articles={SEED_NEWS} />
+          <NewsListPageView locale={locale} articles={articles} />
         </SiteLayout>
       );
     },
@@ -300,14 +316,14 @@ export function createNewsListPage(locale: Locale) {
 export function createNewsArticlePage(locale: Locale) {
   return {
     generateStaticParams: async () =>
-      listPublishedSlugs().map((slug) => ({ slug })),
+      (await listPublishedSlugs()).map((slug) => ({ slug })),
     generateMetadata: async ({
       params,
     }: {
       params: Promise<{ slug: string }>;
     }) => {
       const { slug } = await params;
-      const article = getNewsBySlug(slug, locale);
+      const article = await getNewsBySlug(slug, locale);
       if (!article) return {};
       const path = localePath(locale, `/news/${slug}/`);
       return createPageMetadata(article.title, article.excerpt, path, {
@@ -322,7 +338,7 @@ export function createNewsArticlePage(locale: Locale) {
       params: Promise<{ slug: string }>;
     }) {
       const { slug } = await params;
-      const article = getNewsBySlug(slug, locale);
+      const article = await getNewsBySlug(slug, locale);
       if (!article) notFound();
       return (
         <SiteLayout locale={locale}>

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import { getContent } from "@/i18n/get-content";
+import type { SiteCopy } from "@/data/types";
 import { localePath } from "@/i18n/paths";
 import { SITE_CONFIG } from "@/utils/consts";
 import { PageContainer } from "@/components/atoms/PageContainer";
@@ -42,11 +43,13 @@ function IconBolt({ className }: { className?: string }) {
 export function FaqSection({
   locale,
   headingLevel = "h2",
+  content: contentProp,
 }: {
   locale: Locale;
   headingLevel?: "h1" | "h2";
+  content?: SiteCopy;
 }) {
-  const content = getContent(locale);
+  const content = contentProp ?? getContent(locale);
   const TitleTag = headingLevel;
 
   return (

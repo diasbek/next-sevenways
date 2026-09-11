@@ -63,6 +63,12 @@ export type DashCopy = {
     officesShort: string;
     news: string;
     newsShort: string;
+    content: string;
+    contentShort: string;
+    operators: string;
+    operatorsShort: string;
+    legal: string;
+    legalShort: string;
     media: string;
     settings: string;
     messaging: string;

@@ -1,15 +1,20 @@
 import type { MetadataRoute } from "next";
 import { getCanonicalSiteUrl, isIndexableDeployment } from "@/utils/seo/indexing";
-import { locales, defaultLocale, pagePaths, type Locale } from "@/i18n/config";
+import { locales, defaultLocale, pagePaths } from "@/i18n/config";
 import { localePath } from "@/i18n/paths";
-import { DESTINATIONS, RESORTS, destinationPath, resortPath } from "@/data/tours/catalog";
+import { destinationPath, resortPath } from "@/data/tours/catalog";
 import { listPublishedSlugs } from "@/lib/news/repository";
+import { listDestinations, listResorts } from "@/lib/tours/repository";
 
 function abs(path: string) {
   return `${getCanonicalSiteUrl().replace(/\/$/, "")}${path}`;
 }
 
-function entry(path: string, priority = 0.7, changeFrequency: MetadataRoute.Sitemap[0]["changeFrequency"] = "weekly") {
+function entry(
+  path: string,
+  priority = 0.7,
+  changeFrequency: MetadataRoute.Sitemap[0]["changeFrequency"] = "weekly",
+) {
   const languages: Record<string, string> = {};
   for (const locale of locales) {
     languages[locale] = abs(localePath(locale, path));
@@ -24,8 +29,14 @@ function entry(path: string, priority = 0.7, changeFrequency: MetadataRoute.Site
   };
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!isIndexableDeployment()) return [];
+
+  const [destinations, resorts, newsSlugs] = await Promise.all([
+    listDestinations(),
+    listResorts(),
+    listPublishedSlugs(),
+  ]);
 
   const staticPaths = [
     pagePaths.home,
@@ -42,14 +53,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     pagePaths.terms,
   ];
 
-  const items: MetadataRoute.Sitemap = [
+  return [
     ...staticPaths.map((p) =>
       entry(p, p === "/" ? 1 : 0.8, p === "/" ? "daily" : "weekly"),
     ),
-    ...DESTINATIONS.map((d) => entry(destinationPath(d.slug), 0.85, "daily")),
-    ...RESORTS.map((r) => entry(resortPath(r.slug), 0.75, "weekly")),
-    ...listPublishedSlugs().map((slug) => entry(`/news/${slug}/`, 0.6, "monthly")),
+    ...destinations.map((d) => entry(destinationPath(d.slug), 0.85, "daily")),
+    ...resorts.map((r) => entry(resortPath(r.slug), 0.75, "weekly")),
+    ...newsSlugs.map((slug) => entry(`/news/${slug}/`, 0.6, "monthly")),
   ];
-
-  return items;
 }

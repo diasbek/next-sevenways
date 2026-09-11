@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "react-toastify";
 import {
   IconCheck,
   IconChevron,
@@ -19,6 +22,12 @@ import {
   dashPageLead,
   dashPageTitle,
 } from "@/styles/dashboard";
+import {
+  importNewsSeedAction,
+  importOfficesSeedAction,
+  importOperatorsSeedAction,
+  importToursSeedAction,
+} from "@/app/dashboard/(app)/import/actions";
 
 export type OverviewKpi = {
   id: string;
@@ -26,6 +35,14 @@ export type OverviewKpi = {
   value: number;
   href: string;
   tone?: "primary" | "amber" | "green" | "neutral";
+};
+
+export type CmsHealthBadge = {
+  id: string;
+  label: string;
+  href: string;
+  status: "seed" | "ok" | "unpublished";
+  detail: string;
 };
 
 function greetingFor(
@@ -78,18 +95,48 @@ function KpiIcon({ id }: { id: string }) {
   return <IconMap />;
 }
 
+function badgeClass(status: CmsHealthBadge["status"]) {
+  if (status === "seed") return "border-[#fde68a] bg-[#fffbeb] text-[#92400e]";
+  if (status === "unpublished")
+    return "border-[#fed7aa] bg-[#fff7ed] text-[#9a3412]";
+  return "border-[#bbf7d0] bg-[#f0fdf4] text-[#166534]";
+}
+
 export function OverviewDashboardClient({
   displayName,
   kpis,
   supabaseReady,
+  cmsBadges,
+  canImport,
 }: {
   displayName: string;
   kpis: OverviewKpi[];
   supabaseReady: boolean;
+  cmsBadges: CmsHealthBadge[];
+  canImport: boolean;
 }) {
   const t = useDashT();
+  const router = useRouter();
   const greeting = greetingFor(t.overview);
   const name = displayName.trim() || t.you;
+  const [busy, setBusy] = useState<string | null>(null);
+
+  const runImport = async (
+    id: string,
+    fn: () => Promise<unknown>,
+    okMessage: string,
+  ) => {
+    setBusy(id);
+    try {
+      await fn();
+      toast.success(okMessage);
+      router.refresh();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : t.errors.saveFailed);
+    } finally {
+      setBusy(null);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -107,6 +154,9 @@ export function OverviewDashboardClient({
           </Link>
           <Link href="/dashboard/news/new/" className={dashBtnSecondary}>
             {t.news.newArticle}
+          </Link>
+          <Link href="/dashboard/export/" className={dashBtnSecondary}>
+            Export JSON
           </Link>
         </div>
       </div>
@@ -157,7 +207,99 @@ export function OverviewDashboardClient({
           Supabase admin env is not configured. Public site works from seed
           data; connect SUPABASE_* keys to enable CRM and CMS writes.
         </p>
-      ) : null}
+      ) : (
+        <>
+          <section className="space-y-3">
+            <h2 className="m-0 text-sm font-semibold uppercase tracking-wide text-black/40">
+              CMS health
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {cmsBadges.map((badge) => (
+                <Link
+                  key={badge.id}
+                  href={badge.href}
+                  className={cn(
+                    "rounded-xl border px-3 py-2 text-sm font-medium",
+                    badgeClass(badge.status),
+                  )}
+                >
+                  {badge.label}: {badge.detail}
+                </Link>
+              ))}
+            </div>
+          </section>
+
+          {canImport ? (
+            <section className={cn(dashCardPad, "space-y-3")}>
+              <h2 className="m-0 text-base font-semibold text-ink">
+                Import seed → CMS
+              </h2>
+              <p className="m-0 text-sm text-black/55">
+                Upserts code seed into Supabase. Safe to re-run; existing rows
+                with the same primary key are updated.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  className={dashBtnPrimary}
+                  disabled={busy !== null}
+                  onClick={() =>
+                    runImport(
+                      "tours",
+                      importToursSeedAction,
+                      "Tours seed imported",
+                    )
+                  }
+                >
+                  {busy === "tours" ? "…" : "Import tours"}
+                </button>
+                <button
+                  type="button"
+                  className={dashBtnSecondary}
+                  disabled={busy !== null}
+                  onClick={() =>
+                    runImport(
+                      "offices",
+                      importOfficesSeedAction,
+                      "Offices seed imported",
+                    )
+                  }
+                >
+                  {busy === "offices" ? "…" : "Import offices"}
+                </button>
+                <button
+                  type="button"
+                  className={dashBtnSecondary}
+                  disabled={busy !== null}
+                  onClick={() =>
+                    runImport(
+                      "news",
+                      importNewsSeedAction,
+                      "News seed imported",
+                    )
+                  }
+                >
+                  {busy === "news" ? "…" : "Import news"}
+                </button>
+                <button
+                  type="button"
+                  className={dashBtnSecondary}
+                  disabled={busy !== null}
+                  onClick={() =>
+                    runImport(
+                      "operators",
+                      importOperatorsSeedAction,
+                      "Operators seed imported",
+                    )
+                  }
+                >
+                  {busy === "operators" ? "…" : "Import operators"}
+                </button>
+              </div>
+            </section>
+          ) : null}
+        </>
+      )}
     </div>
   );
 }

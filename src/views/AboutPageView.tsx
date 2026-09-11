@@ -1,13 +1,13 @@
 import Image from "next/image";
 import type { Locale } from "@/i18n/config";
-import { getContent } from "@/i18n/get-content";
+import { getContentAsync } from "@/i18n/get-content";
 import { localePath } from "@/i18n/paths";
 import { SITE_CONFIG } from "@/utils/consts";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import { Button } from "@/components/atoms/Button";
 
-export function AboutPageView({ locale }: { locale: Locale }) {
-  const content = getContent(locale);
+export async function AboutPageView({ locale }: { locale: Locale }) {
+  const content = await getContentAsync(locale);
 
   return (
     <>

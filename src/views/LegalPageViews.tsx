@@ -1,16 +1,16 @@
 import type { Locale } from "@/i18n/config";
-import { legalDocuments } from "@/data/legal/documents";
+import { getLegalDocument } from "@/lib/legal/repository";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import { section, pageIntroTitle } from "@/styles/ui";
 
-function LegalView({
+async function LegalView({
   locale,
   kind,
 }: {
   locale: Locale;
   kind: "privacy" | "terms";
 }) {
-  const doc = legalDocuments[kind][locale];
+  const doc = await getLegalDocument(kind, locale);
   return (
     <section className={section}>
       <PageContainer className="max-w-3xl">
@@ -25,10 +25,10 @@ function LegalView({
   );
 }
 
-export function PrivacyPageView({ locale }: { locale: Locale }) {
+export async function PrivacyPageView({ locale }: { locale: Locale }) {
   return <LegalView locale={locale} kind="privacy" />;
 }
 
-export function TermsPageView({ locale }: { locale: Locale }) {
+export async function TermsPageView({ locale }: { locale: Locale }) {
   return <LegalView locale={locale} kind="terms" />;
 }

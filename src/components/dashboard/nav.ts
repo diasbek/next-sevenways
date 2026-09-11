@@ -8,6 +8,9 @@ export type DashboardNavLabelKey =
   | "tours"
   | "offices"
   | "news"
+  | "content"
+  | "operators"
+  | "legal"
   | "media"
   | "settings"
   | "messaging"
@@ -21,7 +24,10 @@ export type DashboardNavItem = {
     | "newsShort"
     | "messagingShort"
     | "toursShort"
-    | "officesShort";
+    | "officesShort"
+    | "contentShort"
+    | "operatorsShort"
+    | "legalShort";
   area: DashboardNavArea;
   group: "ops" | "content" | "system";
 };
@@ -61,6 +67,27 @@ export const DASHBOARD_NAV: DashboardNavItem[] = [
     labelKey: "news",
     shortLabelKey: "newsShort",
     area: "news",
+    group: "content",
+  },
+  {
+    href: "/dashboard/content/",
+    labelKey: "content",
+    shortLabelKey: "contentShort",
+    area: "content",
+    group: "content",
+  },
+  {
+    href: "/dashboard/operators/",
+    labelKey: "operators",
+    shortLabelKey: "operatorsShort",
+    area: "operators",
+    group: "content",
+  },
+  {
+    href: "/dashboard/legal/",
+    labelKey: "legal",
+    shortLabelKey: "legalShort",
+    area: "legal",
     group: "content",
   },
   {

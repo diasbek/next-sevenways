@@ -1,30 +1,28 @@
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
-import { getContent } from "@/i18n/get-content";
+import { getContentAsync } from "@/i18n/get-content";
 import { localePath } from "@/i18n/paths";
 import type { NewsArticle } from "@/lib/news/repository";
-import { listNews } from "@/lib/news/repository";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import { section, pageIntroTitle, pageIntroLead } from "@/styles/ui";
 
-export function NewsListPageView({
+export async function NewsListPageView({
   locale,
   articles,
 }: {
   locale: Locale;
-  articles?: NewsArticle[];
+  articles: NewsArticle[];
 }) {
-  const content = getContent(locale);
-  const items = articles ?? listNews(locale);
+  const content = await getContentAsync(locale);
 
   return (
     <section className={section}>
       <PageContainer>
         <h1 className={pageIntroTitle}>{content.news.title}</h1>
         <p className={`mt-2 ${pageIntroLead}`}>{content.news.lead}</p>
-        {items.length ? (
+        {articles.length ? (
           <ul className="mt-8 space-y-4">
-            {items.map((article) => (
+            {articles.map((article) => (
               <li key={article.slug}>
                 <Link
                   href={localePath(locale, `/news/${article.slug}/`)}

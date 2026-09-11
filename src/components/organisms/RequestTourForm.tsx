@@ -5,7 +5,8 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import type { Locale } from "@/i18n/config";
 import { getContent } from "@/i18n/get-content";
-import { DESTINATIONS } from "@/data/tours/catalog";
+import { DESTINATIONS, type Destination } from "@/data/tours/catalog";
+import type { SiteCopy } from "@/data/types";
 import { phoneRequired, withNormalizedPhone } from "@/lib/form/schemas";
 import { submitLead } from "@/lib/form/submitLead";
 import { Button } from "@/components/atoms/Button";
@@ -32,6 +33,8 @@ export function RequestTourForm({
   bookingMode = "lead_only",
   paymentsEnabled = false,
   providerOptions = [],
+  destinations = DESTINATIONS,
+  content: contentProp,
 }: {
   locale: Locale;
   initialDestination?: string;
@@ -42,8 +45,10 @@ export function RequestTourForm({
   bookingMode?: BookingMode;
   paymentsEnabled?: boolean;
   providerOptions?: CheckoutProviderOption[];
+  destinations?: Destination[];
+  content?: SiteCopy;
 }) {
-  const content = getContent(locale);
+  const content = contentProp ?? getContent(locale);
   const requestId = useId().replace(/:/g, "");
   const [done, setDone] = useState(false);
   const [payError, setPayError] = useState<string | null>(null);
@@ -202,7 +207,7 @@ export function RequestTourForm({
               className="w-full rounded-xl border border-black/10 px-3 py-2.5 text-sm outline-none focus:border-primary"
             >
               <option value="">—</option>
-              {DESTINATIONS.map((d) => (
+              {destinations.map((d) => (
                 <option key={d.slug} value={d.slug}>
                   {d.name[locale]}
                 </option>

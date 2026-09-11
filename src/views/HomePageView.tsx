@@ -1,6 +1,11 @@
 import type { Locale } from "@/i18n/config";
-import { getContent } from "@/i18n/get-content";
+import { getContentAsync } from "@/i18n/get-content";
 import { localePath } from "@/i18n/paths";
+import {
+  listDestinations,
+  listFeaturedOffers,
+  listResorts,
+} from "@/lib/tours/repository";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import { Button } from "@/components/atoms/Button";
 import { HomeHero } from "@/components/organisms/HomeHero";
@@ -11,15 +16,31 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { getFaqSchema } from "@/utils/seo/json-ld";
 import { sectionMuted, pageIntroTitle, pageIntroLead } from "@/styles/ui";
 
-export function HomePageView({ locale }: { locale: Locale }) {
-  const content = getContent(locale);
+export async function HomePageView({ locale }: { locale: Locale }) {
+  const [content, destinations, offers, resorts] = await Promise.all([
+    getContentAsync(locale),
+    listDestinations(),
+    listFeaturedOffers(),
+    listResorts(),
+  ]);
 
   return (
     <>
       <JsonLd data={getFaqSchema(content.faq.items)} />
-      <HomeHero locale={locale} />
-      <DestinationsSection locale={locale} variant="home" />
-      <HotOffersSection locale={locale} />
+      <HomeHero locale={locale} destinations={destinations} content={content} />
+      <DestinationsSection
+        locale={locale}
+        variant="home"
+        destinations={destinations}
+        content={content}
+      />
+      <HotOffersSection
+        locale={locale}
+        offers={offers}
+        destinations={destinations}
+        resorts={resorts}
+        content={content}
+      />
 
       <section className={sectionMuted}>
         <PageContainer className="grid gap-10 lg:grid-cols-2">
@@ -37,7 +58,7 @@ export function HomePageView({ locale }: { locale: Locale }) {
         </PageContainer>
       </section>
 
-      <FaqSection locale={locale} />
+      <FaqSection locale={locale} content={content} />
 
       <section className={sectionMuted}>
         <PageContainer className="rounded-3xl bg-deep-blue px-5 py-8 text-white sm:px-8 sm:py-10">

@@ -1,8 +1,9 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import { requireMutation } from "@/lib/cms/auth";
+import { CMS_TAGS } from "@/lib/cms/overlay";
+import { revalidateCms, writeAuditLog } from "@/lib/cms/revalidate";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { hasSupabaseAdminConfig } from "@/lib/supabase/env";
 
@@ -37,6 +38,22 @@ function newsFieldsFromForm(formData: FormData) {
     slugify(title_uz || title_ru || title_en) ||
     `news-${Date.now()}`;
 
+  const publishedAtRaw = String(formData.get("published_at") ?? "").trim();
+  let published_at: string | null = null;
+  if (status === "published") {
+    if (publishedAtRaw) {
+      const d = new Date(publishedAtRaw);
+      published_at = Number.isNaN(d.getTime())
+        ? new Date().toISOString()
+        : d.toISOString();
+    } else {
+      published_at = new Date().toISOString();
+    }
+  } else if (publishedAtRaw) {
+    const d = new Date(publishedAtRaw);
+    published_at = Number.isNaN(d.getTime()) ? null : d.toISOString();
+  }
+
   return {
     slug,
     title_uz: title_uz || title_ru || title_en || "Untitled",
@@ -50,12 +67,12 @@ function newsFieldsFromForm(formData: FormData) {
     body_en,
     cover_url,
     status,
-    published_at: status === "published" ? new Date().toISOString() : null,
+    published_at,
   };
 }
 
 export async function createNewsAction(formData: FormData) {
-  await requireMutation("news");
+  const actor = await requireMutation("news");
   if (!hasSupabaseAdminConfig()) {
     throw new Error("Supabase not configured");
   }
@@ -69,12 +86,19 @@ export async function createNewsAction(formData: FormData) {
     .single();
 
   if (error) throw new Error(error.message);
-  revalidatePath("/dashboard/news/");
+  revalidateCms(CMS_TAGS.news);
+  await writeAuditLog({
+    actorId: actor.id,
+    actorEmail: actor.email,
+    action: "news.create",
+    entityType: "news",
+    entityId: data.id,
+  });
   redirect(`/dashboard/news/${data.id}/`);
 }
 
 export async function updateNewsAction(formData: FormData) {
-  await requireMutation("news");
+  const actor = await requireMutation("news");
   if (!hasSupabaseAdminConfig()) return;
 
   const id = String(formData.get("id") ?? "");
@@ -85,6 +109,13 @@ export async function updateNewsAction(formData: FormData) {
   const { error } = await admin.from("sw_news").update(fields).eq("id", id);
   if (error) throw new Error(error.message);
 
-  revalidatePath("/dashboard/news/");
-  revalidatePath(`/dashboard/news/${id}/`);
+  revalidateCms(CMS_TAGS.news, [`/dashboard/news/${id}/`]);
+  await writeAuditLog({
+    actorId: actor.id,
+    actorEmail: actor.email,
+    action: "news.update",
+    entityType: "news",
+    entityId: id,
+    detail: { status: fields.status },
+  });
 }

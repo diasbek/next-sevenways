@@ -5,6 +5,7 @@ import Image from "next/image";
 import type { Locale } from "@/i18n/config";
 import { getContent } from "@/i18n/get-content";
 import { OFFICES, type LocalizedOffice } from "@/data/offices";
+import type { SiteCopy } from "@/data/types";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import { Button } from "@/components/atoms/Button";
 import { cn } from "@/lib/cn";
@@ -81,18 +82,27 @@ function officeMapEmbedUrl(office: LocalizedOffice, locale: Locale) {
   return `https://maps.google.com/maps?q=${office.lat},${office.lng}&hl=${hl}&z=16&output=embed`;
 }
 
-export function OfficesSection({ locale }: { locale: Locale }) {
-  const content = getContent(locale);
+export function OfficesSection({
+  locale,
+  offices: officesProp = OFFICES,
+  content: contentProp,
+}: {
+  locale: Locale;
+  offices?: LocalizedOffice[];
+  content?: SiteCopy;
+}) {
+  const content = contentProp ?? getContent(locale);
+  const allOffices = officesProp.length ? officesProp : OFFICES;
   const [city, setCity] = useState<CityKey>("tashkent");
-  const [openId, setOpenId] = useState<string>("central");
+  const [openId, setOpenId] = useState<string>(allOffices[0]?.id ?? "central");
 
   const offices = useMemo(() => {
-    const filtered = OFFICES.filter((o) => o.cityKey === city);
-    return filtered.length ? filtered : OFFICES;
-  }, [city]);
+    const filtered = allOffices.filter((o) => o.cityKey === city);
+    return filtered.length ? filtered : allOffices;
+  }, [city, allOffices]);
 
   const activeOffice =
-    offices.find((o) => o.id === openId) ?? offices[0] ?? OFFICES[0];
+    offices.find((o) => o.id === openId) ?? offices[0] ?? allOffices[0];
 
   return (
     <section className="relative overflow-hidden bg-cloud">
@@ -137,7 +147,7 @@ export function OfficesSection({ locale }: { locale: Locale }) {
                     type="button"
                     onClick={() => {
                       setCity(key);
-                      const first = OFFICES.find((o) => o.cityKey === key);
+                      const first = allOffices.find((o) => o.cityKey === key);
                       if (first) setOpenId(first.id);
                     }}
                     className={cn(
@@ -165,7 +175,7 @@ export function OfficesSection({ locale }: { locale: Locale }) {
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep-blue/55 to-transparent p-3 pt-10 sm:p-4 sm:pt-12">
                   <p className="pointer-events-auto inline-flex max-w-full items-center gap-2 rounded-xl bg-white/95 px-3 py-2 text-xs font-semibold text-midnight shadow-md backdrop-blur">
                     <span className="grid size-7 shrink-0 place-items-center rounded-full bg-royal text-[11px] font-bold text-white">
-                      {OFFICES.findIndex((o) => o.id === activeOffice.id) + 1}
+                      {allOffices.findIndex((o) => o.id === activeOffice.id) + 1}
                     </span>
                     <span className="min-w-0 truncate">
                       {activeOffice.name[locale]} · {activeOffice.address[locale]}
@@ -178,7 +188,7 @@ export function OfficesSection({ locale }: { locale: Locale }) {
             <div className="flex flex-col">
               <ul className="divide-y divide-black/6 p-2 sm:p-3">
                 {offices.map((office) => {
-                  const index = OFFICES.findIndex((o) => o.id === office.id) + 1;
+                  const index = allOffices.findIndex((o) => o.id === office.id) + 1;
                   const open = openId === office.id;
                   return (
                     <li key={office.id}>
@@ -290,7 +300,7 @@ export function OfficesSection({ locale }: { locale: Locale }) {
                   <span className="min-w-0">
                     {content.offices.officesCountLabel.replace(
                       "{count}",
-                      String(OFFICES.length),
+                      String(allOffices.length),
                     )}
                     <span className="text-ink-muted">
                       {" "}

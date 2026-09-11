@@ -17,12 +17,12 @@ export default async function OfficesAdminPage() {
 
   if (cmsReady) {
     const admin = createSupabaseAdminClient();
-    const { data } = await admin
-      .from("sw_offices")
-      .select(
-        "id, city_uz, city_ru, city_en, name_uz, name_ru, name_en, address_uz, address_ru, address_en, phones, lat, lng, is_published, sort_order",
-      )
-      .order("sort_order");
+    const { data } = await       admin
+        .from("sw_offices")
+        .select(
+          "id, city_uz, city_ru, city_en, name_uz, name_ru, name_en, address_uz, address_ru, address_en, phones, lat, lng, image_url, city_key, is_published, sort_order",
+        )
+        .order("sort_order");
     offices = (data as OfficeAdminRow[]) ?? [];
   }
 

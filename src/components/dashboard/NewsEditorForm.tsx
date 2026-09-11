@@ -27,6 +27,7 @@ export type NewsFormValues = {
   slug: string;
   status: string;
   cover_url: string;
+  published_at?: string | null;
   title_uz: string;
   title_ru: string;
   title_en: string;
@@ -219,6 +220,19 @@ export function NewsEditorForm({ values }: { values: NewsFormValues }) {
               <option value="published">published</option>
               <option value="archived">archived</option>
             </select>
+          </DashFormField>
+
+          <DashFormField label="Published at">
+            <input
+              name="published_at"
+              type="datetime-local"
+              defaultValue={
+                values.published_at
+                  ? values.published_at.slice(0, 16)
+                  : ""
+              }
+              className={dashInput}
+            />
           </DashFormField>
 
           <div className="grid gap-2">

@@ -10,6 +10,7 @@ import {
   DashModal,
   DashRowActions,
 } from "@/components/dashboard/ds";
+import { DashImageField } from "@/components/dashboard/news/DashImageField";
 import {
   deleteOfficeAction,
   saveOfficeAction,
@@ -19,7 +20,9 @@ import {
   dashCardPad,
   dashInput,
   dashLabel,
+  dashSelect,
 } from "@/styles/dashboard";
+import { cn } from "@/lib/cn";
 
 export type OfficeAdminRow = {
   id: string;
@@ -35,6 +38,8 @@ export type OfficeAdminRow = {
   phones: string[];
   lat: number | null;
   lng: number | null;
+  image_url?: string | null;
+  city_key?: string | null;
   is_published: boolean;
   sort_order: number;
 };
@@ -46,6 +51,8 @@ export type SeedOffice = {
   addressEn: string;
   phones: string[];
 };
+
+type LocaleTab = "uz" | "ru" | "en";
 
 export function OfficesAdminClient({
   offices,
@@ -62,6 +69,7 @@ export function OfficesAdminClient({
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<OfficeAdminRow | null>(null);
+  const [localeTab, setLocaleTab] = useState<LocaleTab>("uz");
   const showSeed = !cmsReady || offices.length === 0;
   const rows = showSeed ? null : offices;
 
@@ -80,6 +88,7 @@ export function OfficesAdminClient({
             className={dashBtnPrimary}
             onClick={() => {
               setEditing(null);
+              setLocaleTab("uz");
               setOpen(true);
             }}
           >
@@ -167,6 +176,7 @@ export function OfficesAdminClient({
                   <DashRowActions
                     onEdit={() => {
                       setEditing(row);
+                      setLocaleTab("uz");
                       setOpen(true);
                     }}
                     onDelete={async () => {
@@ -213,13 +223,44 @@ export function OfficesAdminClient({
               className={dashInput}
             />
           </label>
+          <label className="grid gap-1.5">
+            <span className={dashLabel}>City key</span>
+            <select
+              name="city_key"
+              defaultValue={editing?.city_key ?? "tashkent"}
+              className={dashSelect}
+            >
+              <option value="tashkent">tashkent</option>
+              <option value="samarkand">samarkand</option>
+            </select>
+          </label>
+          <div className="flex gap-2">
+            {(["uz", "ru", "en"] as const).map((loc) => (
+              <button
+                key={loc}
+                type="button"
+                onClick={() => setLocaleTab(loc)}
+                className={cn(
+                  "rounded-xl px-3 py-2 text-sm font-semibold",
+                  localeTab === loc
+                    ? "bg-primary text-white"
+                    : "border border-black/10 bg-white text-black/55",
+                )}
+              >
+                {loc.toUpperCase()}
+              </button>
+            ))}
+          </div>
           {(["uz", "ru", "en"] as const).map((loc) => (
-            <div key={loc} className="grid gap-3 sm:grid-cols-3">
+            <div
+              key={loc}
+              className={cn("grid gap-3", localeTab !== loc && "hidden")}
+            >
               <label className="grid gap-1.5">
                 <span className={dashLabel}>City {loc}</span>
                 <input
                   name={`city_${loc}`}
-                  required
+                  required={localeTab === loc}
                   defaultValue={editing?.[`city_${loc}`] ?? ""}
                   className={dashInput}
                 />
@@ -228,7 +269,7 @@ export function OfficesAdminClient({
                 <span className={dashLabel}>Name {loc}</span>
                 <input
                   name={`name_${loc}`}
-                  required
+                  required={localeTab === loc}
                   defaultValue={editing?.[`name_${loc}`] ?? ""}
                   className={dashInput}
                 />
@@ -237,7 +278,7 @@ export function OfficesAdminClient({
                 <span className={dashLabel}>Address {loc}</span>
                 <input
                   name={`address_${loc}`}
-                  required
+                  required={localeTab === loc}
                   defaultValue={editing?.[`address_${loc}`] ?? ""}
                   className={dashInput}
                 />
@@ -274,6 +315,12 @@ export function OfficesAdminClient({
               />
             </label>
           </div>
+          <DashImageField
+            name="image_url"
+            label="Office image"
+            defaultUrl={editing?.image_url ?? ""}
+            folder="offices"
+          />
           <label className="flex items-center gap-2 text-sm font-medium">
             <input
               type="checkbox"

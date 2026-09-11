@@ -4,6 +4,10 @@ import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/paths";
 import type { SiteCopy } from "@/data/types";
 import { SITE_CONFIG } from "@/utils/consts";
+import type { PublicSiteContacts } from "@/lib/site-settings/repository";
+import {
+  addressForLocale,
+} from "@/lib/site-settings/repository";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import { PaymentMethodsStrip } from "@/components/organisms/PaymentMethodsStrip";
 
@@ -38,13 +42,19 @@ function footerHref(locale: Locale, href: string) {
 export function SiteFooter({
   locale,
   content,
+  contacts,
 }: {
   locale: Locale;
   content: SiteCopy;
+  contacts?: PublicSiteContacts;
 }) {
   const year = new Date().getFullYear();
-  const address =
-    locale === "ru"
+  const phone = contacts?.phone ?? SITE_CONFIG.phone;
+  const phoneDisplay = contacts?.phoneDisplay ?? SITE_CONFIG.phoneDisplay;
+  const email = contacts?.email ?? SITE_CONFIG.email;
+  const address = contacts
+    ? addressForLocale(contacts, locale)
+    : locale === "ru"
       ? SITE_CONFIG.address.line
       : locale === "en"
         ? SITE_CONFIG.address.lineEn
@@ -59,20 +69,20 @@ export function SiteFooter({
   const socials = [
     {
       label: "Telegram",
-      href: SITE_CONFIG.telegramUrl,
+      href: contacts?.telegramUrl ?? SITE_CONFIG.telegramUrl,
       icon: "/images/footer/social/telegram.svg",
       className: "bg-[#229ED9]",
     },
     {
       label: "Instagram",
-      href: SITE_CONFIG.instagramUrl,
+      href: contacts?.instagramUrl ?? SITE_CONFIG.instagramUrl,
       icon: "/images/footer/social/instagram.svg",
       className:
         "bg-[linear-gradient(135deg,#f58529_0%,#dd2a7b_45%,#8134af_75%,#515bd4_100%)]",
     },
     {
       label: "Facebook",
-      href: SITE_CONFIG.facebookUrl,
+      href: contacts?.facebookUrl ?? SITE_CONFIG.facebookUrl,
       icon: "/images/footer/social/facebook.svg",
       className: "bg-[#1877F2]",
     },
@@ -164,21 +174,21 @@ export function SiteFooter({
           <ul className="mt-4 space-y-3.5 text-sm text-white/85">
             <li>
               <a
-                href={`tel:${SITE_CONFIG.phone}`}
+                href={`tel:${phone}`}
                 className="inline-flex items-center gap-3 transition hover:text-white"
               >
                 <ContactIcon kind="phone" />
-                {SITE_CONFIG.phoneDisplay}
+                {phoneDisplay}
               </a>
             </li>
-            {SITE_CONFIG.email ? (
+            {email ? (
               <li>
                 <a
-                  href={`mailto:${SITE_CONFIG.email}`}
+                  href={`mailto:${email}`}
                   className="inline-flex items-center gap-3 transition hover:text-white"
                 >
                   <ContactIcon kind="mail" />
-                  {SITE_CONFIG.email}
+                  {email}
                 </a>
               </li>
             ) : null}

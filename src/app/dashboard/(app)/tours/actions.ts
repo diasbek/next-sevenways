@@ -1,20 +1,27 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { requireMutation } from "@/lib/cms/auth";
+import { CMS_TAGS } from "@/lib/cms/overlay";
+import { revalidateCms, writeAuditLog } from "@/lib/cms/revalidate";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { hasSupabaseAdminConfig } from "@/lib/supabase/env";
 
-function revalidateTours() {
-  revalidatePath("/dashboard/tours/");
+function parseCategories(raw: string): string[] {
+  return raw
+    .split(/[,;\s]+/)
+    .map((c) => c.trim().toLowerCase())
+    .filter((c) => c === "beach" || c === "excursion");
 }
 
 export async function saveDestinationAction(formData: FormData) {
-  await requireMutation("tours");
+  const actor = await requireMutation("tours");
   if (!hasSupabaseAdminConfig()) throw new Error("Supabase not configured");
 
   const slug = String(formData.get("slug") ?? "").trim();
   if (!slug) throw new Error("slug_required");
+
+  const categories = parseCategories(String(formData.get("categories") ?? ""));
+  const cover_url = String(formData.get("cover_url") ?? "").trim() || null;
 
   const row = {
     slug,
@@ -39,6 +46,8 @@ export async function saveDestinationAction(formData: FormData) {
     from_currency:
       String(formData.get("from_currency") ?? "USD") === "UZS" ? "UZS" : "USD",
     country_code: String(formData.get("country_code") ?? "").trim() || null,
+    cover_url,
+    categories,
     is_published: formData.get("is_published") === "1",
   };
 
@@ -49,22 +58,92 @@ export async function saveDestinationAction(formData: FormData) {
   const admin = createSupabaseAdminClient();
   const { error } = await admin.from("sw_destinations").upsert(row);
   if (error) throw new Error(error.message);
-  revalidateTours();
+  revalidateCms(CMS_TAGS.tours);
+  await writeAuditLog({
+    actorId: actor.id,
+    actorEmail: actor.email,
+    action: "destination.save",
+    entityType: "destination",
+    entityId: slug,
+  });
 }
 
 export async function deleteDestinationAction(formData: FormData) {
-  await requireMutation("tours");
+  const actor = await requireMutation("tours");
   if (!hasSupabaseAdminConfig()) return;
   const slug = String(formData.get("slug") ?? "").trim();
   if (!slug) throw new Error("slug_required");
   const admin = createSupabaseAdminClient();
   const { error } = await admin.from("sw_destinations").delete().eq("slug", slug);
   if (error) throw new Error(error.message);
-  revalidateTours();
+  revalidateCms(CMS_TAGS.tours);
+  await writeAuditLog({
+    actorId: actor.id,
+    actorEmail: actor.email,
+    action: "destination.delete",
+    entityType: "destination",
+    entityId: slug,
+  });
+}
+
+export async function saveResortAction(formData: FormData) {
+  const actor = await requireMutation("tours");
+  if (!hasSupabaseAdminConfig()) throw new Error("Supabase not configured");
+
+  const slug = String(formData.get("slug") ?? "").trim();
+  const destination_slug = String(formData.get("destination_slug") ?? "").trim();
+  if (!slug || !destination_slug) throw new Error("slug_required");
+
+  const row = {
+    slug,
+    destination_slug,
+    name_uz: String(formData.get("name_uz") ?? "").trim(),
+    name_ru: String(formData.get("name_ru") ?? "").trim(),
+    name_en: String(formData.get("name_en") ?? "").trim(),
+    blurb_uz: String(formData.get("blurb_uz") ?? "").trim(),
+    blurb_ru: String(formData.get("blurb_ru") ?? "").trim(),
+    blurb_en: String(formData.get("blurb_en") ?? "").trim(),
+    cover_url: String(formData.get("cover_url") ?? "").trim() || null,
+    is_published: formData.get("is_published") === "1",
+  };
+
+  if (!row.name_uz || !row.name_ru || !row.name_en) {
+    throw new Error("names_required");
+  }
+
+  const admin = createSupabaseAdminClient();
+  const { error } = await admin.from("sw_resorts").upsert(row);
+  if (error) throw new Error(error.message);
+  revalidateCms(CMS_TAGS.tours);
+  await writeAuditLog({
+    actorId: actor.id,
+    actorEmail: actor.email,
+    action: "resort.save",
+    entityType: "resort",
+    entityId: slug,
+  });
+}
+
+export async function deleteResortAction(formData: FormData) {
+  const actor = await requireMutation("tours");
+  if (!hasSupabaseAdminConfig()) return;
+  const slug = String(formData.get("slug") ?? "").trim();
+  if (!slug) throw new Error("slug_required");
+  const admin = createSupabaseAdminClient();
+  const { error } = await admin.from("sw_resorts").delete().eq("slug", slug);
+  if (error) throw new Error(error.message);
+  revalidateCms(CMS_TAGS.tours);
+  await writeAuditLog({
+    actorId: actor.id,
+    actorEmail: actor.email,
+    action: "resort.delete",
+    entityType: "resort",
+    entityId: slug,
+  });
 }
 
 export async function saveOfferAction(formData: FormData) {
-  await requireMutation("tours");
+  const actor = await requireMutation("tours");
   if (!hasSupabaseAdminConfig()) throw new Error("Supabase not configured");
 
   const id = String(formData.get("id") ?? "").trim();
@@ -99,16 +178,31 @@ export async function saveOfferAction(formData: FormData) {
   const admin = createSupabaseAdminClient();
   const { error } = await admin.from("sw_tour_offers").upsert(row);
   if (error) throw new Error(error.message);
-  revalidateTours();
+  revalidateCms(CMS_TAGS.tours);
+  await writeAuditLog({
+    actorId: actor.id,
+    actorEmail: actor.email,
+    action: "offer.save",
+    entityType: "offer",
+    entityId: id,
+    detail: { featured: row.featured },
+  });
 }
 
 export async function deleteOfferAction(formData: FormData) {
-  await requireMutation("tours");
+  const actor = await requireMutation("tours");
   if (!hasSupabaseAdminConfig()) return;
   const id = String(formData.get("id") ?? "").trim();
   if (!id) throw new Error("id_required");
   const admin = createSupabaseAdminClient();
   const { error } = await admin.from("sw_tour_offers").delete().eq("id", id);
   if (error) throw new Error(error.message);
-  revalidateTours();
+  revalidateCms(CMS_TAGS.tours);
+  await writeAuditLog({
+    actorId: actor.id,
+    actorEmail: actor.email,
+    action: "offer.delete",
+    entityType: "offer",
+    entityId: id,
+  });
 }

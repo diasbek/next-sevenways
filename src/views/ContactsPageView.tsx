@@ -1,19 +1,21 @@
 import type { ReactNode } from "react";
 import type { Locale } from "@/i18n/config";
-import { getContent } from "@/i18n/get-content";
+import { getContentAsync } from "@/i18n/get-content";
 import { localePath } from "@/i18n/paths";
-import { SITE_CONFIG } from "@/utils/consts";
+import {
+  addressForLocale,
+  getPublicSiteContacts,
+  hoursForLocale,
+} from "@/lib/site-settings/repository";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import { Button } from "@/components/atoms/Button";
 
-function mapEmbedUrl(locale: Locale) {
+function mapEmbedUrl(locale: Locale, lat: number, lng: number) {
   const hl = locale === "ru" ? "ru" : locale === "uz" ? "uz" : "en";
-  const { lat, lng } = SITE_CONFIG.address;
   return `https://maps.google.com/maps?q=${lat},${lng}&hl=${hl}&z=16&output=embed`;
 }
 
-function mapsDirectionsUrl() {
-  const { lat, lng } = SITE_CONFIG.address;
+function mapsDirectionsUrl(lat: number, lng: number) {
   return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
 }
 
@@ -34,20 +36,13 @@ function ContactRow({
   );
 }
 
-export function ContactsPageView({ locale }: { locale: Locale }) {
-  const content = getContent(locale);
-  const address =
-    locale === "ru"
-      ? SITE_CONFIG.address.line
-      : locale === "en"
-        ? SITE_CONFIG.address.lineEn
-        : SITE_CONFIG.address.lineUz;
-  const hours =
-    locale === "ru"
-      ? SITE_CONFIG.hoursDisplayRu
-      : locale === "en"
-        ? SITE_CONFIG.hoursDisplayEn
-        : SITE_CONFIG.hoursDisplayUz;
+export async function ContactsPageView({ locale }: { locale: Locale }) {
+  const [content, contacts] = await Promise.all([
+    getContentAsync(locale),
+    getPublicSiteContacts(),
+  ]);
+  const address = addressForLocale(contacts, locale);
+  const hours = hoursForLocale(contacts, locale);
 
   return (
     <section className="bg-cloud py-[var(--section-y)]">
@@ -65,16 +60,19 @@ export function ContactsPageView({ locale }: { locale: Locale }) {
               <dl className="mt-8 space-y-0">
                 <ContactRow label={content.contacts.callCentre}>
                   <a
-                    href={`tel:${SITE_CONFIG.phone}`}
+                    href={`tel:${contacts.phone}`}
                     className="font-semibold transition hover:text-royal"
                   >
-                    {SITE_CONFIG.phoneDisplay}
+                    {contacts.phoneDisplay}
                   </a>
                 </ContactRow>
                 <ContactRow label={content.contacts.visitOffice}>
                   <span className="block leading-snug">{address}</span>
                   <a
-                    href={mapsDirectionsUrl()}
+                    href={mapsDirectionsUrl(
+                      contacts.address.lat,
+                      contacts.address.lng,
+                    )}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-2 inline-flex text-sm font-semibold text-royal transition hover:text-deep-blue"
@@ -82,13 +80,13 @@ export function ContactsPageView({ locale }: { locale: Locale }) {
                     {content.offices.buildRoute} →
                   </a>
                 </ContactRow>
-                {SITE_CONFIG.email ? (
+                {contacts.email ? (
                   <ContactRow label="Email">
                     <a
-                      href={`mailto:${SITE_CONFIG.email}`}
+                      href={`mailto:${contacts.email}`}
                       className="font-semibold transition hover:text-royal"
                     >
-                      {SITE_CONFIG.email}
+                      {contacts.email}
                     </a>
                   </ContactRow>
                 ) : null}
@@ -127,7 +125,11 @@ export function ContactsPageView({ locale }: { locale: Locale }) {
             <div className="relative min-h-[280px] border-t border-black/5 bg-sky-tint/30 sm:min-h-[360px] lg:min-h-full lg:border-l lg:border-t-0">
               <iframe
                 title={content.contacts.visitOffice}
-                src={mapEmbedUrl(locale)}
+                src={mapEmbedUrl(
+                  locale,
+                  contacts.address.lat,
+                  contacts.address.lng,
+                )}
                 className="absolute inset-0 h-full w-full border-0"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

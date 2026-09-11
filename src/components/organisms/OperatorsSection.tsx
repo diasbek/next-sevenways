@@ -2,7 +2,8 @@ import Image from "next/image";
 import type { Locale } from "@/i18n/config";
 import { getContent } from "@/i18n/get-content";
 import { localePath } from "@/i18n/paths";
-import { OPERATORS } from "@/data/operators";
+import { OPERATORS, type Operator } from "@/data/operators";
+import type { SiteCopy } from "@/data/types";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import { Button } from "@/components/atoms/Button";
 
@@ -62,8 +63,16 @@ function IconUsers({ className }: { className?: string }) {
   );
 }
 
-export function OperatorsSection({ locale }: { locale: Locale }) {
-  const content = getContent(locale);
+export function OperatorsSection({
+  locale,
+  operators = OPERATORS,
+  content: contentProp,
+}: {
+  locale: Locale;
+  operators?: Operator[];
+  content?: SiteCopy;
+}) {
+  const content = contentProp ?? getContent(locale);
 
   return (
     <section className="bg-white">
@@ -93,7 +102,7 @@ export function OperatorsSection({ locale }: { locale: Locale }) {
 
       <PageContainer className="py-10 sm:py-12">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {OPERATORS.map((op) => (
+          {operators.map((op) => (
             <article
               key={op.id}
               className="flex h-full flex-col overflow-hidden rounded-2xl border border-black/5 bg-white shadow-[0_12px_32px_rgb(7_29_69/0.08)]"

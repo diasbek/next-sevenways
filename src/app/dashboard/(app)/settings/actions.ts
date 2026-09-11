@@ -1,7 +1,8 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { requireMutation } from "@/lib/cms/auth";
+import { CMS_TAGS } from "@/lib/cms/overlay";
+import { revalidateCms, writeAuditLog } from "@/lib/cms/revalidate";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { hasSupabaseAdminConfig } from "@/lib/supabase/env";
 import {
@@ -10,7 +11,7 @@ import {
 } from "@/lib/payments";
 
 export async function saveSettingsAction(formData: FormData) {
-  await requireMutation("settings");
+  const actor = await requireMutation("settings");
   if (!hasSupabaseAdminConfig()) return;
 
   const bookingModeRaw = String(formData.get("booking_mode") ?? "lead_only");
@@ -43,13 +44,18 @@ export async function saveSettingsAction(formData: FormData) {
     enabled_providers,
     default_currency,
   });
-  revalidatePath("/dashboard/settings/");
-  revalidatePath("/");
-  revalidatePath("/request/");
+  revalidateCms(CMS_TAGS.settings);
+  await writeAuditLog({
+    actorId: actor.id,
+    actorEmail: actor.email,
+    action: "settings.save",
+    entityType: "settings",
+    entityId: "1",
+  });
 }
 
 export async function savePaymentCredentialsAction(formData: FormData) {
-  await requireMutation("settings");
+  const actor = await requireMutation("settings");
   if (!hasSupabaseAdminConfig()) {
     throw new Error("Supabase not configured");
   }
@@ -79,6 +85,12 @@ export async function savePaymentCredentialsAction(formData: FormData) {
     });
   }
 
-  revalidatePath("/dashboard/settings/");
-  revalidatePath("/request/");
+  revalidateCms(CMS_TAGS.settings, ["/dashboard/settings/", "/request/"]);
+  await writeAuditLog({
+    actorId: actor.id,
+    actorEmail: actor.email,
+    action: "payment_credentials.save",
+    entityType: "payment_credentials",
+    entityId: provider,
+  });
 }

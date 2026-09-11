@@ -34,16 +34,20 @@ export default async function NewsAdminPage() {
   }
 
   if (!rows.length) {
-    rows = listPublishedSlugs().map((slug) => {
-      const a = getNewsBySlug(slug, "en")!;
-      return {
+    const slugs = await listPublishedSlugs();
+    const seedRows: NewsListRow[] = [];
+    for (const slug of slugs) {
+      const a = await getNewsBySlug(slug, "en");
+      if (!a) continue;
+      seedRows.push({
         id: `seed-${slug}`,
         slug,
         title: a.title,
         status: "seed",
         seed: true,
-      };
-    });
+      });
+    }
+    rows = seedRows;
   }
 
   return <NewsListClient rows={rows} />;

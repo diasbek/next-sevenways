@@ -1,10 +1,10 @@
 import type { Locale } from "@/i18n/config";
-import { getContent } from "@/i18n/get-content";
+import { getContentAsync } from "@/i18n/get-content";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import { section, pageIntroTitle, pageIntroLead } from "@/styles/ui";
 
-export function GiftsPageView({ locale }: { locale: Locale }) {
-  const content = getContent(locale);
+export async function GiftsPageView({ locale }: { locale: Locale }) {
+  const content = await getContentAsync(locale);
   return (
     <section className={section}>
       <PageContainer>

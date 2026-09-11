@@ -7,6 +7,7 @@ import type { Locale } from "@/i18n/config";
 import { localePath, stripLocalePrefix } from "@/i18n/paths";
 import type { SiteCopy } from "@/data/types";
 import { SITE_CONFIG } from "@/utils/consts";
+import type { PublicSiteContacts } from "@/lib/site-settings/repository";
 import { Button } from "@/components/atoms/Button";
 import { LanguageSwitcher } from "@/components/molecules/LanguageSwitcher";
 import { cn } from "@/lib/cn";
@@ -15,6 +16,7 @@ import { headerControlQuiet, pageContainer } from "@/styles/ui";
 interface HeaderProps {
   locale: Locale;
   content: SiteCopy;
+  contacts?: PublicSiteContacts;
 }
 
 function normalizeNavPath(path: string) {
@@ -30,12 +32,14 @@ function isActivePath(currentPath: string, href: string) {
   return current === target || current.startsWith(target);
 }
 
-export function Header({ locale, content }: HeaderProps) {
+export function Header({ locale, content, contacts }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname() || "/";
   const { path: currentPath } = stripLocalePrefix(pathname);
   const requestHref = localePath(locale, "/request/");
   const menuLabel = open ? content.ui.close : content.ui.menu;
+  const phone = contacts?.phone ?? SITE_CONFIG.phone;
+  const phoneDisplay = contacts?.phoneDisplay ?? SITE_CONFIG.phoneDisplay;
 
   useEffect(() => {
     setOpen(false);
@@ -104,10 +108,10 @@ export function Header({ locale, content }: HeaderProps) {
 
           <div className="flex items-center gap-2">
             <a
-              href={`tel:${SITE_CONFIG.phone}`}
+              href={`tel:${phone}`}
               className="hidden text-sm font-medium text-ink-muted hover:text-ink md:inline"
             >
-              {SITE_CONFIG.phoneDisplay}
+              {phoneDisplay}
             </a>
             <LanguageSwitcher locale={locale} size="compact" />
             <Button href={requestHref} size="xs" className="hidden sm:inline-flex">

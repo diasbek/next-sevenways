@@ -1,29 +1,37 @@
 import type { Locale } from "@/i18n/config";
-import { getContent } from "@/i18n/get-content";
-import {
-  getResort,
-  getDestination,
-  offersForResort,
-  destinationPath,
-} from "@/data/tours/catalog";
+import { getContentAsync } from "@/i18n/get-content";
+import { destinationPath } from "@/data/tours/catalog";
 import { localePath } from "@/i18n/paths";
 import Link from "next/link";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import { TourCard } from "@/components/molecules/TourCard";
 import { Button } from "@/components/atoms/Button";
 import { section, pageIntroTitle, pageIntroLead } from "@/styles/ui";
+import {
+  getDestinationBySlug,
+  getResortBySlug,
+  listDestinations,
+  listResorts,
+  offersForResortSlug,
+} from "@/lib/tours/repository";
+import { notFound } from "next/navigation";
 
-export function ResortPageView({
+export async function ResortPageView({
   locale,
   slug,
 }: {
   locale: Locale;
   slug: string;
 }) {
-  const content = getContent(locale);
-  const resort = getResort(slug)!;
-  const dest = getDestination(resort.destinationSlug);
-  const offers = offersForResort(slug);
+  const [content, resort, destinations, resorts, offers] = await Promise.all([
+    getContentAsync(locale),
+    getResortBySlug(slug),
+    listDestinations(),
+    listResorts(),
+    offersForResortSlug(slug),
+  ]);
+  if (!resort) notFound();
+  const dest = await getDestinationBySlug(resort.destinationSlug);
 
   return (
     <section className={section}>
@@ -42,7 +50,13 @@ export function ResortPageView({
         <p className={`mt-2 ${pageIntroLead}`}>{resort.blurb[locale]}</p>
         <div className="mt-10 grid gap-4 md:grid-cols-2">
           {offers.map((offer) => (
-            <TourCard key={offer.id} locale={locale} offer={offer} />
+            <TourCard
+              key={offer.id}
+              locale={locale}
+              offer={offer}
+              destinations={destinations}
+              resorts={resorts}
+            />
           ))}
         </div>
         {!offers.length ? (
