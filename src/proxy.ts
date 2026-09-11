@@ -8,6 +8,13 @@ import {
   getSupabasePublishableKey,
   getSupabaseUrl,
 } from "@/lib/supabase/env";
+import {
+  isSiteGateEnabled,
+  isSiteGateExemptPath,
+  isSiteGateUnlocked,
+  SITE_GATE_COOKIE,
+  SITE_GATE_PATH,
+} from "@/lib/site-gate";
 
 function isPublicDashboardPath(pathname: string) {
   return (
@@ -35,8 +42,9 @@ function detectHtmlLang(pathname: string): string {
 /**
  * 1. Canonical URL 308
  * 2. Legacy /uz → unprefixed
- * 3. Locale cookie + x-html-lang
- * 4. Dashboard session refresh + auth gate
+ * 3. Under-construction gate (until SW_SITE_GATE=0)
+ * 4. Locale cookie + x-html-lang
+ * 5. Dashboard session refresh + auth gate
  */
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -67,6 +75,23 @@ export async function proxy(request: NextRequest) {
     if (canonical) {
       return NextResponse.redirect(canonical, 308);
     }
+  }
+
+  if (
+    isSiteGateEnabled() &&
+    !isSiteGateExemptPath(pathname) &&
+    !isSiteGateUnlocked(request.cookies.get(SITE_GATE_COOKIE)?.value)
+  ) {
+    const gate = request.nextUrl.clone();
+    gate.pathname = SITE_GATE_PATH;
+    const next =
+      pathname + (request.nextUrl.search ? request.nextUrl.search : "");
+    if (next && next !== "/" && next !== SITE_GATE_PATH) {
+      gate.searchParams.set("next", next);
+    } else {
+      gate.search = "";
+    }
+    return NextResponse.redirect(gate);
   }
 
   const requestHeaders = new Headers(request.headers);

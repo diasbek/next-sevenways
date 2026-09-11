@@ -1,10 +1,11 @@
--- Seven Ways CMS schema (apply to a new Supabase project)
+-- Seven Ways CMS tables
 
 create schema if not exists private;
 
 create or replace function private.set_updated_at()
 returns trigger
 language plpgsql
+set search_path = public
 as $$
 begin
   new.updated_at = now();
@@ -200,70 +201,3 @@ create table if not exists public.sw_messaging_log (
   detail text,
   created_at timestamptz not null default now()
 );
-
--- Storage bucket for media (run in dashboard or via storage API)
--- insert into storage.buckets (id, name, public) values ('sevenways-media', 'sevenways-media', true);
-
--- RLS helpers
-create or replace function public.sw_is_admin()
-returns boolean
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select exists (
-    select 1 from public.sw_admin_users u
-    where u.user_id = auth.uid() and u.is_active
-  );
-$$;
-
-alter table public.sw_admin_users enable row level security;
-alter table public.sw_leads enable row level security;
-alter table public.sw_site_settings enable row level security;
-alter table public.sw_destinations enable row level security;
-alter table public.sw_resorts enable row level security;
-alter table public.sw_tour_offers enable row level security;
-alter table public.sw_offices enable row level security;
-alter table public.sw_news enable row level security;
-alter table public.sw_media enable row level security;
-alter table public.sw_messaging_providers enable row level security;
-alter table public.sw_messaging_log enable row level security;
-
--- Public read for published content
-create policy sw_destinations_public_read on public.sw_destinations
-  for select using (is_published = true);
-create policy sw_resorts_public_read on public.sw_resorts
-  for select using (is_published = true);
-create policy sw_tour_offers_public_read on public.sw_tour_offers
-  for select using (is_published = true);
-create policy sw_offices_public_read on public.sw_offices
-  for select using (is_published = true);
-create policy sw_news_public_read on public.sw_news
-  for select using (status = 'published');
-create policy sw_site_settings_public_read on public.sw_site_settings
-  for select using (true);
-
--- Admin full access
-create policy sw_admin_users_admin on public.sw_admin_users
-  for all using (public.sw_is_admin()) with check (public.sw_is_admin());
-create policy sw_leads_admin on public.sw_leads
-  for all using (public.sw_is_admin()) with check (public.sw_is_admin());
-create policy sw_site_settings_admin on public.sw_site_settings
-  for all using (public.sw_is_admin()) with check (public.sw_is_admin());
-create policy sw_destinations_admin on public.sw_destinations
-  for all using (public.sw_is_admin()) with check (public.sw_is_admin());
-create policy sw_resorts_admin on public.sw_resorts
-  for all using (public.sw_is_admin()) with check (public.sw_is_admin());
-create policy sw_tour_offers_admin on public.sw_tour_offers
-  for all using (public.sw_is_admin()) with check (public.sw_is_admin());
-create policy sw_offices_admin on public.sw_offices
-  for all using (public.sw_is_admin()) with check (public.sw_is_admin());
-create policy sw_news_admin on public.sw_news
-  for all using (public.sw_is_admin()) with check (public.sw_is_admin());
-create policy sw_media_admin on public.sw_media
-  for all using (public.sw_is_admin()) with check (public.sw_is_admin());
-create policy sw_messaging_providers_admin on public.sw_messaging_providers
-  for all using (public.sw_is_admin()) with check (public.sw_is_admin());
-create policy sw_messaging_log_admin on public.sw_messaging_log
-  for all using (public.sw_is_admin()) with check (public.sw_is_admin());
