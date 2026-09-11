@@ -35,7 +35,7 @@ export const dashSectionTitle =
   "m-0 text-[0.95rem] font-semibold tracking-[-0.01em] text-ink";
 
 export const dashBtnPrimary =
-  "inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-[0_4px_14px_rgb(13_115_119/0.28)] transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-55";
+  "inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-[0_4px_14px_rgb(7_93_183/0.28)] transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-55";
 
 export const dashBtnSecondary =
   "inline-flex items-center justify-center gap-2 rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm font-semibold text-ink transition hover:bg-black/[0.03] disabled:cursor-not-allowed disabled:opacity-55";

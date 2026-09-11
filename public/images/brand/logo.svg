@@ -1,10 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 48" fill="none" role="img" aria-label="Seven Ways">
+  <defs>
+    <linearGradient id="swBrand" x1="4" y1="2" x2="44" y2="46" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1498E5"/>
+      <stop offset="1" stop-color="#075DB7"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="44" height="44" rx="10" fill="url(#swBrand)"/>
+  <path
+    fill="#FFFFFF"
+    d="M30.4 12.6c-1.4-1.1-3.2-1.7-5.2-1.7-4.4 0-7.6 2.5-7.6 6.1 0 2.8 1.7 4.5 5.5 5.6l2.7.8c2.5.7 3.5 1.5 3.5 3.1 0 1.8-1.7 2.9-4.1 2.9-2.1 0-3.8-.7-5.2-1.9l-2.1 3.4c1.9 1.6 4.5 2.5 7.3 2.5 4.9 0 8.1-2.7 8.1-6.5 0-3-1.8-4.7-5.9-5.9l-2.7-.8c-2.1-.6-3.1-1.4-3.1-2.8 0-1.6 1.5-2.7 3.7-2.7 1.7 0 3.2.6 4.3 1.6l1.9-3.6Z"
+  />
+  <circle cx="31.8" cy="15.4" r="4.8" fill="none" stroke="#FFFFFF" stroke-width="1.3"/>
+  <path
+    d="M27.7 15.4h8.2M31.8 11.3c1.1 1.1 1.7 2.5 1.7 4.1s-.6 3-1.7 4.1c-1.1-1.1-1.7-2.5-1.7-4.1s.6-3 1.7-4.1Z"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="1"
+  />
   <text
-    x="0"
-    y="28"
+    x="56"
+    y="30"
     font-family="system-ui,Segoe UI,sans-serif"
-    font-size="22"
+    font-size="18"
     font-weight="700"
-    fill="#075DB7"
-  >7Ways</text>
+    fill="#071D45"
+  >Seven Ways</text>
 </svg>

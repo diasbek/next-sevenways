@@ -239,7 +239,7 @@ export const formStepPill =
 export const formStepIdle =
   "border-black/20 bg-[#dde1e7] text-ink";
 export const formStepActive =
-  "translate-y-[-1px] border-primary bg-primary text-white shadow-[0_4px_14px_rgb(211_2_3/0.28)]";
+  "translate-y-[-1px] border-primary bg-primary text-white shadow-[0_4px_14px_rgb(7_93_183/0.28)]";
 export const formStepDone =
   "border-primary/30 bg-primary-soft text-primary";
 
@@ -258,7 +258,7 @@ export const quizOption =
 export const quizOptionIdle =
   "border-black/15 bg-white hover:border-primary/40 hover:shadow-[0_8px_24px_rgb(15_18_24/0.06)]";
 export const quizOptionActive =
-  "border-primary bg-primary-soft shadow-[0_8px_24px_rgb(211_2_3/0.12)]";
+  "border-primary bg-primary-soft shadow-[0_8px_24px_rgb(7_93_183/0.12)]";
 export const quizOptionTitle =
   "font-display text-base font-semibold uppercase tracking-[-0.01em] text-black";
 export const quizOptionDesc = "text-sm leading-snug text-ink-muted";
@@ -310,7 +310,7 @@ export const trackTimelineRail =
 export const trackTimelineDot =
   "relative z-[1] mt-1.5 size-3 shrink-0 rounded-full border-2 border-white bg-black/25 shadow-[0_0_0_1px_rgb(0_0_0/0.06)]";
 export const trackTimelineDotActive =
-  "relative z-[1] mt-1.5 size-3 shrink-0 rounded-full border-2 border-white bg-primary shadow-[0_0_0_1px_rgb(211_2_3/0.2)]";
+  "relative z-[1] mt-1.5 size-3 shrink-0 rounded-full border-2 border-white bg-primary shadow-[0_0_0_1px_rgb(7_93_183/0.2)]";
 export const trackTimelineLine =
   "absolute bottom-[-1.25rem] left-1/2 top-[1.15rem] w-0.5 -translate-x-1/2 bg-black/10";
 export const trackTimelineBody =
@@ -323,7 +323,7 @@ export const trackTimelineNote =
   "m-0 mt-1.5 text-sm leading-snug text-black/55";
 
 export const mapPlaceholder =
-  "grid min-h-64 place-items-center rounded-3xl border border-dashed border-black/20 bg-[linear-gradient(135deg,var(--color-surface-muted),white),repeating-linear-gradient(-45deg,transparent,transparent_8px,rgb(211_2_3/0.04)_8px,rgb(211_2_3/0.04)_16px)] p-6 text-center text-ink-muted";
+  "grid min-h-64 place-items-center rounded-3xl border border-dashed border-black/20 bg-[linear-gradient(135deg,var(--color-surface-muted),white),repeating-linear-gradient(-45deg,transparent,transparent_8px,rgb(7_93_183/0.04)_8px,rgb(7_93_183/0.04)_16px)] p-6 text-center text-ink-muted";
 
 export const legalContent =
   "[&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-black [&_li]:text-black/65 [&_ol]:text-black/65 [&_p]:text-black/65 [&_strong]:text-black/80 [&_table]:my-2";

@@ -4,8 +4,8 @@
   "description": "Paket turlar Toshkentdan — Seven Ways",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#0d7377",
+  "background_color": "#F5FBFF",
+  "theme_color": "#075DB7",
   "lang": "uz",
   "icons": [
     {

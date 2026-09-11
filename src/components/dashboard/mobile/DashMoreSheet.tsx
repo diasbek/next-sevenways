@@ -76,7 +76,7 @@ export function DashMoreSheet({
                         className={cn(
                           "flex min-h-[5.25rem] flex-col items-start justify-between gap-3 rounded-2xl border px-3.5 py-3.5 transition-colors",
                           active
-                            ? "border-primary/25 bg-primary-soft text-primary shadow-[0_4px_14px_rgb(211_2_3/0.1)]"
+                            ? "border-primary/25 bg-primary-soft text-primary shadow-[0_4px_14px_rgb(7_93_183/0.1)]"
                             : "border-black/[0.06] bg-[#f7f8fa] text-ink active:bg-black/[0.04]",
                         )}
                       >

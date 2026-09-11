@@ -78,7 +78,7 @@ export function DashMobileTabBar({
                 className={cn(
                   "grid size-10 place-items-center rounded-2xl transition-colors",
                   active
-                    ? "bg-primary-soft text-primary shadow-[inset_0_0_0_1px_rgb(211_2_3/0.12)]"
+                    ? "bg-primary-soft text-primary shadow-[inset_0_0_0_1px_rgb(7_93_183/0.12)]"
                     : "bg-transparent text-black/40",
                 )}
               >
@@ -108,7 +108,7 @@ export function DashMobileTabBar({
             className={cn(
               "grid size-10 place-items-center rounded-2xl transition-colors",
               moreActive
-                ? "bg-primary-soft text-primary shadow-[inset_0_0_0_1px_rgb(211_2_3/0.12)]"
+                ? "bg-primary-soft text-primary shadow-[inset_0_0_0_1px_rgb(7_93_183/0.12)]"
                 : "bg-transparent text-black/40",
             )}
           >

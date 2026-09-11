@@ -229,44 +229,6 @@ export function DashOtpInput({
   );
 }
 
-export function DashTrackCodeInput({
-  name,
-  label = "Трек-номер",
-  hint,
-  className,
-  ...props
-}: FieldWrap &
-  Omit<
-    InputHTMLAttributes<HTMLInputElement>,
-    "name" | "className" | "type"
-  >) {
-  const { field, invalid } = useDashFieldMeta(name);
-  const [, , helpers] = useField(name);
-
-  return (
-    <DashField name={name} label={label} hint={hint} className={className}>
-      <input
-        id={name}
-        {...props}
-        name={field.name}
-        value={field.value ?? ""}
-        onBlur={field.onBlur}
-        spellCheck={false}
-        autoCapitalize="characters"
-        placeholder="EPOS-XXXXXX"
-        className={inputClass(invalid, "font-mono uppercase tracking-wide")}
-        onChange={(e) => {
-          const next = e.target.value
-            .toUpperCase()
-            .replace(/\s+/g, "")
-            .replace(/[^A-Z0-9-]/g, "");
-          void helpers.setValue(next);
-        }}
-      />
-    </DashField>
-  );
-}
-
 export function DashCodeInput({
   name,
   label = "Код",

@@ -120,12 +120,6 @@ export type DashCopy = {
       lost: string;
       spam: string;
     };
-    shipment: {
-      draft: string;
-      pending_manager: string;
-      confirmed: string;
-      cancelled: string;
-    };
     news: { draft: string; published: string };
     role: {
       owner: string;
@@ -216,42 +210,13 @@ export type DashCopy = {
     typePrice: string;
     typeBusiness: string;
     typeContact: string;
-    typeShipment: string;
     draftStep: string;
     resumeLink: string;
     kanbanEmpty: string;
     moved: string;
-    confirmShipment: string;
-    cancelShipment: string;
-    openShipment: string;
-    waitingInInbox: string;
   };
 
-  contacts: {
-    title: string;
-    lead: string;
-    emptyTitle: string;
-    emptyLead: string;
-    shipmentsTotal: string;
-    shipmentsPending: string;
-    lastShipment: string;
-    openShipments: string;
-    openTelegram: string;
-    verified: string;
-    unverified: string;
-    noShipments: string;
-  };
 
-  shipments: {
-    title: string;
-    lead: string;
-    emptyTitle: string;
-    emptyLead: string;
-    trackPlaceholder: string;
-    saved: string;
-    saveFailed: string;
-    waitingInLeads: string;
-  };
 
   news: {
     title: string;
@@ -326,84 +291,13 @@ export type DashCopy = {
     roleOwner: string;
   };
 
-  delivery: {
-    title: string;
-    lead: string;
-    emptyTitle: string;
-    emptyLead: string;
-    add: string;
-    edit: string;
-    seed: string;
-    saved: string;
-    deleteConfirm: string;
-    deleteLead: string; // "{code}"
-    on: string;
-    off: string;
-    code: string;
-    slug: string;
-    settlement: string;
-    nameEn: string;
-    nameRu: string;
-    nameUz: string;
-    leadRu: string;
-    leadUz: string;
-    etaRu: string;
-    etaUz: string;
-    bodyRu: string;
-    bodyUz: string;
-    bodyHint: string;
-    faqRu: string;
-    faqUz: string;
-    faqHint: string;
-    metaTitleRu: string;
-    metaTitleUz: string;
-    metaDescRu: string;
-    metaDescUz: string;
-    active: string;
-  };
 
   settings: {
     title: string;
     lead: string;
   };
 
-  pricing: {
-    title: string;
-    lead: string;
-    disclaimer: string;
-    enabled: string;
-    formulaVersion: string;
-    zonesTitle: string;
-    zoneSameCity: string;
-    zoneSameRegion: string;
-    zoneInterRegion: string;
-    base: string;
-    perKg: string;
-    etaMin: string;
-    etaMax: string;
-    surchargesTitle: string;
-    pickup: string;
-    door: string;
-    place: string;
-    urgentMultiplier: string;
-    categoriesTitle: string;
-    volumetricTitle: string;
-    volumetricEnabled: string;
-    volumetricDivisor: string;
-    limitsTitle: string;
-    quickCitiesTitle: string;
-    previewTitle: string;
-    previewWeight: string;
-    previewRun: string;
-    previewResult: string;
-    resetDefaults: string;
-    saved: string;
-  };
 
-  telegram: {
-    title: string;
-    lead: string;
-  };
 
   messaging: {
     title: string;

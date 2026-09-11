@@ -40,7 +40,7 @@ export function DashProfileMenu({
           ref={ref as React.RefCallback<HTMLButtonElement>}
           onClick={onClick}
           {...a11y}
-          className="inline-flex size-9 items-center justify-center rounded-full bg-primary text-xs font-bold text-white shadow-[0_2px_8px_rgb(211_2_3/0.25)] transition hover:bg-primary-hover"
+          className="inline-flex size-9 items-center justify-center rounded-full bg-primary text-xs font-bold text-white shadow-[0_2px_8px_rgb(7_93_183/0.25)] transition hover:bg-primary-hover"
           aria-label={t.chrome.profile}
         >
           {initials(admin)}
