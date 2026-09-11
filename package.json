@@ -1,0 +1,51 @@
+{
+  "name": "next-sevenways",
+  "version": "0.1.0",
+  "private": true,
+  "browserslist": [
+    "chrome >= 111",
+    "edge >= 111",
+    "firefox >= 111",
+    "safari >= 16.4"
+  ],
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build --webpack",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@supabase/ssr": "^0.12.6",
+    "@supabase/supabase-js": "^2.115.0",
+    "@tiptap/extension-image": "^3.31.3",
+    "@tiptap/extension-link": "^3.31.3",
+    "@tiptap/pm": "^3.31.3",
+    "@tiptap/react": "^3.31.3",
+    "@tiptap/starter-kit": "^3.31.3",
+    "formik": "^2.4.9",
+    "lucide-react": "^1.43.0",
+    "next": "16.3.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-select": "^5.10.2",
+    "react-toastify": "^11.1.0",
+    "resend": "^6.20.0",
+    "sanitize-html": "^2.17.7",
+    "yup": "^1.7.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@types/sanitize-html": "^2.16.1",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "16.3.4",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~5.9.3"
+  }
+}

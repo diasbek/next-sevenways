@@ -1,0 +1,35 @@
+# Seven Ways — AI-oriented brief
+
+> Travel agency in Uzbekistan. Package tours from Tashkent:
+> flight, hotel, transfer and insurance in one price. Offices across the country.
+> Call centre hours: see site contacts. Languages: uz, ru, en.
+
+Site: https://sevenways.uz (uz), /ru/, /en/
+
+## Destinations
+- Dubai — /tours/dubai/
+- Turkey — /tours/turkey/
+- Egypt — /tours/egypt/
+- Georgia — /tours/georgia/
+- Azerbaijan — /tours/azerbaijan/
+- Thailand — /tours/thailand/
+- Sri Lanka — /tours/sri-lanka/
+- Malaysia — /tours/malaysia/
+- Vietnam — /tours/vietnam/
+- China — /tours/china/
+- Maldives — /tours/maldives/
+
+## Useful pages
+- Search: /search/
+- Price calendar: /calendar/
+- Gifts: /gifts/
+- Offices: /offices/
+- FAQ: /faq/
+- About: /about/
+- Contacts: /contacts/
+
+## Notes
+- Prices on the site are indicative; final amount is confirmed by a manager after a request.
+- No card details are collected on the site. Payment is at the office cash desk with a receipt.
+
+Last updated: 2026-09-11
