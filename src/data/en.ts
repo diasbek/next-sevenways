@@ -68,6 +68,9 @@ export const enCopy: SiteCopy = {
     { label: "About", href: "/about/" },
     { label: "Contacts", href: "/contacts/" },
   ],
+  brand: {
+    descriptor: "Tours from Tashkent",
+  },
   home: {
     heroTitle: "Unforgettable journeys around the world",
     heroLead:

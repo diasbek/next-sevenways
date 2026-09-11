@@ -76,6 +76,11 @@ function mapsDirectionsUrl(office: LocalizedOffice) {
   return `https://www.google.com/maps/dir/?api=1&destination=${office.lat},${office.lng}`;
 }
 
+function officeMapEmbedUrl(office: LocalizedOffice, locale: Locale) {
+  const hl = locale === "ru" ? "ru" : locale === "uz" ? "uz" : "en";
+  return `https://maps.google.com/maps?q=${office.lat},${office.lng}&hl=${hl}&z=16&output=embed`;
+}
+
 export function OfficesSection({ locale }: { locale: Locale }) {
   const content = getContent(locale);
   const [city, setCity] = useState<CityKey>("tashkent");
@@ -86,7 +91,8 @@ export function OfficesSection({ locale }: { locale: Locale }) {
     return filtered.length ? filtered : OFFICES;
   }, [city]);
 
-  const samarkand = OFFICES.find((o) => o.cityKey === "samarkand");
+  const activeOffice =
+    offices.find((o) => o.id === openId) ?? offices[0] ?? OFFICES[0];
 
   return (
     <section className="relative overflow-hidden bg-cloud">
@@ -146,47 +152,26 @@ export function OfficesSection({ locale }: { locale: Locale }) {
                 ))}
               </div>
 
-              <div className="relative h-full min-h-[260px] overflow-hidden rounded-2xl sm:min-h-[340px]">
-                <Image
-                  src="/images/offices/tashkent-map.png"
-                  alt={content.offices.mapTitle}
-                  fill
-                  className={cn(
-                    "object-cover object-center transition duration-500",
-                    city === "samarkand" && "scale-110 opacity-80 blur-[1px]",
-                  )}
-                  sizes="(max-width: 1024px) 100vw, 55vw"
+              <div className="relative h-full min-h-[260px] overflow-hidden rounded-2xl bg-cloud sm:min-h-[340px]">
+                <iframe
+                  key={activeOffice.id}
+                  title={`${content.offices.mapTitle} — ${activeOffice.name[locale]}`}
+                  src={officeMapEmbedUrl(activeOffice, locale)}
+                  className="absolute inset-0 h-full w-full border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
                 />
-                {city === "samarkand" && samarkand ? (
-                  <div className="absolute inset-0 flex items-center justify-center bg-deep-blue/25 p-6">
-                    <div className="rounded-2xl bg-white px-5 py-4 text-center shadow-lg">
-                      <span className="mx-auto grid size-9 place-items-center rounded-full bg-royal text-sm font-bold text-white">
-                        {OFFICES.findIndex((o) => o.id === samarkand.id) + 1}
-                      </span>
-                      <p className="mt-2 text-sm font-bold text-midnight">
-                        {content.offices.citySamarkand}
-                      </p>
-                      <p className="mt-1 text-xs text-ink-muted">
-                        {samarkand.address[locale]}
-                      </p>
-                    </div>
-                  </div>
-                ) : null}
-                {city === "tashkent" && samarkand ? (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setCity("samarkand");
-                      setOpenId(samarkand.id);
-                    }}
-                    className="absolute bottom-3 left-3 flex items-center gap-2 rounded-xl bg-white/95 px-3 py-2 text-left text-xs font-semibold text-midnight shadow-md backdrop-blur sm:bottom-4 sm:left-4"
-                  >
-                    <span className="grid size-7 place-items-center rounded-full bg-royal text-[11px] font-bold text-white">
-                      {OFFICES.findIndex((o) => o.id === samarkand.id) + 1}
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep-blue/55 to-transparent p-3 pt-10 sm:p-4 sm:pt-12">
+                  <p className="pointer-events-auto inline-flex max-w-full items-center gap-2 rounded-xl bg-white/95 px-3 py-2 text-xs font-semibold text-midnight shadow-md backdrop-blur">
+                    <span className="grid size-7 shrink-0 place-items-center rounded-full bg-royal text-[11px] font-bold text-white">
+                      {OFFICES.findIndex((o) => o.id === activeOffice.id) + 1}
                     </span>
-                    {content.offices.citySamarkand}
-                  </button>
-                ) : null}
+                    <span className="min-w-0 truncate">
+                      {activeOffice.name[locale]} · {activeOffice.address[locale]}
+                    </span>
+                  </p>
+                </div>
               </div>
             </div>
 

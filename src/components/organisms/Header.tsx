@@ -61,9 +61,24 @@ export function Header({ locale, content }: HeaderProps) {
         >
           <Link
             href={localePath(locale, "/")}
-            className="shrink-0 text-base font-semibold tracking-tight text-primary"
+            className="flex min-w-0 shrink-0 items-center gap-2.5 sm:gap-3"
           >
-            Seven Ways
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/footer/logo.png"
+              alt=""
+              width={48}
+              height={41}
+              className="h-9 w-auto sm:h-10"
+            />
+            <span className="min-w-0 leading-tight">
+              <span className="block truncate text-sm font-bold tracking-tight text-deep-blue sm:text-base">
+                {SITE_CONFIG.name}
+              </span>
+              <span className="mt-0.5 block truncate text-[11px] font-medium text-ink-muted sm:text-xs">
+                {content.brand.descriptor}
+              </span>
+            </span>
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">

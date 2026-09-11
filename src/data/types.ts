@@ -75,6 +75,9 @@ export interface SiteCopy {
     priceDisclaimer: string;
   };
   nav: NavItem[];
+  brand: {
+    descriptor: string;
+  };
   home: {
     heroTitle: string;
     heroLead: string;

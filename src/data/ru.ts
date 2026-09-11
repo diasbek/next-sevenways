@@ -68,6 +68,9 @@ export const ruCopy: SiteCopy = {
     { label: "О нас", href: "/about/" },
     { label: "Контакты", href: "/contacts/" },
   ],
+  brand: {
+    descriptor: "Туры из Ташкента",
+  },
   home: {
     heroTitle: "Незабываемые путешествия по миру",
     heroLead:

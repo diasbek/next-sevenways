@@ -11,6 +11,7 @@ export type LocalizedOffice = {
   image?: string;
 };
 
+/** Seed offices — CMS `sw_offices` overrides when published. */
 export const OFFICES: LocalizedOffice[] = [
   {
     id: "central",
@@ -24,8 +25,8 @@ export const OFFICES: LocalizedOffice[] = [
     },
     phones: ["+998977779811"],
     phoneDisplay: "+998 97 777 98 11",
-    lat: 41.3111,
-    lng: 69.2797,
+    lat: 41.31115,
+    lng: 69.27974,
     image: "/images/offices/central.jpg",
   },
   {
@@ -38,10 +39,10 @@ export const OFFICES: LocalizedOffice[] = [
       ru: "пр. Амира Темура, 100",
       en: "100 Amir Temur Avenue",
     },
-    phones: ["+998901234568"],
-    phoneDisplay: "+998 90 123 45 68",
-    lat: 41.345,
-    lng: 69.285,
+    phones: ["+998977779811"],
+    phoneDisplay: "+998 97 777 98 11",
+    lat: 41.3648,
+    lng: 69.2882,
   },
   {
     id: "chilonzor",
@@ -53,10 +54,10 @@ export const OFFICES: LocalizedOffice[] = [
       ru: "пр. Бунёдкор, 15",
       en: "15 Bunyodkor Avenue",
     },
-    phones: ["+998901234569"],
-    phoneDisplay: "+998 90 123 45 69",
-    lat: 41.285,
-    lng: 69.205,
+    phones: ["+998977779811"],
+    phoneDisplay: "+998 97 777 98 11",
+    lat: 41.2854,
+    lng: 69.2036,
   },
   {
     id: "samarkand",
@@ -72,9 +73,9 @@ export const OFFICES: LocalizedOffice[] = [
       ru: "ул. Регистан, 5",
       en: "5 Registon Street",
     },
-    phones: ["+998902345678"],
-    phoneDisplay: "+998 90 234 56 78",
-    lat: 39.6542,
-    lng: 66.9597,
+    phones: ["+998977779811"],
+    phoneDisplay: "+998 97 777 98 11",
+    lat: 39.6549,
+    lng: 66.9757,
   },
 ];

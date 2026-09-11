@@ -52,15 +52,15 @@ export function PaymentMethodsStrip({
           {copy.note}
         </p>
       ) : null}
-      <ul className="mt-4 flex flex-wrap items-center gap-2.5 sm:gap-3">
+      <ul className="mt-4 flex flex-wrap items-center gap-2 sm:gap-2.5">
         {PAYMENT_BRANDS.map((brand) => (
-          <li key={brand.id} title={brand.name}>
+          <li key={brand.id} title={brand.name} className="shrink-0">
             <Image
               src={brand.logoSrc}
               alt={brand.name}
               width={105}
               height={41}
-              className="h-9 w-auto rounded-lg shadow-[0_4px_14px_rgb(0_0_0/0.18)] sm:h-10"
+              className="h-9 w-auto object-contain sm:h-10"
               unoptimized
             />
           </li>

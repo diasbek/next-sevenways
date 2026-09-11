@@ -68,6 +68,9 @@ export const uzCopy: SiteCopy = {
     { label: "Biz haqimizda", href: "/about/" },
     { label: "Aloqa", href: "/contacts/" },
   ],
+  brand: {
+    descriptor: "Turlar Toshkentdan",
+  },
   home: {
     heroTitle: "Dunyo boʻylab unutilmas sayohatlar",
     heroLead:

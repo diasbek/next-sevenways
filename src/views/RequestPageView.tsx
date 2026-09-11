@@ -8,7 +8,6 @@ import {
   RequestTourForm,
   type CheckoutProviderOption,
 } from "@/components/organisms/RequestTourForm";
-import { PaymentMethodsStrip } from "@/components/organisms/PaymentMethodsStrip";
 import { section, pageIntroTitle, pageIntroLead } from "@/styles/ui";
 import type { BookingMode, MoneyCurrency } from "@/lib/payments/types";
 
@@ -54,9 +53,6 @@ export function RequestPageView({
             paymentsEnabled={paymentsEnabled}
             providerOptions={providerOptions}
           />
-        </div>
-        <div className="mt-10">
-          <PaymentMethodsStrip locale={locale} />
         </div>
       </PageContainer>
     </section>
