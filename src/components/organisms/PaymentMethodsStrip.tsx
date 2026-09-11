@@ -21,10 +21,13 @@ export function PaymentMethodsStrip({
   locale,
   className = "",
   inverted = false,
+  showNote = true,
 }: {
   locale: Locale;
   className?: string;
   inverted?: boolean;
+  /** Hide helper note under the title (footer mock). */
+  showNote?: boolean;
 }) {
   const copy = LABELS[locale] ?? LABELS.uz;
   return (
@@ -38,28 +41,26 @@ export function PaymentMethodsStrip({
       >
         {copy.title}
       </p>
-      <p
-        className={
-          inverted
-            ? "mt-1 text-xs text-white/60"
-            : "mt-1 text-xs text-ink-muted"
-        }
-      >
-        {copy.note}
-      </p>
-      <ul className="mt-4 flex flex-wrap items-center gap-3">
+      {showNote ? (
+        <p
+          className={
+            inverted
+              ? "mt-1 text-xs text-white/60"
+              : "mt-1 text-xs text-ink-muted"
+          }
+        >
+          {copy.note}
+        </p>
+      ) : null}
+      <ul className="mt-4 flex flex-wrap items-center gap-2.5 sm:gap-3">
         {PAYMENT_BRANDS.map((brand) => (
-          <li
-            key={brand.id}
-            className="flex h-10 items-center rounded-lg border border-black/8 bg-white px-3"
-            title={brand.name}
-          >
+          <li key={brand.id} title={brand.name}>
             <Image
               src={brand.logoSrc}
               alt={brand.name}
-              width={72}
-              height={28}
-              className="h-7 w-auto object-contain"
+              width={105}
+              height={41}
+              className="h-9 w-auto rounded-lg shadow-[0_4px_14px_rgb(0_0_0/0.18)] sm:h-10"
               unoptimized
             />
           </li>

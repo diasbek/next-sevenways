@@ -8,8 +8,8 @@ export const SITE_CONFIG = {
   description:
     "Seven Ways — ishonchli turizm agentligi: parvoz, mehmonxona, transfer va sugʻurta bitta narxda. UZ · RU · EN.",
   url: getCanonicalSiteUrl(),
-  phone: getPublicEnv("NEXT_PUBLIC_CONTACT_PHONE", "+998901234567"),
-  phoneDisplay: "+998 90 123 45 67",
+  phone: getPublicEnv("NEXT_PUBLIC_CONTACT_PHONE", "+998977779811"),
+  phoneDisplay: "+998 97 777 98 11",
   email: getPublicEnv("NEXT_PUBLIC_CONTACT_EMAIL", "info@sevenways.uz"),
   telegramUrl: getPublicEnv(
     "NEXT_PUBLIC_TELEGRAM_URL",

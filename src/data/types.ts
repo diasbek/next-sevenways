@@ -98,10 +98,19 @@ export interface SiteCopy {
     destinationsFilterExcursion: string;
     hotTitle: string;
     hotLead: string;
+    hotBenefitPrice: string;
+    hotBenefitHotels: string;
+    hotBenefitSupport: string;
     giftsTitle: string;
     giftsLead: string;
+    faqEyebrow: string;
     faqTitle: string;
     faqLead: string;
+    faqCardTitle: string;
+    faqCardLead: string;
+    faqAskCta: string;
+    faqBenefitFast: string;
+    faqBenefitSupport: string;
     trustTitle: string;
     trustLead: string;
     ctaTitle: string;
@@ -175,9 +184,11 @@ export interface SiteCopy {
   };
   footer: {
     blurb: string;
+    navigation: string;
     support: string;
     legal: string;
     rights: string;
+    nav: NavItem[];
   };
   notFound: {
     title: string;

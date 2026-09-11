@@ -41,6 +41,7 @@ export function DestinationsSection({
 
   return (
     <section
+      id="destinations"
       className={cn(
         variant === "home"
           ? "bg-[linear-gradient(180deg,#f5fbff_0%,#e4f3fc_100%)] py-[var(--section-y)]"

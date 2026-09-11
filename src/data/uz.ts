@@ -93,10 +93,19 @@ export const uzCopy: SiteCopy = {
     destinationsFilterExcursion: "Ekskursiya turlari",
     hotTitle: "Issiq takliflar",
     hotLead: "Narx, sanalar va mehmonxona bahosi — ochiq.",
+    hotBenefitPrice: "Foydali narxlar",
+    hotBenefitHotels: "Tekshirilgan mehmonxonalar",
+    hotBenefitSupport: "Qoʻllab-quvvatlash 24/7",
     giftsTitle: "Har bir sayohatchiga sovgʻa",
     giftsLead: "Shartnoma imzolangandan soʻng branded sovgʻa.",
-    faqTitle: "Savollar bormi?",
+    faqEyebrow: "FAQ",
+    faqTitle: "Koʻp beriladigan savollar",
     faqLead: "Bir qoʻngʻiroq — hammasi aniq.",
+    faqCardTitle: "Savollar bormi?",
+    faqCardLead: "Biz sizga mos turni tanlashda yordam beramiz.",
+    faqAskCta: "Savol berish",
+    faqBenefitFast: "Tezkor javob",
+    faqBenefitSupport: "7 kun qoʻllab-quvvatlash",
     trustTitle: "Nima uchun Seven Ways",
     trustLead:
       "Shaffof shartnoma, ofisda toʻlov va chek, yakuniy narx oʻzgarmaydi.",
@@ -127,13 +136,13 @@ export const uzCopy: SiteCopy = {
     ],
   },
   faq: {
-    title: "Koʻp soʻraladigan savollar",
+    title: "Koʻp beriladigan savollar",
     lead: "Hali shubhangiz bormi? Operator bilan bir qoʻngʻiroq yetarli.",
     items: [
       {
         question: "Saytda turni qanday topaman?",
         answer:
-          "Qidiruvda yoʻnalish, sanalar va sayohatchilar sonini tanlang. Arzonroq variantlar yuqorida.",
+          "Qidiruvda yoʻnalish, sanalar va sayohatchilar sonini tanlang. Mavjud variantlar darhol koʻrinadi.",
       },
       {
         question: "Narxga nima kiradi?",
@@ -222,9 +231,17 @@ export const uzCopy: SiteCopy = {
   },
   footer: {
     blurb: "Paket turlar Toshkentdan — shaffof narx va gʻamxoʻrlik.",
+    navigation: "Navigatsiya",
     support: "Yordam",
     legal: "Huquqiy",
     rights: "Barcha huquqlar himoyalangan.",
+    nav: [
+      { label: "Turlar", href: "/tours/" },
+      { label: "Yoʻnalishlar", href: "/#destinations" },
+      { label: "Mehmonxonalar", href: "/search/" },
+      { label: "Kompaniya haqida", href: "/about/" },
+      { label: "Kontaktlar", href: "/contacts/" },
+    ],
   },
   notFound: {
     title: "Sahifa topilmadi",
