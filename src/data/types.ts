@@ -143,6 +143,19 @@ export interface SiteCopy {
     lead: string;
     mapTitle: string;
     listTitle: string;
+    cityTashkent: string;
+    citySamarkand: string;
+    buildRoute: string;
+    call: string;
+    officesCountLabel: string;
+    helpInPerson: string;
+    operatorsTitle: string;
+    operatorsLead: string;
+    online: string;
+    contactOperator: string;
+    consultTitle: string;
+    consultLead: string;
+    getConsult: string;
   };
   search: {
     title: string;
