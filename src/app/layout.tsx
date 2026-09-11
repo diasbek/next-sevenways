@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { manrope } from "@/assets/fonts";
+import { caveat, manrope } from "@/assets/fonts";
 import "./globals.css";
 import { SiteAnalytics } from "@/components/analytics/SiteAnalytics";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -53,7 +53,7 @@ export default function RootLayout({
   return (
     <html
       lang="uz"
-      className={`${manrope.variable} scroll-smooth scroll-pt-[var(--header-height)]`}
+      className={`${manrope.variable} ${caveat.variable} scroll-smooth scroll-pt-[var(--header-height)]`}
       suppressHydrationWarning
     >
       <head>

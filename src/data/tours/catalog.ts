@@ -4,6 +4,8 @@ export type LocalizedString = {
   en: string;
 };
 
+export type DestinationCategory = "beach" | "excursion";
+
 export type Destination = {
   slug: string;
   name: LocalizedString;
@@ -13,6 +15,9 @@ export type Destination = {
   fromCurrency?: "UZS" | "USD";
   blurb: LocalizedString;
   resorts: string[];
+  /** Card photo under /public */
+  image: string;
+  categories: DestinationCategory[];
 };
 
 export type Resort = {
@@ -53,6 +58,8 @@ export const DESTINATIONS: Destination[] = [
       en: "Direct flight ~3.5 hours. Hotels in Dubai, Sharjah and Ajman.",
     },
     resorts: ["dubai", "sharjah"],
+    image: "/images/destinations/dubai.jpg",
+    categories: ["beach", "excursion"],
   },
   {
     slug: "turkey",
@@ -65,6 +72,8 @@ export const DESTINATIONS: Destination[] = [
       en: "Istanbul and Antalya — sea, history and all inclusive.",
     },
     resorts: ["istanbul"],
+    image: "/images/destinations/turkey.jpg",
+    categories: ["beach", "excursion"],
   },
   {
     slug: "egypt",
@@ -77,6 +86,8 @@ export const DESTINATIONS: Destination[] = [
       en: "Sharm El Sheikh — Red Sea and all-inclusive resorts.",
     },
     resorts: ["sharm-el-sheikh"],
+    image: "/images/destinations/egypt.jpg",
+    categories: ["beach"],
   },
   {
     slug: "georgia",
@@ -89,6 +100,8 @@ export const DESTINATIONS: Destination[] = [
       en: "Tbilisi — short flight, wine and city walks.",
     },
     resorts: ["tbilisi"],
+    image: "/images/destinations/georgia.jpg",
+    categories: ["excursion"],
   },
   {
     slug: "azerbaijan",
@@ -101,6 +114,8 @@ export const DESTINATIONS: Destination[] = [
       en: "Baku and Gabala — close and affordable.",
     },
     resorts: ["baku"],
+    image: "/images/destinations/azerbaijan.jpg",
+    categories: ["excursion"],
   },
   {
     slug: "thailand",
@@ -113,6 +128,8 @@ export const DESTINATIONS: Destination[] = [
       en: "Pattaya and Phuket — tropics and sea.",
     },
     resorts: ["pattaya"],
+    image: "/images/destinations/thailand.jpg",
+    categories: ["beach"],
   },
   {
     slug: "sri-lanka",
@@ -125,6 +142,8 @@ export const DESTINATIONS: Destination[] = [
       en: "Unawatuna and Colombo — tea and beach.",
     },
     resorts: ["unawatuna"],
+    image: "/images/destinations/sri-lanka.jpg",
+    categories: ["beach", "excursion"],
   },
   {
     slug: "malaysia",
@@ -137,6 +156,8 @@ export const DESTINATIONS: Destination[] = [
       en: "Kuala Lumpur — megacity and islands.",
     },
     resorts: ["kuala-lumpur"],
+    image: "/images/destinations/malaysia.jpg",
+    categories: ["excursion", "beach"],
   },
   {
     slug: "vietnam",
@@ -149,6 +170,8 @@ export const DESTINATIONS: Destination[] = [
       en: "Nha Trang — sea, food and family holidays.",
     },
     resorts: ["nha-trang"],
+    image: "/images/destinations/vietnam.jpg",
+    categories: ["beach"],
   },
   {
     slug: "china",
@@ -161,6 +184,8 @@ export const DESTINATIONS: Destination[] = [
       en: "Sanya and Hainan — beach and comfort.",
     },
     resorts: ["sanya"],
+    image: "/images/destinations/china.jpg",
+    categories: ["beach"],
   },
   {
     slug: "maldives",
@@ -173,6 +198,8 @@ export const DESTINATIONS: Destination[] = [
       en: "Dream atolls — premium getaway.",
     },
     resorts: ["male"],
+    image: "/images/destinations/maldives.jpg",
+    categories: ["beach"],
   },
 ];
 

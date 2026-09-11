@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type { Locale } from "@/i18n/config";
 import { getContent } from "@/i18n/get-content";
 import { DESTINATIONS, TOUR_OFFERS } from "@/data/tours/catalog";
@@ -11,7 +12,10 @@ import { section, pageIntroTitle, pageIntroLead } from "@/styles/ui";
 
 export function SearchPageView({ locale }: { locale: Locale }) {
   const content = getContent(locale);
-  const [destination, setDestination] = useState("");
+  const params = useSearchParams();
+  const [destination, setDestination] = useState(
+    () => params.get("destination") ?? "",
+  );
   const [budget, setBudget] = useState("");
 
   const results = useMemo(() => {

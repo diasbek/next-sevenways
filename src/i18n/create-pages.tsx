@@ -147,7 +147,11 @@ export function createSearchPage(locale: Locale) {
     Page: async function SearchPage() {
       return (
         <SiteLayout locale={locale}>
-          <SearchPageView locale={locale} />
+          <Suspense
+            fallback={<div className="p-8 text-sm text-ink-muted">…</div>}
+          >
+            <SearchPageView locale={locale} />
+          </Suspense>
         </SiteLayout>
       );
     },
