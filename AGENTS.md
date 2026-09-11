@@ -4,12 +4,16 @@ Next.js 16 App Router. Prefer docs under `node_modules/next/dist/docs/` when API
 
 ## Scope
 
-- Public tourism site + CMS at `/dashboard` (Supabase project for Seven Ways — configure via env)
+- Public tourism site + CMS at `/dashboard` (Supabase project **sevenways** / `udplvssgghqajxwbjkyv`)
 - Content: static TS seed (`src/data`, `src/i18n`) with CMS overlays (tours, offices, news, settings)
 - Locales: `uz` (default, unprefixed), `ru` (`/ru/`), `en` (`/en/`)
 - Canonical host: https://sevenways.uz
-- Env: see `.env.example`. Never `NEXT_PUBLIC_SUPABASE_*`.
+- Env:
+  - Public defaults: `.env.development` / `.env.production` (include `SUPABASE_URL` only)
+  - Secrets: `.env.local` or Hostinger / `.env.production.local` — see `.env.example` / `.env.production.example`
+  - Server-only: `SUPABASE_URL` + `SUPABASE_ANON_KEY` (or `SUPABASE_PUBLISHABLE_KEY`) + `SUPABASE_SERVICE_ROLE_KEY` / `SUPABASE_SECRET_KEY` / `SUPABASE_API_KEY` (+ `CMS_BOOTSTRAP_SECRET` only for first owner). Never `NEXT_PUBLIC_SUPABASE_*`.
 - Remote: `origin` → `diasbek/next-sevenways`
+- Migrations: do not apply until the separate Supabase schema config is ready
 
 ## Product rules
 
