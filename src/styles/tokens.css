@@ -35,8 +35,8 @@
   --color-brand: var(--color-sky);
   --color-brand-strong: var(--color-royal);
 
-  /* Figma mobile 360: 8px gutters; desktop grows to 104px */
-  --page-padding: clamp(0.5rem, 4vw, 6.5rem);
+  /* Figma mobile 360: ~8–12px gutters; desktop grows to 104px */
+  --page-padding: clamp(0.5rem, 2.5vw, 1.5rem);
   --page-max: 77rem;
   --section-y: clamp(1rem, 6vw, 4.5rem);
   --home-title: clamp(1.5rem, 3vw, 2.25rem);
@@ -135,6 +135,7 @@
 
 @media (min-width: 640px) {
   :root {
+    --page-padding: clamp(1rem, 3vw, 4rem);
     --btn-height-sm: 3rem;
     --btn-height-md: var(--tap-min);
     --btn-height-lg: 3.5rem;
@@ -151,6 +152,12 @@
     --header-height: 4rem;
     --page-padding: clamp(1rem, 4vw, 6.5rem);
     --section-y: clamp(2.5rem, 6vw, 4.5rem);
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --page-max: 90rem;
   }
 }
 

@@ -121,7 +121,7 @@ export function TourCard({
           </span>
         ) : null}
 
-        <div className="absolute right-3 top-3 flex flex-wrap justify-end gap-1.5">
+        <div className="absolute right-3 top-3 flex max-w-[55%] flex-wrap justify-end gap-1.5">
           {offer.badges?.includes("on_request") ? (
             <span className="rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-ink-muted shadow-sm">
               {content.ui.onRequest}
@@ -140,20 +140,20 @@ export function TourCard({
         </div>
 
         {locationLabel ? (
-          <p className="absolute bottom-3 left-3 flex items-center gap-1.5 text-sm font-semibold text-white drop-shadow">
+          <p className="absolute bottom-3 left-3 right-3 flex min-w-0 items-center gap-1.5 text-sm font-semibold text-white drop-shadow">
             <IconPin className="size-4 shrink-0 opacity-90" />
-            {locationLabel}
+            <span className="truncate">{locationLabel}</span>
           </p>
         ) : null}
       </div>
 
       <div className="flex flex-1 flex-col p-4 sm:p-5">
-        <h3 className="text-lg font-bold leading-snug tracking-tight text-midnight">
+        <h3 className="line-clamp-2 text-lg font-bold leading-snug tracking-tight text-midnight">
           {offer.hotel}
         </h3>
 
         <div className="mt-3 flex flex-1 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <ul className="space-y-2 text-sm text-ink-muted">
+          <ul className="min-w-0 space-y-2 text-sm text-ink-muted">
             <li className="flex items-start gap-2">
               <IconGlobe className="mt-0.5 size-4 shrink-0 text-sky" />
               <span>

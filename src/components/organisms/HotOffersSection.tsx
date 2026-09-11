@@ -106,16 +106,16 @@ export function HotOffersSection({ locale }: { locale: Locale }) {
               </p>
             </div>
 
-            <ul className="flex flex-wrap gap-5 sm:gap-8">
+            <ul className="flex w-full flex-wrap justify-start gap-4 sm:w-auto sm:justify-end sm:gap-8">
               {benefits.map((b) => (
                 <li
                   key={b.kind}
-                  className="flex min-w-[6.5rem] flex-col items-center gap-2 text-center text-white"
+                  className="flex min-w-0 flex-1 basis-[30%] flex-col items-center gap-2 text-center text-white sm:min-w-[6.5rem] sm:flex-none sm:basis-auto"
                 >
-                  <span className="grid size-12 place-items-center rounded-2xl border border-white/35 bg-white/10 backdrop-blur-sm">
+                  <span className="grid size-11 place-items-center rounded-2xl border border-white/35 bg-white/10 backdrop-blur-sm sm:size-12">
                     <BenefitIcon kind={b.kind} />
                   </span>
-                  <span className="max-w-[8rem] text-xs font-semibold leading-snug sm:text-sm">
+                  <span className="max-w-[7.5rem] text-[0.7rem] font-semibold leading-snug sm:max-w-[8rem] sm:text-sm">
                     {b.label}
                   </span>
                 </li>
@@ -126,7 +126,7 @@ export function HotOffersSection({ locale }: { locale: Locale }) {
       </div>
 
       <PageContainer className="py-10 sm:py-12">
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {offers.map((offer) => (
             <TourCard key={offer.id} locale={locale} offer={offer} />
           ))}

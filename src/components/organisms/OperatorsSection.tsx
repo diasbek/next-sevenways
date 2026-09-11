@@ -92,13 +92,13 @@ export function OperatorsSection({ locale }: { locale: Locale }) {
       </div>
 
       <PageContainer className="py-10 sm:py-12">
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {OPERATORS.map((op) => (
             <article
               key={op.id}
               className="flex h-full flex-col overflow-hidden rounded-2xl border border-black/5 bg-white shadow-[0_12px_32px_rgb(7_29_69/0.08)]"
             >
-              <div className="relative aspect-[4/5] overflow-hidden bg-sky-tint">
+              <div className="relative aspect-[5/4] overflow-hidden bg-sky-tint sm:aspect-[4/5]">
                 <Image
                   src={op.image}
                   alt={op.name[locale]}

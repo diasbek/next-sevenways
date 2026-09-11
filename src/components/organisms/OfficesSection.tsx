@@ -119,7 +119,7 @@ export function OfficesSection({ locale }: { locale: Locale }) {
         <div className="overflow-hidden rounded-[1.5rem] border border-black/5 bg-white shadow-[0_20px_50px_rgb(7_29_69/0.1)]">
           <div className="grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
             <div className="relative min-h-[280px] border-b border-black/5 bg-sky-tint/40 p-3 sm:min-h-[360px] sm:p-4 lg:border-b-0 lg:border-r">
-              <div className="absolute left-4 top-4 z-10 flex gap-2 sm:left-5 sm:top-5">
+              <div className="absolute left-4 top-4 z-10 flex max-w-[calc(100%-2rem)] flex-wrap gap-2 sm:left-5 sm:top-5">
                 {(
                   [
                     ["tashkent", content.offices.cityTashkent],
@@ -241,7 +241,7 @@ export function OfficesSection({ locale }: { locale: Locale }) {
 
                       {open ? (
                         <div className="px-3 pb-4 sm:px-4 sm:pb-5">
-                          <div className="ml-12 flex flex-col gap-4 sm:flex-row sm:items-start">
+                          <div className="flex flex-col gap-4 pl-12 sm:flex-row sm:items-start">
                             <div className="min-w-0 flex-1 space-y-2 text-sm text-ink-muted">
                               <p className="inline-flex items-center gap-2">
                                 <IconPin className="size-4 text-sky" />
@@ -297,12 +297,12 @@ export function OfficesSection({ locale }: { locale: Locale }) {
                 })}
               </ul>
 
-              <div className="mt-auto flex items-center justify-between gap-3 border-t border-black/5 bg-sky-tint/50 px-4 py-3.5 text-sm text-midnight sm:px-5">
-                <p className="inline-flex items-center gap-2.5 font-medium">
-                  <span className="grid size-8 place-items-center rounded-full bg-royal/10 text-royal">
+              <div className="mt-auto flex flex-col gap-2 border-t border-black/5 bg-sky-tint/50 px-4 py-3.5 text-sm text-midnight sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:px-5">
+                <p className="inline-flex min-w-0 items-start gap-2.5 font-medium sm:items-center">
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-royal/10 text-royal">
                     <IconUsers className="size-4" />
                   </span>
-                  <span>
+                  <span className="min-w-0">
                     {content.offices.officesCountLabel.replace(
                       "{count}",
                       String(OFFICES.length),

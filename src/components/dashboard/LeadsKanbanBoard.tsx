@@ -109,7 +109,7 @@ function KanbanColumn({
     <section
       className={cn(
         dashCard,
-        "flex w-[17.5rem] shrink-0 flex-col",
+        "flex w-[17.5rem] shrink-0 snap-start flex-col",
         isOver && "ring-2 ring-primary/30",
       )}
     >
@@ -291,7 +291,9 @@ export function LeadsKanbanBoard({
   };
 
   const board = (
-    <div className="-mx-1 flex gap-3 overflow-x-auto px-1 pb-2">
+    <div className="-mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-2 [scrollbar-width:thin]">
+      {/* scroll cue for narrow viewports */}
+      <span className="sr-only">Scroll horizontally for more columns</span>
       {LEAD_STATUSES.map((status) => (
         <KanbanColumn
           key={status}

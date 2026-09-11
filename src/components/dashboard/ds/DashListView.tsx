@@ -142,7 +142,7 @@ export function DashListView<T>({
   title,
   emptyTitle,
   emptyLead,
-  defaultView = "table",
+  defaultView = "cards",
   defaultPageSize = 25,
   defaultSortId,
   defaultSortDir = "desc",

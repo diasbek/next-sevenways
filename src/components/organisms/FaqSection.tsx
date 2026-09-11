@@ -53,7 +53,7 @@ export function FaqSection({
     <section id="faq" className="bg-white py-[var(--section-y)]">
       <PageContainer>
         <div className="grid items-start gap-8 lg:grid-cols-[minmax(16rem,22rem)_minmax(0,1fr)] lg:gap-10 xl:gap-14">
-          <aside className="relative overflow-hidden rounded-[1.75rem] bg-[linear-gradient(165deg,#062e73_0%,#075db7_48%,#1498e5_100%)] px-7 py-8 text-white shadow-[0_24px_50px_rgb(7_46_115/0.28)] sm:px-8 sm:py-10 lg:sticky lg:top-24">
+          <aside className="relative overflow-hidden rounded-[1.75rem] bg-[linear-gradient(165deg,#062e73_0%,#075db7_48%,#1498e5_100%)] px-5 py-7 text-white shadow-[0_24px_50px_rgb(7_46_115/0.28)] sm:px-8 sm:py-10 lg:sticky lg:top-24">
             <div
               className="pointer-events-none absolute -bottom-10 -right-8 size-48 rounded-full bg-white/10 blur-2xl"
               aria-hidden
@@ -85,7 +85,7 @@ export function FaqSection({
 
               <Link
                 href={localePath(locale, "/request/")}
-                className="mt-7 inline-flex min-h-12 w-full max-w-[16rem] items-center justify-center gap-2 rounded-2xl border border-white/80 bg-transparent px-5 text-sm font-semibold text-white transition hover:bg-white/10"
+                className="mt-7 inline-flex min-h-12 w-full max-w-none items-center justify-center gap-2 rounded-2xl border border-white/80 bg-transparent px-5 text-sm font-semibold text-white transition hover:bg-white/10 sm:max-w-[16rem]"
               >
                 <IconChat className="size-5" />
                 {content.home.faqAskCta}

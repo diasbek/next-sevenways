@@ -42,7 +42,7 @@ export function DestinationCard({
           aria-hidden
         />
         <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 p-3.5 sm:p-4">
-          <p className="text-lg font-bold tracking-tight text-white drop-shadow-sm sm:text-xl">
+          <p className="min-w-0 flex-1 truncate text-lg font-bold tracking-tight text-white drop-shadow-sm sm:text-xl">
             {destination.name[locale]}
           </p>
           <span className="shrink-0 rounded-full bg-royal px-2.5 py-1 text-[0.7rem] font-semibold text-white sm:text-xs">
@@ -51,7 +51,7 @@ export function DestinationCard({
         </div>
       </div>
       <div className="flex flex-1 items-start justify-between gap-3 px-4 py-3.5">
-        <p className="line-clamp-2 text-sm leading-snug text-ink-muted">
+        <p className="min-w-0 line-clamp-2 text-sm leading-snug text-ink-muted">
           {destination.blurb[locale]}
         </p>
         <span
