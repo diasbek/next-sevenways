@@ -1,17 +1,91 @@
+import type { AdminPermissionArea } from "@/lib/cms/auth-shared";
+
+export type DashboardNavArea = AdminPermissionArea;
+
+export type DashboardNavLabelKey =
+  | "overview"
+  | "leads"
+  | "tours"
+  | "offices"
+  | "news"
+  | "media"
+  | "settings"
+  | "messaging"
+  | "users";
+
 export type DashboardNavItem = {
   href: string;
-  label: string;
-  area: string;
+  labelKey: DashboardNavLabelKey;
+  shortLabelKey?:
+    | "overviewShort"
+    | "newsShort"
+    | "messagingShort"
+    | "toursShort"
+    | "officesShort";
+  area: DashboardNavArea;
+  group: "ops" | "content" | "system";
 };
 
+export const NAV_GROUP_IDS = ["ops", "content", "system"] as const;
+
 export const DASHBOARD_NAV: DashboardNavItem[] = [
-  { href: "/dashboard/", label: "Overview", area: "overview" },
-  { href: "/dashboard/leads/", label: "Leads", area: "leads" },
-  { href: "/dashboard/tours/", label: "Tours", area: "tours" },
-  { href: "/dashboard/offices/", label: "Offices", area: "offices" },
-  { href: "/dashboard/news/", label: "News", area: "news" },
-  { href: "/dashboard/media/", label: "Media", area: "media" },
-  { href: "/dashboard/messaging/", label: "Messaging", area: "messaging" },
-  { href: "/dashboard/settings/", label: "Settings", area: "settings" },
-  { href: "/dashboard/users/", label: "Users", area: "users" },
+  {
+    href: "/dashboard/",
+    labelKey: "overview",
+    shortLabelKey: "overviewShort",
+    area: "overview",
+    group: "ops",
+  },
+  {
+    href: "/dashboard/leads/",
+    labelKey: "leads",
+    area: "leads",
+    group: "ops",
+  },
+  {
+    href: "/dashboard/tours/",
+    labelKey: "tours",
+    shortLabelKey: "toursShort",
+    area: "tours",
+    group: "content",
+  },
+  {
+    href: "/dashboard/offices/",
+    labelKey: "offices",
+    shortLabelKey: "officesShort",
+    area: "offices",
+    group: "content",
+  },
+  {
+    href: "/dashboard/news/",
+    labelKey: "news",
+    shortLabelKey: "newsShort",
+    area: "news",
+    group: "content",
+  },
+  {
+    href: "/dashboard/media/",
+    labelKey: "media",
+    area: "media",
+    group: "content",
+  },
+  {
+    href: "/dashboard/messaging/",
+    labelKey: "messaging",
+    shortLabelKey: "messagingShort",
+    area: "messaging",
+    group: "system",
+  },
+  {
+    href: "/dashboard/settings/",
+    labelKey: "settings",
+    area: "settings",
+    group: "system",
+  },
+  {
+    href: "/dashboard/users/",
+    labelKey: "users",
+    area: "users",
+    group: "system",
+  },
 ];

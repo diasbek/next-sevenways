@@ -1,10 +1,10 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { requireMutation } from "@/lib/cms/auth";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { hasSupabaseAdminConfig } from "@/lib/supabase/env";
-import { revalidatePath } from "next/cache";
 
 function slugify(value: string) {
   return value
@@ -15,35 +15,56 @@ function slugify(value: string) {
     .slice(0, 80);
 }
 
+function pickLocaleField(formData: FormData, base: string, loc: string) {
+  return String(formData.get(`${base}_${loc}`) ?? "").trim();
+}
+
+function newsFieldsFromForm(formData: FormData) {
+  const title_uz = pickLocaleField(formData, "title", "uz");
+  const title_ru = pickLocaleField(formData, "title", "ru");
+  const title_en = pickLocaleField(formData, "title", "en");
+  const excerpt_uz = pickLocaleField(formData, "excerpt", "uz");
+  const excerpt_ru = pickLocaleField(formData, "excerpt", "ru");
+  const excerpt_en = pickLocaleField(formData, "excerpt", "en");
+  const body_uz = String(formData.get("body_uz") ?? "").trim();
+  const body_ru = String(formData.get("body_ru") ?? "").trim();
+  const body_en = String(formData.get("body_en") ?? "").trim();
+  const cover_url = String(formData.get("cover_url") ?? "").trim() || null;
+  const status = String(formData.get("status") ?? "draft");
+  const slugRaw = String(formData.get("slug") ?? "").trim();
+  const slug =
+    slugRaw ||
+    slugify(title_uz || title_ru || title_en) ||
+    `news-${Date.now()}`;
+
+  return {
+    slug,
+    title_uz: title_uz || title_ru || title_en || "Untitled",
+    title_ru: title_ru || title_uz || title_en || "Untitled",
+    title_en: title_en || title_uz || title_ru || "Untitled",
+    excerpt_uz,
+    excerpt_ru,
+    excerpt_en,
+    body_uz,
+    body_ru,
+    body_en,
+    cover_url,
+    status,
+    published_at: status === "published" ? new Date().toISOString() : null,
+  };
+}
+
 export async function createNewsAction(formData: FormData) {
   await requireMutation("news");
   if (!hasSupabaseAdminConfig()) {
     throw new Error("Supabase not configured");
   }
-  const title = String(formData.get("title") ?? "").trim();
-  const excerpt = String(formData.get("excerpt") ?? "").trim();
-  const body = String(formData.get("body") ?? "").trim();
-  const status = String(formData.get("status") ?? "draft");
-  const slug =
-    String(formData.get("slug") ?? "").trim() || slugify(title) || `news-${Date.now()}`;
 
+  const fields = newsFieldsFromForm(formData);
   const admin = createSupabaseAdminClient();
   const { data, error } = await admin
     .from("sw_news")
-    .insert({
-      slug,
-      title_uz: title,
-      title_ru: title,
-      title_en: title,
-      excerpt_uz: excerpt,
-      excerpt_ru: excerpt,
-      excerpt_en: excerpt,
-      body_uz: body,
-      body_ru: body,
-      body_en: body,
-      status,
-      published_at: status === "published" ? new Date().toISOString() : null,
-    })
+    .insert(fields)
     .select("id")
     .single();
 
@@ -55,30 +76,15 @@ export async function createNewsAction(formData: FormData) {
 export async function updateNewsAction(formData: FormData) {
   await requireMutation("news");
   if (!hasSupabaseAdminConfig()) return;
+
   const id = String(formData.get("id") ?? "");
-  const title = String(formData.get("title") ?? "").trim();
-  const excerpt = String(formData.get("excerpt") ?? "").trim();
-  const body = String(formData.get("body") ?? "").trim();
-  const status = String(formData.get("status") ?? "draft");
   if (!id) return;
 
+  const fields = newsFieldsFromForm(formData);
   const admin = createSupabaseAdminClient();
-  await admin
-    .from("sw_news")
-    .update({
-      title_uz: title,
-      title_ru: title,
-      title_en: title,
-      excerpt_uz: excerpt,
-      excerpt_ru: excerpt,
-      excerpt_en: excerpt,
-      body_uz: body,
-      body_ru: body,
-      body_en: body,
-      status,
-      published_at: status === "published" ? new Date().toISOString() : null,
-    })
-    .eq("id", id);
+  const { error } = await admin.from("sw_news").update(fields).eq("id", id);
+  if (error) throw new Error(error.message);
+
   revalidatePath("/dashboard/news/");
   revalidatePath(`/dashboard/news/${id}/`);
 }

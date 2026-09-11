@@ -97,7 +97,7 @@ export const uzCopy: SiteCopy = {
     body: [
       "Parvoz, mehmonxona, transfer va sugʻurta — bitta narx va bitta shartnomada.",
       "Har bir mijozga shaxsiy operator biriktiriladi.",
-      "Toʻlov faqat ofis kassasi orqali, chek bilan — hech qachon shaxsiy kartaga emas.",
+      "Toʻlov ofis kassasi yoki checkout yoqilganda rasmiy Click/Payme/Uzum orqali — hech qachon xodimning shaxsiy kartasiga emas.",
     ],
     principlesTitle: "Tamoyillarimiz",
     principles: [
@@ -110,7 +110,7 @@ export const uzCopy: SiteCopy = {
     steps: [
       { title: "Tanlash", text: "Saytda yoki operator bilan byudjetga mos tur." },
       { title: "Shartnoma", text: "SMS-kod bilan tasdiqlash — narx yakuniy." },
-      { title: "Toʻlov", text: "Faqat kassa va chek." },
+      { title: "Toʻlov", text: "Kassa yoki rasmiy onlayn checkout (agar yoqilgan)." },
       { title: "Safar", text: "Hujjatlarni ofisda olasiz, safar davomida aloqadamiz." },
     ],
   },
@@ -136,7 +136,7 @@ export const uzCopy: SiteCopy = {
       {
         question: "Onlayn toʻlov bormi?",
         answer:
-          "Yoʻq. Saytda karta soʻralmaydi. Toʻlov — ofis kassasida, chek bilan.",
+          "Odatda ofis kassasida, chek bilan. Checkout yoqilganda — Click, Payme yoki Uzum orqali. Xodimning shaxsiy kartasiga oʻtkazma soʻralmaydi.",
       },
       {
         question: "Narx oʻzgarishi mumkinmi?",
@@ -157,7 +157,7 @@ export const uzCopy: SiteCopy = {
     visitOffice: "Ofisga tashrif",
     scamTitle: "Firibgarlikdan ehtiyot boʻling",
     scamText:
-      "Biz hech qachon karta raqamini yoki xodimning shaxsiy kartasiga oʻtkazmani soʻramaymiz. Toʻlov — faqat ofis kassasi orqali.",
+      "Biz hech qachon xodimning shaxsiy kartasiga oʻtkazmani soʻramaymiz. Toʻlov — ofis kassasi yoki saytda taklif etilgan rasmiy onlayn checkout orqali.",
   },
   offices: {
     title: "Ofislarimiz",

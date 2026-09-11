@@ -4,6 +4,7 @@ import { localePath } from "@/i18n/paths";
 import type { SiteCopy } from "@/data/types";
 import { SITE_CONFIG } from "@/utils/consts";
 import { PageContainer } from "@/components/atoms/PageContainer";
+import { PaymentMethodsStrip } from "@/components/organisms/PaymentMethodsStrip";
 
 export function SiteFooter({
   locale,
@@ -92,6 +93,9 @@ export function SiteFooter({
             </li>
           </ul>
         </div>
+      </PageContainer>
+      <PageContainer className="border-t border-black/5 py-6">
+        <PaymentMethodsStrip locale={locale} />
       </PageContainer>
       <div className="border-t border-black/5 py-4 text-center text-xs text-ink-muted">
         © {year} Seven Ways. {content.footer.rights}

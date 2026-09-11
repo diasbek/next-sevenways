@@ -1,11 +1,32 @@
-import { requireDashboardUser } from "@/lib/cms/auth";
+import {
+  canMutate,
+  requireDashboardUser,
+} from "@/lib/cms/auth";
 import { hasSupabaseAdminConfig } from "@/lib/supabase/env";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { SITE_CONFIG } from "@/utils/consts";
 import { saveSettingsAction } from "./actions";
+import { DashCrudPage } from "@/components/dashboard/ds";
+import { PaymentCredentialsForms } from "@/components/dashboard/PaymentCredentialsForms";
+import {
+  dashBtnPrimary,
+  dashCardPad,
+  dashHint,
+  dashInput,
+  dashLabel,
+  dashSelect,
+} from "@/styles/dashboard";
+import {
+  hasPaymentsSecretsKey,
+  listCredentialsAdminViews,
+  type BookingMode,
+  type MoneyCurrency,
+  type PaymentProviderId,
+} from "@/lib/payments";
 
 export default async function SettingsPage() {
-  await requireDashboardUser("settings");
+  const user = await requireDashboardUser("settings");
+  const canWrite = canMutate(user.role, "settings");
 
   let settings = {
     phone: SITE_CONFIG.phone,
@@ -17,7 +38,13 @@ export default async function SettingsPage() {
     address_uz: SITE_CONFIG.address.lineUz,
     address_ru: SITE_CONFIG.address.line,
     address_en: SITE_CONFIG.address.lineEn,
+    booking_mode: "lead_only" as BookingMode,
+    payments_enabled: false,
+    enabled_providers: [] as PaymentProviderId[],
+    default_currency: "USD" as MoneyCurrency,
   };
+
+  let credentialViews = await listCredentialsAdminViews();
 
   if (hasSupabaseAdminConfig()) {
     const admin = createSupabaseAdminClient();
@@ -37,44 +64,151 @@ export default async function SettingsPage() {
         address_uz: data.address_uz || settings.address_uz,
         address_ru: data.address_ru || settings.address_ru,
         address_en: data.address_en || settings.address_en,
+        booking_mode:
+          data.booking_mode === "checkout" ? "checkout" : "lead_only",
+        payments_enabled: Boolean(data.payments_enabled),
+        enabled_providers: Array.isArray(data.enabled_providers)
+          ? (data.enabled_providers as PaymentProviderId[])
+          : [],
+        default_currency:
+          data.default_currency === "UZS" ? "UZS" : "USD",
       };
     }
+    credentialViews = await listCredentialsAdminViews();
   }
 
+  const fields = [
+    ["phone", "Phone"],
+    ["email", "Email"],
+    ["telegram_url", "Telegram URL"],
+    ["instagram_url", "Instagram URL"],
+    ["facebook_url", "Facebook URL"],
+    ["hours", "Hours"],
+    ["address_uz", "Address (UZ)"],
+    ["address_ru", "Address (RU)"],
+    ["address_en", "Address (EN)"],
+  ] as const;
+
+  const providers: PaymentProviderId[] = ["click", "payme", "uzum"];
+
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Settings</h1>
-      <form action={saveSettingsAction} className="max-w-xl space-y-4 rounded-2xl border border-black/8 bg-white p-5">
-        {(
-          [
-            ["phone", "Phone"],
-            ["email", "Email"],
-            ["telegram_url", "Telegram URL"],
-            ["instagram_url", "Instagram URL"],
-            ["facebook_url", "Facebook URL"],
-            ["hours", "Hours"],
-            ["address_uz", "Address (UZ)"],
-            ["address_ru", "Address (RU)"],
-            ["address_en", "Address (EN)"],
-          ] as const
-        ).map(([name, label]) => (
-          <label key={name} className="block text-sm">
-            <span className="mb-1 block font-medium">{label}</span>
-            <input
-              name={name}
-              defaultValue={settings[name]}
-              className="w-full rounded-xl border border-black/10 px-3 py-2.5"
-            />
-          </label>
-        ))}
-        <button
-          type="submit"
-          disabled={!hasSupabaseAdminConfig()}
-          className="rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
-        >
-          Save
-        </button>
-      </form>
-    </div>
+    <DashCrudPage
+      title="Settings"
+      lead="Site contacts, booking mode and payment providers."
+    >
+      <div className="mx-auto max-w-xl space-y-6">
+        <form action={saveSettingsAction} className="space-y-6">
+          <div className={`${dashCardPad} space-y-4`}>
+            <p className="m-0 text-sm font-semibold text-ink">Contacts</p>
+            {fields.map(([name, label]) => (
+              <label key={name} className="grid gap-1.5">
+                <span className={dashLabel}>{label}</span>
+                <input
+                  name={name}
+                  defaultValue={settings[name]}
+                  disabled={!canWrite}
+                  className={dashInput}
+                />
+              </label>
+            ))}
+          </div>
+
+          <div className={`${dashCardPad} space-y-4`}>
+            <p className="m-0 text-sm font-semibold text-ink">
+              Booking & payments
+            </p>
+            <p className={dashHint}>
+              Lead only = заявка менеджеру. Checkout = онлайн-оплата через
+              Click / Payme / Uzum (credentials ниже + PAYMENTS_ENABLED=1).
+              Humo / Uzcard / Visa / Mastercard принимаются через эти PSP.
+            </p>
+
+            <fieldset className="space-y-2">
+              <legend className={dashLabel}>Booking mode</legend>
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="radio"
+                  name="booking_mode"
+                  value="lead_only"
+                  defaultChecked={settings.booking_mode === "lead_only"}
+                  disabled={!canWrite}
+                />
+                Lead only (заявка)
+              </label>
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="radio"
+                  name="booking_mode"
+                  value="checkout"
+                  defaultChecked={settings.booking_mode === "checkout"}
+                  disabled={!canWrite}
+                />
+                Checkout (сразу оплата)
+              </label>
+            </fieldset>
+
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                name="payments_enabled"
+                value="1"
+                defaultChecked={settings.payments_enabled}
+                disabled={!canWrite}
+              />
+              Enable online payments (CMS)
+            </label>
+
+            <label className="grid gap-1.5">
+              <span className={dashLabel}>Default currency</span>
+              <select
+                name="default_currency"
+                defaultValue={settings.default_currency}
+                disabled={!canWrite}
+                className={dashSelect}
+              >
+                <option value="USD">USD</option>
+                <option value="UZS">UZS</option>
+              </select>
+            </label>
+
+            <fieldset className="space-y-2">
+              <legend className={dashLabel}>Enabled providers</legend>
+              {providers.map((id) => (
+                <label
+                  key={id}
+                  className="flex items-center gap-2 text-sm capitalize"
+                >
+                  <input
+                    type="checkbox"
+                    name="enabled_providers"
+                    value={id}
+                    defaultChecked={settings.enabled_providers.includes(id)}
+                    disabled={!canWrite}
+                  />
+                  {id}
+                  <span className="text-black/40">
+                    {id === "uzum" ? "(UZS + USD)" : "(UZS)"}
+                  </span>
+                </label>
+              ))}
+            </fieldset>
+          </div>
+
+          <button
+            type="submit"
+            disabled={!canWrite || !hasSupabaseAdminConfig()}
+            className={dashBtnPrimary}
+          >
+            Save settings
+          </button>
+        </form>
+
+        <PaymentCredentialsForms
+          views={credentialViews}
+          canWrite={canWrite && hasSupabaseAdminConfig()}
+          secretsKeyReady={hasPaymentsSecretsKey()}
+        />
+      </div>
+    </DashCrudPage>
   );
 }

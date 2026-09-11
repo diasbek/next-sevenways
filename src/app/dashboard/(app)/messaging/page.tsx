@@ -1,10 +1,19 @@
-import { requireDashboardUser } from "@/lib/cms/auth";
+import {
+  canMutate,
+  requireDashboardUser,
+} from "@/lib/cms/auth";
+import { hasSupabaseAdminConfig } from "@/lib/supabase/env";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getEnv } from "@/utils/env";
+import {
+  MessagingAdminClient,
+  type MessagingProviderRow,
+} from "@/components/dashboard/MessagingAdminClient";
 
 export default async function MessagingPage() {
-  await requireDashboardUser("messaging");
+  const user = await requireDashboardUser("messaging");
 
-  const channels = [
+  const envChannels = [
     {
       name: "Telegram",
       ok: Boolean(getEnv("TELEGRAM_BOT_TOKEN") && getEnv("TELEGRAM_CHAT_ID")),
@@ -19,23 +28,31 @@ export default async function MessagingPage() {
     },
   ];
 
+  let providers: MessagingProviderRow[] = [];
+  if (hasSupabaseAdminConfig()) {
+    const admin = createSupabaseAdminClient();
+    const { data } = await admin
+      .from("sw_messaging_providers")
+      .select("id, channel, label, is_active, config")
+      .order("id");
+    providers =
+      data?.map((row) => ({
+        id: row.id as string,
+        channel: row.channel as string,
+        label: row.label as string,
+        is_active: Boolean(row.is_active),
+        config:
+          row.config && typeof row.config === "object"
+            ? (row.config as Record<string, unknown>)
+            : {},
+      })) ?? [];
+  }
+
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Messaging</h1>
-      <p className="text-sm text-ink-muted">
-        Lead notifications use env-based Telegram and Resend. Configure secrets
-        in Hostinger / `.env.local`.
-      </p>
-      <ul className="divide-y divide-black/5 rounded-2xl border border-black/8 bg-white">
-        {channels.map((c) => (
-          <li key={c.name} className="flex items-center justify-between px-4 py-3 text-sm">
-            <span className="font-medium">{c.name}</span>
-            <span className={c.ok ? "text-success" : "text-ink-muted"}>
-              {c.ok ? "configured" : "missing env"}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <MessagingAdminClient
+      envChannels={envChannels}
+      providers={providers}
+      canWrite={canMutate(user.role, "messaging")}
+    />
   );
 }

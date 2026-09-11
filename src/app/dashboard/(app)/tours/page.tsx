@@ -1,49 +1,62 @@
-import { requireDashboardUser } from "@/lib/cms/auth";
+import {
+  canMutate,
+  requireDashboardUser,
+} from "@/lib/cms/auth";
+import { hasSupabaseAdminConfig } from "@/lib/supabase/env";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { DESTINATIONS, TOUR_OFFERS } from "@/data/tours/catalog";
+import {
+  ToursAdminClient,
+  type DestinationAdminRow,
+  type OfferAdminRow,
+} from "@/components/dashboard/ToursAdminClient";
 
 export default async function ToursAdminPage() {
-  await requireDashboardUser("tours");
+  const user = await requireDashboardUser("tours");
+  const cmsReady = hasSupabaseAdminConfig();
+
+  let destinations: DestinationAdminRow[] = [];
+  let offers: OfferAdminRow[] = [];
+
+  if (cmsReady) {
+    const admin = createSupabaseAdminClient();
+    const [destRes, offerRes] = await Promise.all([
+      admin
+        .from("sw_destinations")
+        .select(
+          "slug, name_uz, name_ru, name_en, blurb_uz, blurb_ru, blurb_en, from_price_usd, from_currency, country_code, is_published, sort_order",
+        )
+        .order("sort_order"),
+      admin
+        .from("sw_tour_offers")
+        .select(
+          "id, destination_slug, hotel, nights, currency, price_per_person_usd, price_two_usd, is_published, featured",
+        )
+        .order("id"),
+    ]);
+    destinations = (destRes.data as DestinationAdminRow[]) ?? [];
+    offers = (offerRes.data as OfferAdminRow[]) ?? [];
+  }
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-semibold">Tours catalogue</h1>
-        <p className="mt-1 text-sm text-ink-muted">
-          Seed data ships in code. CMS tables{" "}
-          <code className="rounded bg-black/5 px-1">sw_destinations</code>,{" "}
-          <code className="rounded bg-black/5 px-1">sw_resorts</code>,{" "}
-          <code className="rounded bg-black/5 px-1">sw_tour_offers</code> overlay
-          when populated.
-        </p>
-      </div>
-
-      <section>
-        <h2 className="text-lg font-semibold">Destinations</h2>
-        <ul className="mt-3 divide-y divide-black/5 rounded-2xl border border-black/8 bg-white">
-          {DESTINATIONS.map((d) => (
-            <li key={d.slug} className="flex items-center justify-between px-4 py-3 text-sm">
-              <span className="font-medium">{d.name.en}</span>
-              <span className="text-ink-muted">
-                /tours/{d.slug}/ · from ${d.fromPriceUsd}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
-        <h2 className="text-lg font-semibold">Offers</h2>
-        <ul className="mt-3 divide-y divide-black/5 rounded-2xl border border-black/8 bg-white">
-          {TOUR_OFFERS.map((o) => (
-            <li key={o.id} className="flex items-center justify-between px-4 py-3 text-sm">
-              <span className="font-medium">{o.hotel}</span>
-              <span className="text-ink-muted">
-                {o.destinationSlug} · ${o.pricePerPersonUsd}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </section>
-    </div>
+    <ToursAdminClient
+      destinations={destinations}
+      offers={offers}
+      seedDestinations={DESTINATIONS.map((d) => ({
+        slug: d.slug,
+        nameEn: d.name.en,
+        fromPriceUsd: d.fromPriceUsd,
+        fromCurrency: d.fromCurrency ?? "USD",
+      }))}
+      seedOffers={TOUR_OFFERS.map((o) => ({
+        id: o.id,
+        hotel: o.hotel,
+        destinationSlug: o.destinationSlug,
+        pricePerPersonUsd: o.pricePerPersonUsd,
+        currency: o.currency ?? "USD",
+      }))}
+      canWrite={canMutate(user.role, "tours")}
+      cmsReady={cmsReady}
+    />
   );
 }

@@ -2,6 +2,14 @@
 
 import { useActionState } from "react";
 import { bootstrapOwnerAction } from "./actions";
+import {
+  dashBtnPrimary,
+  dashCardPad,
+  dashInput,
+  dashLabel,
+  dashPageLead,
+  dashPageTitle,
+} from "@/styles/dashboard";
 
 export default function SetupFormClient() {
   const [state, formAction, pending] = useActionState(
@@ -10,55 +18,39 @@ export default function SetupFormClient() {
   );
 
   return (
-    <form
-      action={formAction}
-      className="w-full max-w-sm space-y-4 rounded-2xl border border-black/8 bg-white p-6 shadow-sm"
-    >
-      <h1 className="text-xl font-semibold">Bootstrap owner</h1>
-      <p className="text-sm text-ink-muted">
-        Creates the first CMS owner. Requires CMS_BOOTSTRAP_SECRET.
-      </p>
-      <label className="block text-sm">
-        <span className="mb-1 block font-medium">Bootstrap secret</span>
-        <input
-          name="secret"
-          type="password"
-          required
-          className="w-full rounded-xl border border-black/10 px-3 py-2.5"
-        />
+    <form action={formAction} className={`${dashCardPad} w-full max-w-sm space-y-4`}>
+      <div>
+        <h1 className={dashPageTitle}>Bootstrap owner</h1>
+        <p className={dashPageLead}>
+          Creates the first CMS owner. Requires CMS_BOOTSTRAP_SECRET.
+        </p>
+      </div>
+      <label className="grid gap-1.5">
+        <span className={dashLabel}>Bootstrap secret</span>
+        <input name="secret" type="password" required className={dashInput} />
       </label>
-      <label className="block text-sm">
-        <span className="mb-1 block font-medium">Display name</span>
-        <input
-          name="displayName"
-          className="w-full rounded-xl border border-black/10 px-3 py-2.5"
-        />
+      <label className="grid gap-1.5">
+        <span className={dashLabel}>Display name</span>
+        <input name="displayName" className={dashInput} />
       </label>
-      <label className="block text-sm">
-        <span className="mb-1 block font-medium">Email</span>
-        <input
-          name="email"
-          type="email"
-          required
-          className="w-full rounded-xl border border-black/10 px-3 py-2.5"
-        />
+      <label className="grid gap-1.5">
+        <span className={dashLabel}>Email</span>
+        <input name="email" type="email" required className={dashInput} />
       </label>
-      <label className="block text-sm">
-        <span className="mb-1 block font-medium">Password</span>
+      <label className="grid gap-1.5">
+        <span className={dashLabel}>Password</span>
         <input
           name="password"
           type="password"
           required
           minLength={8}
-          className="w-full rounded-xl border border-black/10 px-3 py-2.5"
+          className={dashInput}
         />
       </label>
-      {state?.error ? <p className="text-sm text-danger">{state.error}</p> : null}
-      <button
-        type="submit"
-        disabled={pending}
-        className="w-full rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
-      >
+      {state?.error ? (
+        <p className="m-0 text-sm font-medium text-primary">{state.error}</p>
+      ) : null}
+      <button type="submit" disabled={pending} className={`${dashBtnPrimary} w-full`}>
         {pending ? "…" : "Create owner"}
       </button>
     </form>

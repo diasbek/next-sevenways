@@ -15,6 +15,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { getTouristTripSchema } from "@/utils/seo/json-ld";
 import { destinationPath } from "@/data/tours/catalog";
 import { section, pageIntroTitle, pageIntroLead } from "@/styles/ui";
+import { formatMoney } from "@/lib/payments/amount";
 
 export function TourDestinationPageView({
   locale,
@@ -42,7 +43,13 @@ export function TourDestinationPageView({
           <h1 className={pageIntroTitle}>{dest.name[locale]}</h1>
           <p className={`mt-2 ${pageIntroLead}`}>{dest.blurb[locale]}</p>
           <p className="mt-4 text-sm font-semibold text-primary">
-            {content.ui.fromPrice} ${dest.fromPriceUsd} {content.ui.perPerson}
+            {content.ui.fromPrice}{" "}
+            {formatMoney(
+              dest.fromPriceUsd,
+              dest.fromCurrency ?? "USD",
+              locale,
+            )}{" "}
+            {content.ui.perPerson}
           </p>
           <ul className="mt-6 flex flex-wrap gap-2">
             {content.tours.included.map((item) => (

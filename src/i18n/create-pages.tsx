@@ -236,10 +236,43 @@ export function createRequestPage(locale: Locale) {
   return {
     generateMetadata: () => getLocalizedPageMetadata(locale, "request"),
     Page: async function RequestPage() {
+      const {
+        getSitePaymentSettings,
+        isPaymentsEnvEnabled,
+        listPaymentProviders,
+      } = await import("@/lib/payments");
+      const settings = await getSitePaymentSettings();
+      const envOn = isPaymentsEnvEnabled();
+      const all = listPaymentProviders();
+      const providerOptions: Array<{
+        id: (typeof all)[number]["id"];
+        label: string;
+        currencies: ("UZS" | "USD")[];
+      }> = [];
+      for (const p of all) {
+        if (
+          settings.enabledProviders.includes(p.id) &&
+          (await p.isConfigured())
+        ) {
+          providerOptions.push({
+            id: p.id,
+            label: p.label,
+            currencies: [...p.supportedCurrencies] as ("UZS" | "USD")[],
+          });
+        }
+      }
+
       return (
         <SiteLayout locale={locale}>
-          <Suspense fallback={<div className="p-8 text-sm text-ink-muted">…</div>}>
-            <RequestPageView locale={locale} />
+          <Suspense
+            fallback={<div className="p-8 text-sm text-ink-muted">…</div>}
+          >
+            <RequestPageView
+              locale={locale}
+              bookingMode={settings.bookingMode}
+              paymentsEnabled={settings.paymentsEnabled && envOn}
+              providerOptions={providerOptions}
+            />
           </Suspense>
         </SiteLayout>
       );

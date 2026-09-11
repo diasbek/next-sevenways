@@ -9,6 +9,8 @@ export type Destination = {
   name: LocalizedString;
   countryCode: string;
   fromPriceUsd: number;
+  /** Amount currency for fromPriceUsd (legacy name kept). */
+  fromCurrency?: "UZS" | "USD";
   blurb: LocalizedString;
   resorts: string[];
 };
@@ -31,8 +33,10 @@ export type TourOffer = {
   room: LocalizedString;
   dateFrom: string;
   dateTo: string;
+  /** Price amount; interpret with `currency`. */
   pricePerPersonUsd: number;
   priceTwoUsd: number;
+  currency?: "UZS" | "USD";
   badges?: Array<"on_request" | "seats" | "save">;
   featured?: boolean;
 };
@@ -309,8 +313,23 @@ export const TOUR_OFFERS: TourOffer[] = [
     dateTo: "2026-09-21",
     pricePerPersonUsd: 481,
     priceTwoUsd: 963,
+    currency: "USD",
     badges: ["on_request"],
     featured: true,
+  },
+  {
+    id: "uz-samarkand-local",
+    destinationSlug: "georgia",
+    hotel: "Local UZS package (sample)",
+    nights: 3,
+    board: { uz: "Nonushta", ru: "Завтрак", en: "Breakfast" },
+    room: { uz: "Standard", ru: "Standard", en: "Standard" },
+    dateFrom: "2026-10-01",
+    dateTo: "2026-10-04",
+    pricePerPersonUsd: 3_500_000,
+    priceTwoUsd: 6_800_000,
+    currency: "UZS",
+    badges: ["seats"],
   },
   {
     id: "ae-hiex",
@@ -325,6 +344,7 @@ export const TOUR_OFFERS: TourOffer[] = [
     dateTo: "2026-09-20",
     pricePerPersonUsd: 496,
     priceTwoUsd: 992,
+    currency: "USD",
     badges: ["seats"],
     featured: true,
   },
@@ -341,6 +361,7 @@ export const TOUR_OFFERS: TourOffer[] = [
     dateTo: "2026-09-23",
     pricePerPersonUsd: 512,
     priceTwoUsd: 1025,
+    currency: "USD",
     badges: ["save"],
     featured: true,
   },

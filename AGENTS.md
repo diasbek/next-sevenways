@@ -17,8 +17,9 @@ Next.js 16 App Router. Prefer docs under `node_modules/next/dist/docs/` when API
 
 ## Product rules
 
-- Site prices are indicative; final amount confirmed by a manager after a lead
-- No online card payment; office cash desk only
+- Site prices are indicative; final amount confirmed by a manager after a lead (unless CMS `booking_mode=checkout`)
+- Online card payment is **off by default** (`booking_mode=lead_only`, `payments_enabled=false`, `PAYMENTS_ENABLED=0`). Enable in Dashboard → Settings + PSP credentials (stored in `sw_payment_credentials`, optional env fallback). Set `PAYMENTS_SECRETS_KEY` to encrypt secrets at rest. Humo/Uzcard/Visa/Mastercard via those PSPs.
+- Tours support **UZS** and **USD** (`currency` on offers). Click/Payme: UZS; Uzum: UZS+USD when contracted.
 - Do not copy TripTour copyrighted copy/photos — IA only
 
 <!-- BEGIN:nextjs-agent-rules -->

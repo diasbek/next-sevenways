@@ -113,6 +113,19 @@ export async function requireDashboardUser(
   return user;
 }
 
+export async function requireAdmin(): Promise<AdminUser> {
+  return requireDashboardUser();
+}
+
+/** Page gate: returns admin or null when area denied. */
+export async function requireAccess(
+  area: AdminPermissionArea,
+): Promise<AdminUser | null> {
+  const admin = await requireAdmin();
+  if (!canAccess(admin.role, area)) return null;
+  return admin;
+}
+
 export async function requireMutation(
   action: AdminMutation,
 ): Promise<AdminUser> {

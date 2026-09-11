@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
+import { getDashLocale } from "@/i18n/dashboard/server";
+import { DashLocaleProvider } from "@/components/dashboard/DashLocaleProvider";
 
 export const metadata: Metadata = {
+  title: "Seven Ways Dashboard",
   robots: { index: false, follow: false },
-  title: "Dashboard — Seven Ways",
 };
 
-export default function DashboardRootLayout({
+export default async function DashboardRootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  const locale = await getDashLocale();
+  return (
+    <DashLocaleProvider locale={locale}>{children}</DashLocaleProvider>
+  );
 }

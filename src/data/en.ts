@@ -97,7 +97,7 @@ export const enCopy: SiteCopy = {
     body: [
       "Flights, hotel, transfers and insurance come at one price and in one contract.",
       "Every client has their own operator.",
-      "Payment only through the office cash desk with a receipt — never to an employee’s personal card.",
+      "Payment through the office cash desk or official Click/Payme/Uzum checkout when enabled — never to an employee’s personal card.",
     ],
     principlesTitle: "Our principles",
     principles: [
@@ -110,7 +110,7 @@ export const enCopy: SiteCopy = {
     steps: [
       { title: "Choose", text: "On the site or with an operator — to your budget." },
       { title: "Contract", text: "Confirm by SMS — the price is final." },
-      { title: "Pay", text: "Cash desk only, with a receipt." },
+      { title: "Pay", text: "Office desk or official online checkout when enabled." },
       { title: "Travel", text: "Collect documents at the office; we stay reachable." },
     ],
   },
@@ -136,7 +136,7 @@ export const enCopy: SiteCopy = {
       {
         question: "Can I pay online?",
         answer:
-          "No. We never ask for card details on the site. Payment is at the office cash desk with a receipt.",
+          "Usually at the office cash desk with a receipt. When checkout is enabled, you can pay online via Click, Payme or Uzum — we never ask for transfers to an employee’s personal card.",
       },
       {
         question: "Can the price change?",
@@ -157,7 +157,7 @@ export const enCopy: SiteCopy = {
     visitOffice: "Visit an office",
     scamTitle: "Beware of scams",
     scamText:
-      "We never ask for card numbers or transfers to an employee’s personal card. Payment goes through the office cash desk only.",
+      "We never ask for transfers to an employee’s personal card. Pay at the office cash desk or via official online checkout when it is offered on the site.",
   },
   offices: {
     title: "Our offices",

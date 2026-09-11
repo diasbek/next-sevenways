@@ -29,7 +29,8 @@ export function isSiteGateExemptPath(pathname: string): boolean {
   }
   if (
     pathname === "/api/site-gate/unlock" ||
-    pathname === "/api/site-gate/unlock/"
+    pathname === "/api/site-gate/unlock/" ||
+    pathname.startsWith("/api/payments/")
   ) {
     return true;
   }

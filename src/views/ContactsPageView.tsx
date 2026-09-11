@@ -4,6 +4,7 @@ import { localePath } from "@/i18n/paths";
 import { SITE_CONFIG } from "@/utils/consts";
 import { PageContainer } from "@/components/atoms/PageContainer";
 import { Button } from "@/components/atoms/Button";
+import { PaymentMethodsStrip } from "@/components/organisms/PaymentMethodsStrip";
 import { section, pageIntroTitle, pageIntroLead } from "@/styles/ui";
 
 export function ContactsPageView({ locale }: { locale: Locale }) {
@@ -48,6 +49,9 @@ export function ContactsPageView({ locale }: { locale: Locale }) {
           <Button href={localePath(locale, "/request/")} className="mt-8">
             {content.ui.leaveRequest}
           </Button>
+          <div className="mt-10">
+            <PaymentMethodsStrip locale={locale} />
+          </div>
         </div>
         <aside className="rounded-2xl border border-warning/30 bg-warning/5 p-6">
           <h2 className="font-semibold text-ink">{content.contacts.scamTitle}</h2>

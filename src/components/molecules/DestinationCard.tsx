@@ -3,6 +3,7 @@ import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/paths";
 import { getContent } from "@/i18n/get-content";
 import { type Destination, destinationPath } from "@/data/tours/catalog";
+import { formatMoney } from "@/lib/payments/amount";
 
 export function DestinationCard({
   locale,
@@ -12,6 +13,7 @@ export function DestinationCard({
   destination: Destination;
 }) {
   const content = getContent(locale);
+  const currency = destination.fromCurrency ?? "USD";
   return (
     <Link
       href={localePath(locale, destinationPath(destination.slug))}
@@ -24,7 +26,8 @@ export function DestinationCard({
         {destination.blurb[locale]}
       </p>
       <p className="mt-4 text-sm font-semibold text-primary">
-        {content.ui.fromPrice} ${destination.fromPriceUsd}
+        {content.ui.fromPrice}{" "}
+        {formatMoney(destination.fromPriceUsd, currency, locale)}
       </p>
     </Link>
   );

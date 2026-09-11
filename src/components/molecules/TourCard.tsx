@@ -8,6 +8,7 @@ import {
   destinationPath,
 } from "@/data/tours/catalog";
 import { Button } from "@/components/atoms/Button";
+import { formatMoney } from "@/lib/payments/amount";
 
 export function TourCard({
   locale,
@@ -18,7 +19,8 @@ export function TourCard({
 }) {
   const content = getContent(locale);
   const dest = DESTINATIONS.find((d) => d.slug === offer.destinationSlug);
-  const requestHref = `${localePath(locale, "/request/")}?destination=${offer.destinationSlug}&hotel=${encodeURIComponent(offer.hotel)}`;
+  const currency = offer.currency ?? "USD";
+  const requestHref = `${localePath(locale, "/request/")}?destination=${offer.destinationSlug}&hotel=${encodeURIComponent(offer.hotel)}&amount=${offer.pricePerPersonUsd}&currency=${currency}&offerId=${offer.id}`;
 
   return (
     <article className="flex flex-col rounded-2xl border border-black/8 bg-white p-5 shadow-sm">
@@ -30,7 +32,7 @@ export function TourCard({
           <h3 className="mt-1 text-lg font-semibold text-ink">{offer.hotel}</h3>
           <p className="mt-1 text-sm text-ink-muted">
             {dest?.name[locale]}
-            {offer.resortSlug ? ` · ${offer.nights} ${content.ui.nights}` : ` · ${offer.nights} ${content.ui.nights}`}
+            {` · ${offer.nights} ${content.ui.nights}`}
           </p>
         </div>
         <div className="flex flex-wrap justify-end gap-1">
@@ -57,10 +59,12 @@ export function TourCard({
       <div className="mt-4 flex items-end justify-between gap-3">
         <div>
           <p className="text-xl font-semibold text-ink">
-            ${offer.pricePerPersonUsd}
+            {formatMoney(offer.pricePerPersonUsd, currency, locale)}
           </p>
           <p className="text-xs text-ink-muted">
-            {content.ui.perPerson} · ${offer.priceTwoUsd} — {content.ui.forTwo}
+            {content.ui.perPerson} ·{" "}
+            {formatMoney(offer.priceTwoUsd, currency, locale)} —{" "}
+            {content.ui.forTwo}
           </p>
         </div>
         <Button href={requestHref} size="sm">

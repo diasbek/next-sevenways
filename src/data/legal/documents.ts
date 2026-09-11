@@ -35,7 +35,7 @@ export const legalDocuments: Record<
       title: "Foydalanish shartlari",
       paragraphs: [
         "Saytdagi narxlar orientir hisoblanadi. Yakuniy shartlar shartnomada belgilanadi.",
-        "Onlayn toʻlov amalga oshirilmaydi. Toʻlov ofis kassasi orqali, chek bilan.",
+        "Odatiy holatda toʻlov ofis kassasi orqali, chek bilan. Onlayn toʻlov faqat saytda checkout yoqilganda va Click/Payme/Uzum orqali amalga oshiriladi — hech qachon xodimning shaxsiy kartasiga emas.",
         "Saytdan foydalanish Oʻzbekiston Respublikasi qonunlariga boʻysunadi.",
       ],
     },
@@ -43,7 +43,7 @@ export const legalDocuments: Record<
       title: "Условия использования",
       paragraphs: [
         "Цены на сайте ориентировочные. Итоговые условия фиксируются в договоре.",
-        "Онлайн-оплата не принимается. Оплата — через кассу офиса с чеком.",
+        "По умолчанию оплата — через кассу офиса с чеком. Онлайн-оплата доступна только когда на сайте включён checkout и проходит через Click/Payme/Uzum — никогда на личную карту сотрудника.",
         "Использование сайта регулируется законодательством Республики Узбекистан.",
       ],
     },
@@ -51,7 +51,7 @@ export const legalDocuments: Record<
       title: "Terms of use",
       paragraphs: [
         "Prices on the site are indicative. Final terms are stated in the contract.",
-        "Online payment is not accepted. Payment is at the office cash desk with a receipt.",
+        "By default, payment is at the office cash desk with a receipt. Online payment is available only when checkout is enabled on the site and goes through Click/Payme/Uzum — never to an employee’s personal card.",
         "Use of the site is governed by the laws of the Republic of Uzbekistan.",
       ],
     },

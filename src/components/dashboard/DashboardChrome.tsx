@@ -1,61 +1,68 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { DASHBOARD_NAV } from "./nav";
+import type { AdminUser } from "@/lib/cms/auth-shared";
+import { canAccess } from "@/lib/cms/auth-shared";
+import { DASHBOARD_NAV } from "@/components/dashboard/nav";
+import { DashboardNav } from "@/components/dashboard/DashboardNav";
+import { DashTopBar } from "@/components/dashboard/chrome/DashTopBar";
+import { DashMobileNav } from "@/components/dashboard/mobile/DashMobileNav";
+import type { DashNotificationsSnapshot } from "@/lib/cms/notifications";
+import {
+  dashAside,
+  dashMainColumn,
+  dashMainMobilePad,
+  dashShell,
+} from "@/styles/dashboard";
 import { cn } from "@/lib/cn";
+import { SITE_CONFIG } from "@/utils/consts";
 
 export function DashboardChrome({
-  email,
+  admin,
+  notifications,
   children,
 }: {
-  email: string;
+  admin: AdminUser;
+  notifications: DashNotificationsSnapshot;
   children: React.ReactNode;
 }) {
-  const pathname = usePathname() || "/dashboard/";
+  const items = DASHBOARD_NAV.filter((item) => canAccess(admin.role, item.area));
 
   return (
-    <div className="min-h-dvh bg-surface-muted">
-      <header className="border-b border-black/8 bg-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-          <Link href="/dashboard/" className="font-semibold text-primary">
-            Seven Ways CMS
-          </Link>
-          <div className="flex items-center gap-3 text-sm text-ink-muted">
-            <span className="hidden sm:inline">{email}</span>
-            <Link href="/dashboard/profile/" className="hover:text-ink">
-              Profile
-            </Link>
-            <Link href="/" className="hover:text-ink">
-              Site
+    <div className={dashShell}>
+      <div className="flex h-dvh w-full">
+        <aside className={dashAside}>
+          <div className="flex h-14 shrink-0 items-center border-b border-black/[0.06] px-5">
+            <Link
+              href="/dashboard/"
+              className="inline-flex h-8 w-[84px] items-center"
+              aria-label={SITE_CONFIG.name}
+            >
+              <Image
+                src="/images/brand/logo.svg"
+                alt={SITE_CONFIG.name}
+                width={92}
+                height={36}
+                className="h-full w-auto"
+                priority
+                unoptimized
+              />
             </Link>
           </div>
+
+          <div className="flex min-h-0 flex-1 flex-col overflow-y-auto py-2 pb-4">
+            <DashboardNav items={items} />
+          </div>
+        </aside>
+
+        <div className={dashMainColumn}>
+          <DashTopBar admin={admin} notifications={notifications} />
+          <main className={cn("min-w-0 p-4 sm:p-5 lg:p-6", dashMainMobilePad)}>
+            {children}
+          </main>
+          <DashMobileNav admin={admin} items={items} />
         </div>
-      </header>
-      <div className="mx-auto grid max-w-6xl gap-6 px-4 py-6 lg:grid-cols-[14rem_1fr]">
-        <nav className="flex flex-wrap gap-1 lg:flex-col">
-          {DASHBOARD_NAV.map((item) => {
-            const active =
-              item.href === "/dashboard/"
-                ? pathname === "/dashboard/" || pathname === "/dashboard"
-                : pathname.startsWith(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "rounded-lg px-3 py-2 text-sm font-medium",
-                  active
-                    ? "bg-primary-soft text-primary"
-                    : "text-ink-muted hover:bg-white hover:text-ink",
-                )}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-        <main className="min-w-0">{children}</main>
       </div>
     </div>
   );
