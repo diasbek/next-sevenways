@@ -124,18 +124,26 @@ const SECTIONS: EditorSection[] = [
   {
     id: "about",
     title: "About",
-    description: "About page copy, principles and steps.",
+    description: "About hero, who-we-are, trust cards and process steps.",
     key: "about",
     pick: (section, overlay) => {
       const a = (section ?? {}) as SiteCopy["about"];
       const o = asRecord(overlay);
       return mergeOverlay(
         {
+          eyebrow: a.eyebrow ?? "",
           title: a.title ?? "",
+          titleAccent: a.titleAccent ?? "",
           lead: a.lead ?? "",
-          body: a.body ?? [],
+          cta: a.cta ?? "",
+          whoEyebrow: a.whoEyebrow ?? "",
+          whoTitle: a.whoTitle ?? "",
+          whoLead: a.whoLead ?? "",
+          stats: a.stats ?? [],
           principlesTitle: a.principlesTitle ?? "",
+          principlesLead: a.principlesLead ?? "",
           principles: a.principles ?? [],
+          stepsEyebrow: a.stepsEyebrow ?? "",
           stepsTitle: a.stepsTitle ?? "",
           steps: a.steps ?? [],
         },
@@ -143,11 +151,19 @@ const SECTIONS: EditorSection[] = [
       );
     },
     toPayload: (fields) => ({
+      eyebrow: fields.eyebrow,
       title: fields.title,
+      titleAccent: fields.titleAccent,
       lead: fields.lead,
-      body: JSON.parse(fields.body || "[]"),
+      cta: fields.cta,
+      whoEyebrow: fields.whoEyebrow,
+      whoTitle: fields.whoTitle,
+      whoLead: fields.whoLead,
+      stats: JSON.parse(fields.stats || "[]"),
       principlesTitle: fields.principlesTitle,
+      principlesLead: fields.principlesLead,
       principles: JSON.parse(fields.principles || "[]"),
+      stepsEyebrow: fields.stepsEyebrow,
       stepsTitle: fields.stepsTitle,
       steps: JSON.parse(fields.steps || "[]"),
     }),

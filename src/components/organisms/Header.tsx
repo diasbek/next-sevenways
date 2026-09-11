@@ -40,10 +40,11 @@ export function Header({ locale, content, contacts }: HeaderProps) {
   const menuLabel = open ? content.ui.close : content.ui.menu;
   const phone = contacts?.phone ?? SITE_CONFIG.phone;
   const phoneDisplay = contacts?.phoneDisplay ?? SITE_CONFIG.phoneDisplay;
-
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+  const [menuPath, setMenuPath] = useState(pathname);
+  if (menuPath !== pathname) {
+    setMenuPath(pathname);
+    if (open) setOpen(false);
+  }
 
   useEffect(() => {
     if (!open) return;

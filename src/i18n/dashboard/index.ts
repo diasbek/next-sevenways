@@ -1,9 +1,10 @@
-import { DASH_LOCALE_COOKIE, parseDashLocale, type DashLocale } from "./config";
 import { dashRu } from "./ru";
 import { dashUz } from "./uz";
+import type { DashLocale } from "./config";
 import type { DashCopy } from "./types";
 
-export type { DashCopy, DashLocale };
+export type { DashCopy };
+export type { DashLocale };
 export {
   DASH_LOCALE_COOKIE,
   dashLocales,

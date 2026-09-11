@@ -116,26 +116,59 @@ export const enCopy: SiteCopy = {
     ctaLead: "Leave a request — an operator in your city will call.",
   },
   about: {
-    title: "About Seven Ways",
-    lead: "We stay with you from choosing the tour to the day you return.",
-    body: [
-      "Flights, hotel, transfers and insurance come at one price and in one contract.",
-      "Every client has their own operator.",
-      "Payment through the office cash desk or official Click/Payme/Uzum checkout when enabled — never to an employee’s personal card.",
+    eyebrow: "About the company",
+    title: "Travel organised with care",
+    titleAccent: "with care",
+    lead: "We pick tours from Tashkent, help with documents, and stay in touch until you are home.",
+    cta: "Find a tour",
+    whoEyebrow: "Who we are",
+    whoTitle: "Your travel partner",
+    whoLead:
+      "We help choose a destination, handle documents, and organise the trip from Tashkent.",
+    stats: [
+      { value: "10k+", label: "travellers" },
+      { value: "4+", label: "offices" },
+      { value: "Since", label: "2024" },
     ],
-    principlesTitle: "Our principles",
+    principlesTitle: "Why people trust us",
+    principlesLead: "Everything you need for a calm journey — in one place.",
     principles: [
-      "Official: payment only after the contract.",
-      "Fixed price: the contract amount does not change.",
-      "Transparent: every payment is recorded.",
-      "Care: a branded gift and 24/7 reachability.",
+      {
+        title: "Transparent pricing",
+        text: "Honest prices with no hidden fees. You always know what you pay for.",
+      },
+      {
+        title: "Proven destinations",
+        text: "Only reliable partners and popular routes around the world.",
+      },
+      {
+        title: "End-to-end support",
+        text: "We help at every stage — from choosing a tour to coming home.",
+      },
+      {
+        title: "24/7 support",
+        text: "We stay reachable so any question gets answered quickly.",
+      },
     ],
+    stepsEyebrow: "A simple path to travel",
     stepsTitle: "How it works",
     steps: [
-      { title: "Choose", text: "On the site or with an operator — to your budget." },
-      { title: "Contract", text: "Confirm by SMS — the price is final." },
-      { title: "Pay", text: "Office desk or official online checkout when enabled." },
-      { title: "Travel", text: "Collect documents at the office; we stay reachable." },
+      {
+        title: "Leave a request",
+        text: "Fill in a short form on the site — it takes no more than 2 minutes.",
+      },
+      {
+        title: "Get a shortlist",
+        text: "We pick the best options for your wishes and budget.",
+      },
+      {
+        title: "We book it",
+        text: "Tickets, hotels, transfers and insurance — we handle the formalities.",
+      },
+      {
+        title: "You relax",
+        text: "You enjoy the trip while we stay in touch 24/7.",
+      },
     ],
   },
   faq: {

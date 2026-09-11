@@ -116,26 +116,60 @@ export const uzCopy: SiteCopy = {
     ctaLead: "Ariza qoldiring — operator shahar boʻyicha qoʻngʻiroq qiladi.",
   },
   about: {
-    title: "Seven Ways haqida",
-    lead: "Biz Toshkentdan paket turlarni tanlashdan qaytishgacha kuzatib boramiz.",
-    body: [
-      "Parvoz, mehmonxona, transfer va sugʻurta — bitta narx va bitta shartnomada.",
-      "Har bir mijozga shaxsiy operator biriktiriladi.",
-      "Toʻlov ofis kassasi yoki checkout yoqilganda rasmiy Click/Payme/Uzum orqali — hech qachon xodimning shaxsiy kartasiga emas.",
+    eyebrow: "Kompaniya haqida",
+    title: "Gʻamxoʻrlik bilan tashkil etilgan sayohatlar",
+    titleAccent: "Gʻamxoʻrlik bilan",
+    lead: "Toshkentdan turlarni tanlaymiz, hujjatlar bilan yordam beramiz va qaytishgacha aloqadamiz.",
+    cta: "Tur tanlash",
+    whoEyebrow: "Biz kimiz",
+    whoTitle: "Sizning turistik hamkoringiz",
+    whoLead:
+      "Yoʻnalish tanlash, hujjatlarni rasmiylashtirish va Toshkentdan sayohatni tashkil etishda yordam beramiz.",
+    stats: [
+      { value: "10k+", label: "sayohatchilar" },
+      { value: "4+", label: "ofis" },
+      { value: "2024 dan", label: "beri" },
     ],
-    principlesTitle: "Tamoyillarimiz",
+    principlesTitle: "Nima uchun ishonishadi",
+    principlesLead:
+      "Xotirjam sayohat uchun kerak boʻlgan hamma narsa — bitta joyda.",
     principles: [
-      "Rasmiy: toʻlov faqat shartnomadan keyin.",
-      "Belgilangan narx: shartnomadagi summa oʻzgarmaydi.",
-      "Shaffoflik: har bir toʻlov qayd etiladi.",
-      "Gʻamxoʻrlik: branded sovgʻa va 24/7 aloqa.",
+      {
+        title: "Shaffof narx",
+        text: "Yashirin toʻlovlarsiz halol narxlar. Nima uchun toʻlayotganingizni doim bilasiz.",
+      },
+      {
+        title: "Tekshirilgan yoʻnalishlar",
+        text: "Faqat ishonchli hamkorlar va dunyo boʻylab mashhur marshrutlar.",
+      },
+      {
+        title: "Toʻliq kuzatuv",
+        text: "Tur tanlashdan uyga qaytishgacha barcha bosqichlarda yordam beramiz.",
+      },
+      {
+        title: "24/7 qoʻllab-quvvatlash",
+        text: "Har qanday savolni tez hal qilish uchun doimo aloqadamiz.",
+      },
     ],
-    stepsTitle: "Qanday ishlaymiz",
+    stepsEyebrow: "Sayohatga oddiy yoʻl",
+    stepsTitle: "Qanday ishlaydi",
     steps: [
-      { title: "Tanlash", text: "Saytda yoki operator bilan byudjetga mos tur." },
-      { title: "Shartnoma", text: "SMS-kod bilan tasdiqlash — narx yakuniy." },
-      { title: "Toʻlov", text: "Kassa yoki rasmiy onlayn checkout (agar yoqilgan)." },
-      { title: "Safar", text: "Hujjatlarni ofisda olasiz, safar davomida aloqadamiz." },
+      {
+        title: "Ariza qoldirasiz",
+        text: "Saytdagi qisqa shaklni toʻldirasiz — 2 daqiqadan oshmaydi.",
+      },
+      {
+        title: "Tanlov olasiz",
+        text: "Istak va byudjetingizga mos eng yaxshi variantlarni tanlaymiz.",
+      },
+      {
+        title: "Rasmiylashtiramiz va bron qilamiz",
+        text: "Chipta, mehmonxona, transfer va sugʻurta — barcha rasmiyatlarni oʻzimizga olamiz.",
+      },
+      {
+        title: "Dam olasiz",
+        text: "Siz sayohatdan bahramand boʻlasiz, biz 24/7 aloqada qolamiz.",
+      },
     ],
   },
   faq: {

@@ -16,7 +16,7 @@ Until launch, the public site may be locked by **`SW_SITE_GATE`** (default on). 
 | **News** | `sw_news` | `/news/`, `/news/[slug]/` |
 | **Content** → `home` | `sw_site_copy` key `home` | `/` (hero, destinations lead, hot deals copy, FAQ teaser) |
 | **Content** → `faq` | `sw_site_copy` key `faq` | `/faq/` |
-| **Content** → `about` | `sw_site_copy` key `about` | `/about/` |
+| **Content** → `about` | `sw_site_copy` key `about` | `/about/` (hero, who-we-are, trust cards, process) |
 | **Content** → `gifts` | `sw_site_copy` key `gifts` | `/gifts/` |
 | **Content** → `nav` | `sw_site_copy` key `nav` | Header navigation (all locales) |
 | **Content** → `footer` | `sw_site_copy` key `footer` | Site footer |

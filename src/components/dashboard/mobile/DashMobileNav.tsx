@@ -26,16 +26,18 @@ export function DashMobileNav({
 }) {
   const pathname = usePathname() || "/dashboard/";
   const [moreOpen, setMoreOpen] = useState(false);
+  const [navPath, setNavPath] = useState(pathname);
   const { primary, rest } = useMemo(
     () => pickPrimaryTabs(admin.role, items),
     [admin.role, items],
   );
 
-  const restActive = rest.some((item) => pathMatches(pathname, item.href));
+  if (navPath !== pathname) {
+    setNavPath(pathname);
+    if (moreOpen) setMoreOpen(false);
+  }
 
-  useEffect(() => {
-    setMoreOpen(false);
-  }, [pathname]);
+  const restActive = rest.some((item) => pathMatches(pathname, item.href));
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");

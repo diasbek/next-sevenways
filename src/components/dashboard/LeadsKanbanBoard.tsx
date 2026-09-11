@@ -154,15 +154,24 @@ export function LeadsKanbanBoard({
   readOnly: boolean;
 }) {
   const t = useDashT();
+  const rowsSignature = useMemo(
+    () => rows.map((r) => `${r.id}:${r.status}`).join("|"),
+    [rows],
+  );
+  const [signature, setSignature] = useState(rowsSignature);
   const [columns, setColumns] = useState(() => groupByStatus(rows));
   const [activeId, setActiveId] = useState<string | null>(null);
   const columnsRef = useRef(columns);
 
-  useEffect(() => {
+  if (signature !== rowsSignature) {
     const next = groupByStatus(rows);
+    setSignature(rowsSignature);
     setColumns(next);
-    columnsRef.current = next;
-  }, [rows]);
+  }
+
+  useEffect(() => {
+    columnsRef.current = columns;
+  }, [columns]);
 
   const setColumnsBoth = (
     next:

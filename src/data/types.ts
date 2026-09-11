@@ -120,11 +120,19 @@ export interface SiteCopy {
     ctaLead: string;
   };
   about: {
+    eyebrow: string;
     title: string;
+    titleAccent: string;
     lead: string;
-    body: string[];
+    cta: string;
+    whoEyebrow: string;
+    whoTitle: string;
+    whoLead: string;
+    stats: Array<{ value: string; label: string }>;
     principlesTitle: string;
-    principles: string[];
+    principlesLead: string;
+    principles: Array<{ title: string; text: string }>;
+    stepsEyebrow: string;
     stepsTitle: string;
     steps: Array<{ title: string; text: string }>;
   };
