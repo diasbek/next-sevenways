@@ -36,7 +36,7 @@ export const SITE_CONFIG = {
   },
   locales: ["uz", "ru", "en"] as const,
   defaultLocale: "uz" as const,
-  themeColor: "#0d7377",
+  themeColor: "#075DB7",
   analytics: {
     yandexMetrikaId: getPublicEnv("NEXT_PUBLIC_YM_ID"),
     googleAnalyticsId: getPublicEnv("NEXT_PUBLIC_GA_ID"),

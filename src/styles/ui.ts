@@ -6,14 +6,14 @@ export const pageContainer =
 export const section = "py-[var(--section-y)]";
 export const sectionMuted = `${section} bg-surface-muted`;
 export const sectionTitle =
-  "m-0 mb-4 font-display text-[length:var(--home-title)] font-semibold uppercase leading-tight tracking-[-0.02em] text-black";
-export const sectionLead = "mb-6 max-w-xl text-[length:var(--home-lead)] text-black/60";
+  "m-0 mb-4 font-display text-[length:var(--home-title)] font-semibold uppercase leading-tight tracking-[-0.02em] text-deep-blue";
+export const sectionLead = "mb-6 max-w-xl text-[length:var(--home-lead)] text-ink-muted";
 
 export const pageIntro = "py-[var(--section-y)]";
 export const pageIntroTitle =
-  "m-0 mb-4 font-display text-[clamp(1.75rem,4vw,2.5rem)] font-semibold uppercase leading-[1.15] tracking-[-0.02em] text-black";
+  "m-0 mb-4 font-display text-[clamp(1.75rem,4vw,2.5rem)] font-semibold uppercase leading-[1.15] tracking-[-0.02em] text-deep-blue";
 export const pageIntroLead =
-  "max-w-2xl text-[length:var(--home-lead)] text-black/60";
+  "max-w-2xl text-[length:var(--home-lead)] text-ink-muted";
 
 export const anchorSection = "scroll-mt-[var(--header-height)]";
 

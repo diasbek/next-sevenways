@@ -58,7 +58,7 @@ export function ComingSoonGate({ nextPath }: Props) {
       <button
         type="submit"
         disabled={pending || code.trim().length < 4}
-        className="h-12 rounded-xl bg-white font-semibold text-[#0d7377] transition enabled:hover:bg-white/90 disabled:opacity-50"
+        className="h-12 rounded-xl bg-white font-semibold text-royal transition enabled:hover:bg-white/90 disabled:opacity-50"
       >
         {pending ? "…" : "Kirish · Enter"}
       </button>

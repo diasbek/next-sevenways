@@ -1,25 +1,40 @@
 :root {
-  --color-primary: #0e7f80;
-  --color-primary-hover: #086b70;
-  --color-primary-soft: #e5f7f3;
-  --color-primary-soft-hover: #d2f0ea;
-  --color-ink: #10202b;
-  --color-ink-muted: #5a6472;
-  --color-border: #e4e7ec;
-  --color-surface: #ffffff;
-  --color-surface-muted: #f1fbf9;
-  --color-surface-muted-hover: #e5f7f3;
-  --color-surface-deep: #141820;
-  --color-success: #0f7a3e;
-  --color-success-hover: #0c6332;
-  --color-warning: #b45309;
-  --color-warning-hover: #92400e;
-  --color-danger: #c62828;
-  --color-danger-hover: #9a1f1f;
+  /* Brand palette — Seven Ways Tour */
+  --color-sky: #1498e5;
+  --color-royal: #075db7;
+  --color-deep-blue: #062e73;
+  --color-midnight: #071d45;
+  --color-cloud: #f5fbff;
+  --color-sky-tint: #e4f3fc;
+  --color-white: #ffffff;
+  --color-yellow: #f5c542;
+  --color-green: #57b979;
+  --color-error: #d94c4c;
+  --color-slate: #60738c;
+
+  /* Semantic aliases used across UI */
+  --color-primary: var(--color-royal);
+  --color-primary-hover: var(--color-deep-blue);
+  --color-primary-soft: var(--color-sky-tint);
+  --color-primary-soft-hover: #d4ebf9;
+  --color-ink: var(--color-midnight);
+  --color-ink-muted: var(--color-slate);
+  --color-border: #d5e4f0;
+  --color-surface: var(--color-white);
+  --color-surface-muted: var(--color-cloud);
+  --color-surface-muted-hover: var(--color-sky-tint);
+  --color-surface-deep: var(--color-deep-blue);
+  --color-success: var(--color-green);
+  --color-success-hover: #459e66;
+  --color-warning: #d4a017;
+  --color-warning-hover: #b8860b;
+  --color-danger: var(--color-error);
+  --color-danger-hover: #b83c3c;
   --color-telegram: #229ed9;
   --color-telegram-hover: #1b8fbf;
-  --color-mint-50: #f1fbf9;
-  --color-mint-100: #e5f7f3;
+  --color-brand: var(--color-sky);
+  --color-brand-strong: var(--color-royal);
+
   /* Figma mobile 360: 8px gutters; desktop grows to 104px */
   --page-padding: clamp(0.5rem, 4vw, 6.5rem);
   --page-max: 77rem;
@@ -30,8 +45,8 @@
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
-  --shadow-sm: 0 1px 2px rgb(15 18 24 / 0.05);
-  --shadow-md: 0 12px 32px rgb(15 18 24 / 0.1);
+  --shadow-sm: 0 1px 2px rgb(7 29 69 / 0.06);
+  --shadow-md: 0 12px 32px rgb(7 29 69 / 0.1);
   --font-sans: var(--font-manrope), "Segoe UI", system-ui, sans-serif;
   --font-display: var(--font-manrope), "Segoe UI", system-ui, sans-serif;
   --font-script: var(--font-caveat), "Segoe Script", cursive;
@@ -62,10 +77,10 @@
   --btn-weight: 600;
   --btn-weight-medium: 500;
   --btn-radius: 9999px;
-  --btn-shadow: 0 4px 14px rgb(14 127 128 / 0.22);
-  --btn-shadow-hover: 0 6px 18px rgb(14 127 128 / 0.28);
-  --btn-shadow-xs: 0 2px 8px rgb(14 127 128 / 0.18);
-  --btn-shadow-xs-hover: 0 3px 10px rgb(14 127 128 / 0.22);
+  --btn-shadow: 0 4px 14px rgb(7 93 183 / 0.28);
+  --btn-shadow-hover: 0 6px 18px rgb(7 93 183 / 0.34);
+  --btn-shadow-xs: 0 2px 8px rgb(7 93 183 / 0.22);
+  --btn-shadow-xs-hover: 0 3px 10px rgb(7 93 183 / 0.28);
   --btn-shadow-current: var(--btn-shadow);
   --btn-shadow-current-hover: var(--btn-shadow-hover);
   /* Shared header track / lang / icon targets */
@@ -80,29 +95,29 @@
    * Variants: main | secondary | accent | ghost | outline | muted | danger | success | telegram
    * (`primary` is an alias of `main`)
    */
-  --btn-main-bg: var(--color-primary);
-  --btn-main-bg-hover: var(--color-primary-hover);
+  --btn-main-bg: var(--color-royal);
+  --btn-main-bg-hover: var(--color-deep-blue);
   --btn-main-fg: #ffffff;
 
   --btn-secondary-bg: #ffffff;
-  --btn-secondary-bg-hover: var(--color-primary-soft);
-  --btn-secondary-fg: var(--color-primary);
-  --btn-secondary-border: var(--color-primary);
+  --btn-secondary-bg-hover: var(--color-sky-tint);
+  --btn-secondary-fg: var(--color-royal);
+  --btn-secondary-border: var(--color-royal);
 
-  --btn-accent-bg: var(--color-primary-soft);
-  --btn-accent-bg-hover: var(--color-primary-soft-hover);
-  --btn-accent-fg: var(--color-primary);
+  --btn-accent-bg: var(--color-sky-tint);
+  --btn-accent-bg-hover: #d4ebf9;
+  --btn-accent-fg: var(--color-royal);
 
   --btn-ghost-fg: var(--color-ink);
-  --btn-ghost-bg-hover: rgb(0 0 0 / 0.04);
+  --btn-ghost-bg-hover: rgb(7 29 69 / 0.04);
 
   --btn-outline-bg: #ffffff;
-  --btn-outline-bg-hover: var(--color-surface-muted);
+  --btn-outline-bg-hover: var(--color-cloud);
   --btn-outline-fg: var(--color-ink);
-  --btn-outline-border: rgb(0 0 0 / 0.12);
+  --btn-outline-border: rgb(7 29 69 / 0.12);
 
-  --btn-muted-bg: var(--color-surface-muted);
-  --btn-muted-bg-hover: var(--color-surface-muted-hover);
+  --btn-muted-bg: var(--color-cloud);
+  --btn-muted-bg-hover: var(--color-sky-tint);
   --btn-muted-fg: var(--color-ink);
 
   --btn-danger-bg: var(--color-danger);
@@ -140,6 +155,16 @@
 }
 
 @theme inline {
+  --color-sky: var(--color-sky);
+  --color-royal: var(--color-royal);
+  --color-deep-blue: var(--color-deep-blue);
+  --color-midnight: var(--color-midnight);
+  --color-cloud: var(--color-cloud);
+  --color-sky-tint: var(--color-sky-tint);
+  --color-yellow: var(--color-yellow);
+  --color-green: var(--color-green);
+  --color-brand: var(--color-brand);
+  --color-brand-strong: var(--color-brand-strong);
   --color-primary: var(--color-primary);
   --color-primary-hover: var(--color-primary-hover);
   --color-primary-soft: var(--color-primary-soft);

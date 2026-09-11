@@ -64,8 +64,6 @@ export const uzCopy: SiteCopy = {
   },
   nav: [
     { label: "Turlar", href: "/tours/" },
-    { label: "Qidiruv", href: "/search/" },
-    { label: "Kalendar", href: "/calendar/" },
     { label: "Ofislar", href: "/offices/" },
     { label: "Biz haqimizda", href: "/about/" },
     { label: "Aloqa", href: "/contacts/" },

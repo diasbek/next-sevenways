@@ -62,13 +62,12 @@ export function HomePageView({ locale }: { locale: Locale }) {
       </section>
 
       <section className={sectionMuted}>
-        <PageContainer className="rounded-3xl bg-primary px-6 py-10 text-white sm:px-10">
+        <PageContainer className="rounded-3xl bg-deep-blue px-6 py-10 text-white sm:px-10">
           <h2 className="text-2xl font-semibold">{content.home.ctaTitle}</h2>
           <p className="mt-2 max-w-xl text-white/85">{content.home.ctaLead}</p>
           <Button
             href={localePath(locale, "/request/")}
-            variant="secondary"
-            className="mt-6"
+            className="mt-6 !bg-sky hover:!bg-royal"
           >
             {content.ui.leaveRequest}
           </Button>

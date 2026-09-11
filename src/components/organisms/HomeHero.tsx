@@ -78,9 +78,9 @@ export function HomeHero({ locale }: { locale: Locale }) {
   }
 
   return (
-    <section className="relative overflow-hidden bg-[linear-gradient(160deg,#f1fbf9_0%,#ffffff_55%,#e5f7f3_100%)]">
+    <section className="relative overflow-hidden bg-[linear-gradient(160deg,#f5fbff_0%,#ffffff_52%,#e4f3fc_100%)]">
       <PageContainer className="py-6 sm:py-8 lg:py-10">
-        <div className="relative overflow-hidden rounded-[1.75rem] border border-white/70 bg-[radial-gradient(120%_90%_at_12%_88%,#d9f3ee_0%,transparent_42%),linear-gradient(145deg,#f7fffd_0%,#eefaf7_48%,#f8fffe_100%)] px-5 py-8 shadow-[0_24px_60px_rgb(16_32_43/0.08)] sm:rounded-[2.25rem] sm:px-8 sm:py-10 lg:min-h-[34rem] lg:px-10 lg:py-12 xl:min-h-[36rem]">
+        <div className="relative overflow-hidden rounded-[1.75rem] border border-white/80 bg-[radial-gradient(120%_90%_at_12%_88%,#d4ebf9_0%,transparent_42%),linear-gradient(145deg,#f8fcff_0%,#eaf5fc_48%,#ffffff_100%)] px-5 py-8 shadow-[0_24px_60px_rgb(7_29_69/0.08)] sm:rounded-[2.25rem] sm:px-8 sm:py-10 lg:min-h-[34rem] lg:px-10 lg:py-12 xl:min-h-[36rem]">
           {/* faint world route */}
           <div
             className="pointer-events-none absolute bottom-[8%] left-[4%] hidden h-40 w-56 opacity-[0.18] lg:block"
@@ -104,7 +104,7 @@ export function HomeHero({ locale }: { locale: Locale }) {
                 className="h-auto w-[9.5rem] animate-hero-rise sm:w-[11rem]"
               />
 
-              <h1 className="mt-5 animate-hero-rise font-display text-[clamp(1.75rem,4.2vw,2.85rem)] font-extrabold leading-[1.12] tracking-[-0.03em] text-ink [animation-delay:60ms]">
+              <h1 className="mt-5 animate-hero-rise font-display text-[clamp(1.75rem,4.2vw,2.85rem)] font-extrabold leading-[1.12] tracking-[-0.03em] text-deep-blue [animation-delay:60ms]">
                 {content.home.heroTitle}
               </h1>
               <p className="mt-3 max-w-[34ch] animate-hero-rise text-[0.98rem] leading-relaxed text-ink-muted [animation-delay:120ms] sm:text-base">
@@ -115,7 +115,7 @@ export function HomeHero({ locale }: { locale: Locale }) {
                 <Button
                   href={localePath(locale, "/tours/")}
                   size="lg"
-                  className="!rounded-2xl gap-2 shadow-[0_10px_28px_rgb(14_127_128/0.28)]"
+                  className="!rounded-2xl gap-2 shadow-[0_10px_28px_rgb(7_93_183/0.28)]"
                 >
                   {content.ui.viewTours}
                   <HeroIcon
@@ -160,7 +160,7 @@ export function HomeHero({ locale }: { locale: Locale }) {
                 </div>
               </dl>
 
-              <p className="mt-8 animate-hero-rise font-[family-name:var(--font-script)] text-2xl text-primary [animation-delay:300ms] sm:text-[1.75rem]">
+              <p className="mt-8 animate-hero-rise font-[family-name:var(--font-script)] text-2xl text-sky [animation-delay:300ms] sm:text-[1.75rem]">
                 {content.home.heroScript}
               </p>
             </div>
@@ -307,7 +307,7 @@ export function HomeHero({ locale }: { locale: Locale }) {
                     type="submit"
                     width="full"
                     size="md"
-                    className="mt-3 !rounded-xl gap-2 shadow-[0_8px_22px_rgb(14_127_128/0.28)]"
+                    className="mt-3 !rounded-xl gap-2 shadow-[0_8px_22px_rgb(7_93_183/0.28)]"
                   >
                     <HeroIcon
                       src="/images/hero/icons/search.svg"

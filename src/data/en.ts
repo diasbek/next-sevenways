@@ -64,8 +64,6 @@ export const enCopy: SiteCopy = {
   },
   nav: [
     { label: "Tours", href: "/tours/" },
-    { label: "Search", href: "/search/" },
-    { label: "Calendar", href: "/calendar/" },
     { label: "Offices", href: "/offices/" },
     { label: "About", href: "/about/" },
     { label: "Contacts", href: "/contacts/" },

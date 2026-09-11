@@ -20,15 +20,33 @@ const LABELS: Record<Locale, { title: string; note: string }> = {
 export function PaymentMethodsStrip({
   locale,
   className = "",
+  inverted = false,
 }: {
   locale: Locale;
   className?: string;
+  inverted?: boolean;
 }) {
   const copy = LABELS[locale] ?? LABELS.uz;
   return (
     <div className={className}>
-      <p className="text-sm font-semibold text-ink">{copy.title}</p>
-      <p className="mt-1 text-xs text-ink-muted">{copy.note}</p>
+      <p
+        className={
+          inverted
+            ? "text-sm font-semibold text-white"
+            : "text-sm font-semibold text-ink"
+        }
+      >
+        {copy.title}
+      </p>
+      <p
+        className={
+          inverted
+            ? "mt-1 text-xs text-white/60"
+            : "mt-1 text-xs text-ink-muted"
+        }
+      >
+        {copy.note}
+      </p>
       <ul className="mt-4 flex flex-wrap items-center gap-3">
         {PAYMENT_BRANDS.map((brand) => (
           <li

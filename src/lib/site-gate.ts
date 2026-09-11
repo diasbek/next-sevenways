@@ -41,7 +41,9 @@ export function isSiteGateExemptPath(pathname: string): boolean {
     pathname === "/robots.txt" ||
     pathname.startsWith("/favicon") ||
     pathname.startsWith("/apple-touch-icon") ||
-    pathname.startsWith("/_next/")
+    pathname.startsWith("/_next/") ||
+    pathname.startsWith("/images/") ||
+    pathname.startsWith("/media/")
   ) {
     return true;
   }

@@ -64,8 +64,6 @@ export const ruCopy: SiteCopy = {
   },
   nav: [
     { label: "Туры", href: "/tours/" },
-    { label: "Поиск", href: "/search/" },
-    { label: "Календарь", href: "/calendar/" },
     { label: "Офисы", href: "/offices/" },
     { label: "О нас", href: "/about/" },
     { label: "Контакты", href: "/contacts/" },

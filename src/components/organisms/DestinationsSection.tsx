@@ -20,7 +20,7 @@ export function DestinationsSection({
   variant = "home",
 }: {
   locale: Locale;
-  /** home = mint band + filters; page = plain tours listing chrome */
+  /** home = cloud band + filters; page = listing chrome */
   variant?: "home" | "page";
 }) {
   const content = getContent(locale);
@@ -43,14 +43,14 @@ export function DestinationsSection({
     <section
       className={cn(
         variant === "home"
-          ? "bg-[linear-gradient(180deg,#f4faf9_0%,#eef7f5_100%)] py-[var(--section-y)]"
-          : "bg-[linear-gradient(180deg,#f7fcfb_0%,#ffffff_100%)] py-[var(--section-y)]",
+          ? "bg-[linear-gradient(180deg,#f5fbff_0%,#e4f3fc_100%)] py-[var(--section-y)]"
+          : "bg-[linear-gradient(180deg,#f5fbff_0%,#ffffff_100%)] py-[var(--section-y)]",
       )}
     >
       <PageContainer>
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
           <div className="max-w-xl">
-            <TitleTag className="m-0 font-display text-[clamp(1.65rem,3.5vw,2.35rem)] font-bold tracking-[-0.03em] text-ink">
+            <TitleTag className="m-0 font-display text-[clamp(1.65rem,3.5vw,2.35rem)] font-bold tracking-[-0.03em] text-deep-blue">
               {content.home.destinationsTitle}
             </TitleTag>
             <p className="mt-2 text-sm leading-relaxed text-ink-muted sm:text-[0.95rem]">
@@ -76,8 +76,8 @@ export function DestinationsSection({
                     className={cn(
                       "rounded-full px-3.5 py-2 text-sm font-semibold transition",
                       active
-                        ? "bg-primary text-white shadow-[0_8px_20px_rgb(14_127_128/0.28)]"
-                        : "bg-primary-soft text-primary hover:bg-primary-soft-hover",
+                        ? "bg-royal text-white shadow-[0_8px_20px_rgb(7_93_183/0.28)]"
+                        : "bg-sky-tint text-royal hover:bg-primary-soft-hover",
                     )}
                   >
                     {f.label}
@@ -89,7 +89,7 @@ export function DestinationsSection({
             {variant === "home" ? (
               <Link
                 href={localePath(locale, "/tours/")}
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal hover:underline"
               >
                 {content.ui.allDestinations}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
