@@ -43,10 +43,12 @@ export function SiteFooter({
   locale,
   content,
   contacts,
+  showPayments = false,
 }: {
   locale: Locale;
   content: SiteCopy;
   contacts?: PublicSiteContacts;
+  showPayments?: boolean;
 }) {
   const year = new Date().getFullYear();
   const phone = contacts?.phone ?? SITE_CONFIG.phone;
@@ -61,7 +63,7 @@ export function SiteFooter({
         : SITE_CONFIG.address.lineUz;
 
   const supportLinks = [
-    { label: "FAQ", href: "/faq/" },
+    { label: content.meta.faqTitle, href: "/faq/" },
     { label: content.meta.privacyTitle, href: "/privacy/" },
     { label: content.meta.termsTitle, href: "/terms/" },
   ];
@@ -200,9 +202,11 @@ export function SiteFooter({
         </div>
       </PageContainer>
 
-      <PageContainer className="border-t border-white/15 py-7">
-        <PaymentMethodsStrip locale={locale} inverted showNote={false} />
-      </PageContainer>
+      {showPayments ? (
+        <PageContainer className="border-t border-white/15 py-7">
+          <PaymentMethodsStrip locale={locale} inverted showNote={false} />
+        </PageContainer>
+      ) : null}
 
       <div className="border-t border-white/15 py-5 text-center text-xs text-white/55 sm:text-sm">
         © {year} Seven Ways. {content.footer.rights}

@@ -12,7 +12,7 @@ export async function CalendarPageView({ locale }: { locale: Locale }) {
     getContentAsync(locale),
     listDestinations(),
   ]);
-  const months = ["Sep", "Oct", "Nov", "Dec", "Jan", "Feb"];
+  const months = content.calendar.monthLabels;
 
   return (
     <section className={section}>
@@ -35,7 +35,7 @@ export async function CalendarPageView({ locale }: { locale: Locale }) {
               <dl className="mt-3 grid grid-cols-3 gap-2 text-center text-xs">
                 {months.map((m, i) => (
                   <div
-                    key={m}
+                    key={`${m}-${i}`}
                     className="rounded-xl bg-surface-muted px-1.5 py-2"
                   >
                     <dt className="font-medium text-ink-muted">{m}</dt>
@@ -59,8 +59,8 @@ export async function CalendarPageView({ locale }: { locale: Locale }) {
                 <th className="sticky left-0 z-10 bg-surface-muted px-4 py-3 font-medium">
                   {content.search.destination}
                 </th>
-                {months.map((m) => (
-                  <th key={m} className="px-4 py-3 font-medium">
+                {months.map((m, i) => (
+                  <th key={`${m}-${i}`} className="px-4 py-3 font-medium">
                     {m}
                   </th>
                 ))}
@@ -81,7 +81,7 @@ export async function CalendarPageView({ locale }: { locale: Locale }) {
                     </Link>
                   </td>
                   {months.map((m, i) => (
-                    <td key={m} className="px-4 py-3 text-ink-muted">
+                    <td key={`${m}-${i}`} className="px-4 py-3 text-ink-muted">
                       {content.ui.fromPrice} ${d.fromPriceUsd + i * 12}
                     </td>
                   ))}

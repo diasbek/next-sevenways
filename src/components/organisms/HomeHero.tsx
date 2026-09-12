@@ -80,7 +80,9 @@ function HeroSearchForm({
     if (dates) params.set("dates", dates);
     params.set(
       "comment",
-      tab === "hotels" ? "Hotels inquiry" : "Transfer inquiry",
+      tab === "hotels"
+        ? content.home.heroHotelsInquiry
+        : content.home.heroTransfersInquiry,
     );
     router.push(
       `${localePath(locale, "/request/")}${params.toString() ? `?${params}` : ""}`,

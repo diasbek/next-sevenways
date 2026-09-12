@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { headers } from "next/headers";
 import { caveat, manrope } from "@/assets/fonts";
 import "./globals.css";
 import { SiteAnalytics } from "@/components/analytics/SiteAnalytics";
@@ -45,27 +46,22 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headerList = await headers();
+  const lang = headerList.get("x-html-lang") || "uz";
+
   return (
     <html
-      lang="uz"
+      lang={lang}
       className={`${manrope.variable} ${caveat.variable} scroll-smooth scroll-pt-[var(--header-height)]`}
       suppressHydrationWarning
     >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              '(function(){try{var p=location.pathname;document.documentElement.lang=(p==="/ru"||p.indexOf("/ru/")===0)?"ru":(p==="/en"||p.indexOf("/en/")===0)?"en":"uz")}catch(e){}})();',
-          }}
-        />
-      </head>
       <body className="flex min-h-dvh flex-col bg-cloud font-sans text-ink antialiased">
-        <JsonLd data={getGlobalJsonLdGraph()} />
+        <JsonLd id="global-graph" data={getGlobalJsonLdGraph()} />
         {children}
         <SiteAnalytics />
         <AppToaster />

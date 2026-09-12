@@ -80,6 +80,8 @@ export const ruCopy: SiteCopy = {
     heroTabTours: "Туры",
     heroTabHotels: "Отели",
     heroTabTransfers: "Трансферы",
+    heroHotelsInquiry: "Запрос по отелям",
+    heroTransfersInquiry: "Запрос трансфера",
     heroWhere: "Куда?",
     heroDates: "Даты",
     heroPeople: "чел.",
@@ -248,6 +250,7 @@ export const ruCopy: SiteCopy = {
   calendar: {
     title: "Календарь цен",
     lead: "Цены «от» по каждому направлению — ориентир.",
+    monthLabels: ["Сен", "Окт", "Ноя", "Дек", "Янв", "Фев"],
   },
   gifts: {
     title: "Подарки",
@@ -267,7 +270,12 @@ export const ruCopy: SiteCopy = {
     destination: "Направление (необязательно)",
     dates: "Примерные даты",
     comment: "Комментарий",
+    hotelPrefix: "Отель",
     success: "Заявка принята. Мы скоро свяжемся.",
+    payLabel: "Оплата",
+    payCta: "Оплатить",
+    payUnavailable: "Оплата недоступна — оставьте заявку.",
+    payError: "Ошибка оплаты — отправляем как заявку.",
   },
   tours: {
     title: "Направления",

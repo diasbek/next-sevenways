@@ -93,7 +93,9 @@ export function RequestTourForm({
         phone: "",
         destination: initialDestination,
         dates: "",
-        comment: initialHotel ? `Hotel: ${initialHotel}` : "",
+        comment: initialHotel
+          ? `${content.request.hotelPrefix}: ${initialHotel}`
+          : "",
         provider: checkoutProviders[0]?.id ?? "",
         website: "",
       }}
@@ -113,7 +115,11 @@ export function RequestTourForm({
                 currency: initialCurrency,
                 provider: values.provider,
                 offerId: initialOfferId || undefined,
-                description: [initialHotel, data.destination, "Seven Ways tour"]
+                description: [
+                  initialHotel,
+                  data.destination,
+                  "Seven Ways Tour",
+                ]
                   .filter(Boolean)
                   .join(" · "),
                 name: data.name,
@@ -126,15 +132,13 @@ export function RequestTourForm({
               error?: string;
             };
             if (!res.ok || !json.redirectUrl) {
-              setPayError(
-                json.error || "Payment unavailable — leave a request.",
-              );
+              setPayError(json.error || content.request.payUnavailable);
             } else {
               window.location.href = json.redirectUrl;
               return;
             }
           } catch {
-            setPayError("Payment error — submitting as request.");
+            setPayError(content.request.payError);
           }
         }
 
@@ -238,7 +242,7 @@ export function RequestTourForm({
           {checkoutOn ? (
             <label className="block text-sm">
               <span className="mb-1.5 block font-medium text-ink">
-                Payment · {initialCurrency}
+                {content.request.payLabel} · {initialCurrency}
               </span>
               <Field
                 as="select"
@@ -264,11 +268,7 @@ export function RequestTourForm({
             {isSubmitting
               ? "…"
               : checkoutOn
-                ? locale === "ru"
-                  ? "Оплатить"
-                  : locale === "en"
-                    ? "Pay now"
-                    : "Toʻlash"
+                ? content.request.payCta
                 : content.ui.leaveRequest}
           </Button>
         </Form>

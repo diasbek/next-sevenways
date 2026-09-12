@@ -80,6 +80,8 @@ export const enCopy: SiteCopy = {
     heroTabTours: "Tours",
     heroTabHotels: "Hotels",
     heroTabTransfers: "Transfers",
+    heroHotelsInquiry: "Hotels inquiry",
+    heroTransfersInquiry: "Transfer inquiry",
     heroWhere: "Where to?",
     heroDates: "Dates",
     heroPeople: "guests",
@@ -128,7 +130,7 @@ export const enCopy: SiteCopy = {
     stats: [
       { value: "10k+", label: "travellers" },
       { value: "4+", label: "offices" },
-      { value: "Since", label: "2024" },
+      { value: "2024", label: "since" },
     ],
     principlesTitle: "Why people trust us",
     principlesLead: "Everything you need for a calm journey — in one place.",
@@ -247,6 +249,7 @@ export const enCopy: SiteCopy = {
   calendar: {
     title: "Price calendar",
     lead: "From-prices by destination — indicative.",
+    monthLabels: ["Sep", "Oct", "Nov", "Dec", "Jan", "Feb"],
   },
   gifts: {
     title: "Gifts",
@@ -266,7 +269,12 @@ export const enCopy: SiteCopy = {
     destination: "Destination (optional)",
     dates: "Approximate dates",
     comment: "Comment",
+    hotelPrefix: "Hotel",
     success: "Request received. We will contact you soon.",
+    payLabel: "Payment",
+    payCta: "Pay now",
+    payUnavailable: "Payment unavailable — leave a request.",
+    payError: "Payment error — submitting as request.",
   },
   tours: {
     title: "Destinations",

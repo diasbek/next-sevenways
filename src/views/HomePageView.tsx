@@ -26,7 +26,7 @@ export async function HomePageView({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <JsonLd data={getFaqSchema(content.faq.items)} />
+      <JsonLd id="home-faq" data={getFaqSchema(content.faq.items)} />
       <HomeHero locale={locale} destinations={destinations} content={content} />
       <DestinationsSection
         locale={locale}

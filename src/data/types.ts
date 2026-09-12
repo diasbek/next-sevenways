@@ -86,6 +86,8 @@ export interface SiteCopy {
     heroTabTours: string;
     heroTabHotels: string;
     heroTabTransfers: string;
+    heroHotelsInquiry: string;
+    heroTransfersInquiry: string;
     heroWhere: string;
     heroDates: string;
     heroPeople: string;
@@ -179,6 +181,7 @@ export interface SiteCopy {
   calendar: {
     title: string;
     lead: string;
+    monthLabels: string[];
   };
   gifts: {
     title: string;
@@ -193,7 +196,12 @@ export interface SiteCopy {
     destination: string;
     dates: string;
     comment: string;
+    hotelPrefix: string;
     success: string;
+    payLabel: string;
+    payCta: string;
+    payUnavailable: string;
+    payError: string;
   };
   tours: {
     title: string;

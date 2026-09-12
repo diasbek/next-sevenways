@@ -25,21 +25,28 @@ export function toProviderMinorUnits(
   return Math.round(amount);
 }
 
+/**
+ * Deterministic money formatting (same on Node and browsers).
+ * Avoids `uz-UZ` Intl currency mismatches that break hydration.
+ */
 export function formatMoney(
   amount: number,
   currency: MoneyCurrency,
   locale: string = "uz",
 ): string {
-  const intlLocale =
-    locale === "ru" ? "ru-RU" : locale === "en" ? "en-US" : "uz-UZ";
-  try {
-    return new Intl.NumberFormat(intlLocale, {
-      style: "currency",
-      currency,
-      maximumFractionDigits: currency === "UZS" ? 0 : 2,
-    }).format(amount);
-  } catch {
-    if (currency === "USD") return `$${amount}`;
-    return `${Math.round(amount).toLocaleString("uz-UZ")} soʻm`;
+  const safe = Number.isFinite(amount) ? amount : 0;
+  if (currency === "USD") {
+    const n = safe.toFixed(2);
+    const [whole, frac] = n.split(".");
+    const grouped = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    if (locale === "ru") return `${grouped.replace(/,/g, "\u00a0")},${frac}\u00a0$`;
+    return `$ ${grouped}.${frac}`;
   }
+
+  const whole = Math.round(safe)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, locale === "ru" ? "\u00a0" : ",");
+  if (locale === "ru") return `${whole}\u00a0сум`;
+  if (locale === "en") return `${whole} UZS`;
+  return `${whole} soʻm`;
 }

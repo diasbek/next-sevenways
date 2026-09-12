@@ -8,7 +8,7 @@ export async function FaqPageView({ locale }: { locale: Locale }) {
   const content = await getContentAsync(locale);
   return (
     <>
-      <JsonLd data={getFaqSchema(content.faq.items)} />
+      <JsonLd id="faq-page" data={getFaqSchema(content.faq.items)} />
       <FaqSection locale={locale} headingLevel="h1" content={content} />
     </>
   );

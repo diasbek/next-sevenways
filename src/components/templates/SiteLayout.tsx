@@ -1,6 +1,7 @@
 import type { Locale } from "@/i18n/config";
 import { getContentAsync } from "@/i18n/get-content";
 import { getPublicSiteContacts } from "@/lib/site-settings/repository";
+import { getSitePaymentSettings, isPaymentsEnvEnabled } from "@/lib/payments";
 import { Header } from "@/components/organisms/Header";
 import { SiteFooter } from "@/components/organisms/SiteFooter";
 import { HashScroll } from "@/components/organisms/HashScroll";
@@ -12,10 +13,14 @@ export async function SiteLayout({
   locale: Locale;
   children: React.ReactNode;
 }) {
-  const [content, contacts] = await Promise.all([
+  const [content, contacts, paymentSettings] = await Promise.all([
     getContentAsync(locale),
     getPublicSiteContacts(),
+    getSitePaymentSettings(),
   ]);
+  const showPayments =
+    paymentSettings.paymentsEnabled && isPaymentsEnvEnabled();
+
   return (
     <>
       <HashScroll />
@@ -23,7 +28,12 @@ export async function SiteLayout({
       <div id="site-content" className="flex-1">
         <main id="main-content">{children}</main>
       </div>
-      <SiteFooter locale={locale} content={content} contacts={contacts} />
+      <SiteFooter
+        locale={locale}
+        content={content}
+        contacts={contacts}
+        showPayments={showPayments}
+      />
     </>
   );
 }

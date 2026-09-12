@@ -80,6 +80,8 @@ export const uzCopy: SiteCopy = {
     heroTabTours: "Turlar",
     heroTabHotels: "Mehmonxonalar",
     heroTabTransfers: "Transferlar",
+    heroHotelsInquiry: "Mehmonxona soʻrovi",
+    heroTransfersInquiry: "Transfer soʻrovi",
     heroWhere: "Qayerga?",
     heroDates: "Sana",
     heroPeople: "kishi",
@@ -248,6 +250,7 @@ export const uzCopy: SiteCopy = {
   calendar: {
     title: "Narxlar kalendari",
     lead: "Har bir yoʻnalish boʻyicha «dan» narxlar — orientir.",
+    monthLabels: ["Sen", "Okt", "Noy", "Dek", "Yan", "Fev"],
   },
   gifts: {
     title: "Sovgʻalar",
@@ -267,7 +270,12 @@ export const uzCopy: SiteCopy = {
     destination: "Yoʻnalish (ixtiyoriy)",
     dates: "Taxminiy sanalar",
     comment: "Izoh",
+    hotelPrefix: "Mehmonxona",
     success: "Ariza qabul qilindi. Tez orada bogʻlanamiz.",
+    payLabel: "Toʻlov",
+    payCta: "Toʻlash",
+    payUnavailable: "Toʻlov mavjud emas — ariza qoldiring.",
+    payError: "Toʻlov xatosi — ariza sifatida yuborilmoqda.",
   },
   tours: {
     title: "Yoʻnalishlar",

@@ -38,6 +38,7 @@ export async function TourDestinationPageView({
   return (
     <>
       <JsonLd
+        id={`tour-${slug}`}
         data={getTouristTripSchema({
           name: dest.name[locale],
           description: dest.blurb[locale],

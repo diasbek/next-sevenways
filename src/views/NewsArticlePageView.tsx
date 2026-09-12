@@ -16,6 +16,7 @@ export function NewsArticlePageView({
   return (
     <>
       <JsonLd
+        id={`news-${article.slug}`}
         data={getNewsArticleSchema({
           title: article.title,
           description: article.excerpt,

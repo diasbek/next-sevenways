@@ -155,7 +155,11 @@ export async function AboutPageView({ locale }: { locale: Locale }) {
             <div>
               <div className="relative overflow-hidden rounded-[1.5rem] shadow-[0_20px_50px_rgb(7_29_69/0.12)] sm:rounded-[1.75rem]">
                 <Image
-                  src="/images/about/company-banner.png"
+                  src={
+                    locale === "uz"
+                      ? "/images/about/company-banner.png"
+                      : "/images/about/hero-landmarks.png"
+                  }
                   alt=""
                   width={1200}
                   height={720}
